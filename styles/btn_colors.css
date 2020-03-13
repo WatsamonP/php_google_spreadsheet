@@ -1,0 +1,8 @@
+.btn-ait,
+.btn-ait:hover,
+.btn-ait:active,
+.btn-ait:visited,
+.btn-ait:focus {
+    background-color: #56754a;
+    border-color: #425e37;
+}
