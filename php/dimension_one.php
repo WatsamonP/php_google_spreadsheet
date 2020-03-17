@@ -272,7 +272,7 @@ foreach ($SpecificInput['WA6']['WA62'] as $key => $items) {
 $reservoirCapacityPerArea = $_WA62_SUM / $sumBasinArea;
 $WA62_TB = array(
   // "reservoirCapacityPerArea" => array('key' => "Reservoir Capacity per area", 'table' => $reservoirCapacityPerArea),
-  "score" => array('key' => "Score", 'table' => getScore($reservoirCapacityPerArea, $AWDO_2016_Threshold))
+  "score" => array('key' => "Score", 'table' => getScore($reservoirCapacityPerArea, $AWDO_2016_AG_Threshold))
 );
 
 /****************************** */
@@ -315,17 +315,15 @@ foreach ($WA_SET as $sKey => $set) {
 /************************************ */
 // NOTE THAT
 // Use calTwoSubGroup() in case of you have (WA11*weight11 WA12*weight12)
-// For case _A, _B just use ['score']['table'] should be fine e.g. $WA21_TB['score']['table']
-// Note that WA62 not exist in WA sheet, so it need different method but can use getWeightedValue()
 $FIRST_YEAR = array_slice($YEAR_RANGE, 0, 1)[0];
 $TEMP_WA62_SCORE = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $WA62_TB['score']['table']);
 ////////////////////////
 $FINAL_SCORE_WA = array(
   'WA1' => calTwoSubGroup(['WA11' => $WA11_TB, 'WA12' => $WA12_TB], $WA_SET['WA1'], $WeightKeysData),
-  'WA2' => $WA21_TB['score']['table'],
-  'WA3' => $WA31_TB['score']['table'],
-  'WA4' => $WA41_TB['score']['table'],
-  'WA5' => $WA51_TB['score']['table'],
+  'WA2' => getWeightedValue(['WA21' => $WA21_TB['score']['table']], $WeightKeysData),
+  'WA3' => getWeightedValue(['WA21' => $WA31_TB['score']['table']], $WeightKeysData),
+  'WA4' => getWeightedValue(['WA21' => $WA41_TB['score']['table']], $WeightKeysData),
+  'WA5' => getWeightedValue(['WA21' => $WA51_TB['score']['table']], $WeightKeysData),
   'WA6' => getWeightedValue(['WA61' => $WA61_TB['score']['table'], 'WA62' => $TEMP_WA62_SCORE], $WeightKeysData)
 );
 
