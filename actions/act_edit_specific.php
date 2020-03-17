@@ -5,7 +5,7 @@ include_once '../config.php';
 if (isset($_POST['id'])) {
   // FIND ROW ID e.g. 2 | 3 |4
   // ID is on A column
-  $ID_COLUMN = "A";
+  $ID_COLUMN = "E";
   $RANGE_COL = $_POST['sheet_id'] . "!" . $ID_COLUMN . ":" . $ID_COLUMN;
   $responseCol = $service->spreadsheets_values->get($spreadsheetId, $RANGE_COL);
   $arrayCol = $responseCol->getValues();
@@ -17,7 +17,7 @@ if (isset($_POST['id'])) {
   }
 
   $val = $_POST['val'];
-  $reqRange = $_POST['sheet_id'] . "!B"  . $ROW_ID;
+  $reqRange = $_POST['sheet_id'] . "!F"  . $ROW_ID;
   $values = [[(float) $val]];
 
   $body = new Google_Service_Sheets_ValueRange([

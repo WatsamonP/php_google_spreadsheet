@@ -35,7 +35,7 @@ if (isset($_POST['id'])) {
   /*************** */
   $val = $_POST['val'];
   $reqRange = $_POST['sheet_id'] . "!" . $COL_LETTER . $ROW_ID;
-  $values = [[$val]];
+  $values = [[(float) $val]];
 
   $body = new Google_Service_Sheets_ValueRange([
     'values' => $values
