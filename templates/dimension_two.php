@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . "./../config.php";
 require __DIR__ . "./../php/brief.php";
-require __DIR__ . "./../php/dimension_one.php";
+require __DIR__ . "./../php/dimension_two.php";
 require_once __DIR__ . "./../constants/word.php";
 ?>
 <!--  -->
@@ -9,7 +9,7 @@ require_once __DIR__ . "./../constants/word.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      DIMENSION 2
+      DIMENSION 2 : Interbasin wpter transfers
     </div>
   </a>
 </nav>
@@ -22,8 +22,8 @@ require_once __DIR__ . "./../constants/word.php";
     <!-- START TAB -->
     <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
       <?php
-      foreach ($WA_SET as $sKey => $SET) {
-        $ACTIVE_TAB = $sKey == 'WA1' ? 'active' : '';
+      foreach ($WP_SET as $sKey => $SET) {
+        $ACTIVE_TAB = $sKey == 'WP1' ? 'active' : '';
       ?>
         <li class="nav-item">
           <a <?php echo "class='nav-link " . $ACTIVE_TAB . "'" ?> <?php echo "href='#" . $sKey . "'" ?> role="tab" <?php echo "aria-controls='" . $sKey . "'" ?> aria-selected="false"><?php echo $sKey ?> </a>
@@ -31,30 +31,31 @@ require_once __DIR__ . "./../constants/word.php";
       <?php
       } ?>
       <li class="nav-item">
-        <a class='nav-link' href='#wa_final' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
+        <a class='nav-link' href='#wp3' role="tab" aria-controls='wp3' aria-selected="false">WP3</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#wpfinal' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
       </li>
     </ul>
     <!-- END TAB -->
   </div>
   <div class="card-body">
     <div class="tab-content">
-      <div class="tab-pane" id="wa_final" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WA/wa_final.php" ?>
+      <div class="tab-pane" id="wp3" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WP/wp_31_score_table.php" ?>
       </div>
-      <?php foreach ($WA_SET as $sKey => $SET) {
-        $ACTIVE_TAB = $sKey == 'WA1' ? 'active' : '';
+      <div class="tab-pane" id="wpfinal" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WP/wp_final.php" ?>
+      </div>
+      <!--  -->
+      <?php foreach ($WP_SET as $sKey => $SET) {
+        $ACTIVE_TAB = $sKey == 'WP1' ? 'active' : '';
       ?>
         <div <?php echo "class='tab-pane " . $ACTIVE_TAB . "'" ?> <?php echo "id='" . $sKey . "'" ?> role="tabpanel" aria-labelledby="history-tab">
           <?php
           foreach ($SET as $gKey => $GROUP) {
           ?> <H4 style="margin-bottom:20px"><?php echo $gKey ?>
               : <?php echo $GROUP['name'] ?></H4>
-            <!-- START SPECIAL TABLE -->
-            <?php
-            if ($gKey == "WA11") {
-              include __DIR__ . "./../templates/WA/wa_11_annual_rainfall_table.php";
-            } ?>
-            <!-- START END TABLE -->
 
             <!-- START INPUT TABLE [GREEN] -->
             <div class='table-responsive' style="margin-top:30px">
@@ -100,42 +101,18 @@ require_once __DIR__ . "./../constants/word.php";
 
             <!-- START SCORE TABLE -->
             <?php
-            if ($gKey == "WA11") {
-              include __DIR__ . "./../templates/WA/wa_11_score_table.php";
-            } else if ($gKey == "WA12") {
-              $WA_TB_TEMP = $WA12_TB;
-              include __DIR__ . "./../templates/WA/wa_score_table.php";
-              ////////////////////////////////////////////
-            } else if ($gKey == "WA21_B") {
+            if ($gKey == "WP11_D") {
               include  __DIR__ . "./../templates/utils/hr.html";
-              $WA_TB_TEMP = $WA31_TB;
-              include __DIR__ . "./../templates/WA/wa_score_table.php";
+              $WP_TB_TEMP = $WP11_TB;
+              include __DIR__ . "./../templates/WP/wp_score_table.php";
               ////////////////////////////////////////////
-            } else if ($gKey == "WA31_B") {
+            } else if ($gKey == "WP21_B") {
               include  __DIR__ . "./../templates/utils/hr.html";
-              $WA_TB_TEMP = $WA31_TB;
-              include __DIR__ . "./../templates/WA/wa_score_table.php";
+              $WP_TB_TEMP = $WP21_TB;
+              include __DIR__ . "./../templates/WP/wp_score_table.php";
               ////////////////////////////////////////////
-            } else if ($gKey == "WA41_B") {
-              include  __DIR__ . "./../templates/utils/hr.html";
-              $WA_TB_TEMP = $WA41_TB;
-              include __DIR__ . "./../templates/WA/wa_score_table.php";
-              ////////////////////////////////////////////
-            } else if ($gKey == "WA51") {
-              $WA_TB_TEMP = $WA51_TB;
-              include __DIR__ . "./../templates/WA/wa_score_table.php";
-              ////////////////////////////////////////////
-            } else if ($gKey == "WA61") {
-              $WA_TB_TEMP = $WA61_TB;
-              include __DIR__ . "./../templates/WA/wa_score_table.php";
-              include  __DIR__ . "./../templates/utils/hr.html";
-              // SPECIFIC TABLE FOR WA62
-              include __DIR__ . "./../templates/WA/wa_62_score_table.php";
-              ////////////////////////////////////////////
-            } else if (strpos($gKey, '_A')) {
-              echo "";
             } else {
-              echo "<p>Data not Found</p>";
+              echo "";
             } ?>
             <!--  END SCORE TABLE -->
             <?php include  __DIR__ . "./../templates/utils/hr.html" ?>
@@ -159,18 +136,10 @@ require_once __DIR__ . "./../constants/word.php";
                         </thead>
                         <tbody>
                           <?php
-                          if ($sKey == "WA1") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa1_weight_table.php";
-                          } else if ($sKey == "WA2") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa2_weight_table.php";
-                          } else if ($sKey == "WA3") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa3_weight_table.php";
-                          } else if ($sKey == "WA4") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa4_weight_table.php";
-                          } else if ($sKey == "WA5") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa5_weight_table.php";
-                          } else if ($sKey == "WA6") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa6_weight_table.php";
+                          if ($sKey == "WP1") {
+                            include __DIR__ . "./../templates/WP/weight_table/wp1_weight_table.php";
+                          } else if ($sKey == "WP2") {
+                            include __DIR__ . "./../templates/WP/weight_table/wp2_weight_table.php";
                           } else {
                             echo "<p>Data not Found</p>";
                           } ?>
@@ -186,8 +155,8 @@ require_once __DIR__ . "./../constants/word.php";
                   <div class="card-body">
                     <div class="table-responsive">
                       <table <?php
-                              if (isset($FINAL_SCORE_WA[$sKey])) {
-                                echo "id='wa-score-table'";
+                              if (isset($FINAL_SCORE_WP[$sKey])) {
+                                echo "id='wp-" . $sKey . "-score-table'";
                               } ?> class='table table-hover' style="margin: 0 auto;">
                         <thead class='thead-dark'>
                           <tr>
@@ -205,8 +174,8 @@ require_once __DIR__ . "./../constants/word.php";
                             <!--   -->
                             <td class='text-center table-warning'></td>
                             <?php
-                            if (isset($FINAL_SCORE_WA[$sKey]))
-                              foreach ($FINAL_SCORE_WA[$sKey] as  $year => $score) { ?>
+                            if (isset($FINAL_SCORE_WP[$sKey]))
+                              foreach ($FINAL_SCORE_WP[$sKey] as  $year => $score) { ?>
                               <td class='text-center table-warning'>
                                 <?php echo number_format($score, 2, '.', '')  ?>
                               </td>
@@ -244,12 +213,9 @@ require_once __DIR__ . "./../constants/word.php";
       editableData[index] = [index + year_start_col, value]
     });
 
-    var editaleID = "#editable_table_WA11, #editable_table_WA12, " +
-      "#editable_table_WA21_A, #editable_table_WA21_B, " +
-      "#editable_table_WA31_A, #editable_table_WA31_B, " +
-      "#editable_table_WA41_A, #editable_table_WA41_B, " +
-      "#editable_table_WA51, " +
-      "#editable_table_WA61"
+    var editaleID = "#editable_table_WP11_A, #editable_table_WP11_B, " +
+      "#editable_table_WP11_C, #editable_table_WP11_D, " +
+      "#editable_table_WP21_A, #editable_table_WP21_B ";
 
     $(editaleID).Tabledit({
       url: 'actions/act_pre_dimension_one.php',
@@ -308,7 +274,7 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wa-score-table").load(location.href + " #wa-score-table");
+            $("#wp-score-table").load(location.href + " #wp-score-table");
           },
         })
       },
@@ -318,8 +284,8 @@ require_once __DIR__ . "./../constants/word.php";
         // console.log(textStatus);
         // console.log(errorThrown);
       },
-      onAlways: function() {
-        // console.log('onAlways()');
+      onAlwpys: function() {
+        // console.log('onAlwpys()');
       },
       onAjax: function(action, serialize) {
         console.log('onAjax(action, serialize)');

@@ -246,8 +246,8 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: {
             'title': title,
-            'year_start': year_start,
-            'year_end': year_end,
+            'year_start': parseInt(year_start),
+            'year_end': parseInt(year_end),
             'province_unit': province_unit,
             'basin_unit': basin_unit
           },

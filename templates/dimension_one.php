@@ -9,7 +9,7 @@ require_once __DIR__ . "./../constants/word.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      DIMENSION 1
+      DIMENSION 1 : Per capita freshwater availability
     </div>
   </a>
 </nav>
@@ -108,7 +108,7 @@ require_once __DIR__ . "./../constants/word.php";
               ////////////////////////////////////////////
             } else if ($gKey == "WA21_B") {
               include  __DIR__ . "./../templates/utils/hr.html";
-              $WA_TB_TEMP = $WA31_TB;
+              $WA_TB_TEMP = $WA21_TB;
               include __DIR__ . "./../templates/WA/wa_score_table.php";
               ////////////////////////////////////////////
             } else if ($gKey == "WA31_B") {
@@ -187,7 +187,7 @@ require_once __DIR__ . "./../constants/word.php";
                     <div class="table-responsive">
                       <table <?php
                               if (isset($FINAL_SCORE_WA[$sKey])) {
-                                echo "id='wa-score-table'";
+                                echo "id='wa-" . $sKey . "-score-table'";
                               } ?> class='table table-hover' style="margin: 0 auto;">
                         <thead class='thead-dark'>
                           <tr>
