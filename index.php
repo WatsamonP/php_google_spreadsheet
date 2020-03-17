@@ -17,6 +17,9 @@ and open the template in the editor.
   <!-- Table -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="./dist/jquery.tabledit.min.js"></script>
+  <script src="./dist/Chart.js"></script>
+  <script src="./dist/moment.js"></script>
+  <script src="./dist/utils.js"></script>
 
   <!-- Custom stylesheet -->
   <link rel="stylesheet" href="./styles/layout.css">
@@ -24,9 +27,10 @@ and open the template in the editor.
   <link rel="stylesheet" href="./styles/btn_colors.css">
   <link rel="stylesheet" href="./styles/reload.css">
 
+  <!--  -->
+
   <!-- Font Awesome JS -->
-  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
   <!-- FONT -->
   <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
@@ -37,17 +41,18 @@ and open the template in the editor.
   <div id="loading" class="loader" style="display:none"></div>
   <div class="wrapper">
     <!-- Sidebar  -->
-    <?php include 'templates/slidebar.html'; ?>
+    <?php include 'templates/slidebar.php'; ?>
 
     <!-- Page Content  -->
     <div class=container id="content">
-      <!-- <?php include 'templates/header.php'; ?> -->
       <?php
       $current_page = isset($_GET['page']) ? $_GET['page'] : null;
-
       switch ($current_page) {
         case ('dimension_one'):
           include 'templates/dimension_one.php';
+          break;
+        case ('dimension_two'):
+          include 'templates/dimension_two.php';
           break;
         default:
           include 'templates/overview.php';
@@ -65,12 +70,28 @@ and open the template in the editor.
 
   <script type="text/javascript">
     $(document).ready(function() {
+      $('#sidebar').toggleClass(window.localStorage.toggled);
+      // $('#sidebarIcon').toggleClass(window.localStorage.toggledIcon);
 
-      $('#sidebarCollapse').on('click', function() {
-        $('#sidebar').toggleClass('active');
-        $('#sidebarIcon').toggleClass('fa-caret-square-left fa-caret-square-right')
-
+      $('#sidebarCollapse').on('click', function(e) {
+        if (window.localStorage.toggled != "active") {
+          $('#sidebar').toggleClass("active", true);
+          // $('#sidebarIcon').toggleClass('fa-caret-square-left fa-caret-square-right');
+          window.localStorage.toggled = "active";
+        } else {
+          $('#sidebar').toggleClass("active", false);
+          window.localStorage.toggled = "";
+        }
       });
+      $('.nav-item').on('click', function(e) {
+        var current = $(this);
+        localStorage.setItem('activeMenu', $('.nav-item').index(current));
+      });
+      var activeMenu = localStorage.getItem('activeMenu');
+      if (activeMenu) {
+        activeMenuEL = $('.nav-item').eq(parseInt(activeMenu));
+        activeMenuEL.addClass('active');
+      }
     });
   </script>
 </body>
