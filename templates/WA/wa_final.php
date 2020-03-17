@@ -22,7 +22,7 @@
                       <tr class="text-center">
                         <td><?php echo $sKey ?></td>
                         <td class="table-success">
-                          <a <?php echo "id='" . $sKey . "_final'" ?> data-editable-weight-wa_final><?php echo $WeightKeysData[$sKey]['weight'] ?></a>
+                          <a <?php echo "id='" . $sKey . "-final'" ?> data-editable-weight-wa-final><?php echo $WeightKeysData[$sKey]['weight'] ?></a>
                         </td>
                       </tr>
                 <?php }
@@ -37,11 +37,11 @@
     </div>
 
     <div class="col-8 order-2">
-      <div class="card border-warning">
-        <div class="card-header text-warning">Final Index for Dim. 01</div>
+      <div class="card border-danger">
+        <div class="card-header text-danger">Final Index for Dim. 01</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class='table table-hover'>
+            <table class='table table-hover' id="wa-score-table-final">
               <thead class='thead-dark'>
                 <tr>
                   <th scope='col' class='text-center'>Year</th>
@@ -54,13 +54,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr id="wa-final-value">
                   <!--   -->
-                  <td class='text-center table-warning'></td>
+                  <td class='text-center table-danger'></td>
                   <?php
                   if (isset($FINAL_INDICATOR))
                     foreach ($FINAL_INDICATOR as  $year => $score) { ?>
-                    <td class='text-center table-warning'>
+                    <td class='text-center table-danger'>
                       <?php echo number_format($score, 2, '.', '')  ?>
                     </td>
                   <?php }
@@ -78,70 +78,101 @@
   </div>
 </div>
 <!-- -------------------------------------------------------------------------------- -->
-<script type="text/javascript" src="actions/post_edit_weight.js"></script>
-<script type="text/javascript">
-  $('body').on('click', '[data-editable-weight-wa_final]', function(e) {
-    e.preventDefault();
+<script>
+  function showChart(chartData = <?php echo json_encode($FINAL_INDICATOR); ?>) {
+    var dataset = [];
+    var labels = [];
+    for (const property in chartData) {
+      labels.push(property)
+      dataset.push(chartData[property])
+    }
+    var colorNames = Object.keys(window.chartColors);
+    var color = Chart.helpers.color;
+    var config = {
+      type: 'radar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Water Availability',
+          backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
+          borderColor: window.chartColors.red,
+          pointBackgroundColor: window.chartColors.red,
+          data: dataset
+        }]
+      },
+      options: {
+        legend: {
+          display: false,
+          // position: 'top',
+          // labels: { fontSize: 18 }
+        },
+        title: {
+          display: true,
+          text: 'Dimension 1 : Water Availability',
+          fontSize: 20
+        },
+        scale: {
+          beginAtZero: true,
+          pointLabels: {
+            fontSize: 16,
+          },
+          ticks: {
+            suggestedMin: 0.15,
+          }
+        },
+      }
+    };
+    return config;
+  }
 
+  window.onload = function() {
+    window.myRadar = new Chart(document.getElementById('waFinalGraph'), showChart());
+  };
+</script>
+<!-- -------------------------------------------------------------------------------- -->
+<script type="text/javascript">
+  $('body').on('click', '[data-editable-weight-wa-final]', function(e) {
+    e.preventDefault();
     var $el = $(this);
     var $input = $('<input type="number" id="' + $el.attr("id") + '" type="text" style="min-width:100px;" class="form-control">').val($el.text());
     $el.replaceWith($input);
-
     var save = function() {
-      var $a = $('<a id="' + $el.attr("id") + '" data-editable-weight-wa_final />').text($input.val());
+      var $a = $('<a id="' + $el.attr("id") + '" data-editable-weight-wa-final />').text($input.val());
       $input.replaceWith($a);
     };
-
     $input.one('blur', save).focus();
-    post_edit_weight($input, $el);
-  });
-</script>
-<!-- -------------------------------------------------------------------------------- -->
-<script>
-  var chartData = <?php echo json_encode($FINAL_INDICATOR); ?>;
-  var dataset = [];
-  var labels = [];
-  for (const property in chartData) {
-    labels.push(property)
-    dataset.push(chartData[property])
-  }
-  // console.log(labels)
-
-  var color = Chart.helpers.color;
-  var config = {
-    type: 'radar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Water Availability',
-        backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
-        borderColor: window.chartColors.red,
-        pointBackgroundColor: window.chartColors.red,
-        data: dataset
-      }]
-    },
-    options: {
-      legend: {
-        display: false,
-        // position: 'top',
-        // labels: { fontSize: 18 }
-      },
-      title: {
-        display: true,
-        text: 'Dimension 1 : Water Availability',
-        fontSize: 20
-      },
-      scale: {
-        beginAtZero: true,
-        pointLabels: {
-          fontSize: 16,
+    ////////////////////////////////////////////////////////////////////
+    function callAjax(data) {
+      return $.ajax({
+        url: 'actions/act_edit_weight.php',
+        type: 'post',
+        data: data,
+        success: function(response) {
+          $('#wa-score-table-final').load(location.href + " #wa-score-table-final", function() {
+            var newVal = $("#wa-final-value").text()
+            var newArr = newVal.match(/[^\s]+/g);
+            window.myRadar = new Chart(document.getElementById('waFinalGraph'), showChart(newArr));
+          });
         }
-      },
+      })
     }
-  };
-
-  window.onload = function() {
-    window.myRadar = new Chart(document.getElementById('waFinalGraph'), config);
-  };
-  var colorNames = Object.keys(window.chartColors);
+    ////////////////////////////////////////////////////////////////////
+    $input.keydown(function(e) {
+      if (e.keyCode == 13 | e.keyCode == 9) {
+        callAjax({
+          id: $el.attr("id").replace('-final', ''),
+          sheet_id: "WeightKey",
+          val: $input.val(),
+        });
+        $input.blur();
+      };
+    })
+    $input.blur(function() {
+      callAjax({
+        id: $el.attr("id").replace('-final', ''),
+        sheet_id: "WeightKey",
+        val: $input.val(),
+      });
+    })
+  });
 </script>
