@@ -24,14 +24,11 @@ if (isset($_POST['id'])) {
     'values' => $values
   ]);
 
-  $param = [
-    'valueInputOption' => 'Raw'
-  ];
 
   $service->spreadsheets_values->update(
     $spreadsheetId,
     $reqRange,
     $body,
-    $param
+    ['valueInputOption' => 'Raw']
   );
 }

@@ -1,10 +1,11 @@
 <?php
 
 include_once '../config.php';
+include_once '../constants/keys.php';
 
 // [TAB] OVERVIEW
 // [RANGE] A1:C5
-$RANGE = "C1:C5";
+$RANGE = $OVERVIEW_SHEET . "!" . $OVERVIEW_EDIT_RANGE;
 
 $title = $_POST['title'];
 $year_start = $_POST['year_start'];
@@ -18,13 +19,9 @@ $body = new Google_Service_Sheets_ValueRange([
   'values' => $values
 ]);
 
-$param = [
-  'valueInputOption' => 'Raw'
-];
-
 $service->spreadsheets_values->update(
   $spreadsheetId,
   $RANGE,
   $body,
-  $param
+  ['valueInputOption' => 'Raw']
 );
