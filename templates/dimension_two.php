@@ -9,7 +9,7 @@ require_once __DIR__ . "./../constants/word.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      DIMENSION 1
+      DIMENSION 2
     </div>
   </a>
 </nav>
