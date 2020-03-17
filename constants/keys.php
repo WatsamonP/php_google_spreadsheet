@@ -30,5 +30,11 @@ $YEAR_START_COL_SI = "F"; // For SpecificInputYears sheet
 
 //
 $FalkenmarkThreshold = "FalkenmarkThreshold";
-$AWDO_2016_Threshold = "AWDO_2016_Threshold";
-
+$AWDO_2016_AG_Threshold = "AWDO_2016_AG_Threshold";
+$AWDO_2016_NON_AG_Threshold = "AWDO_2016_NON_AG_Threshold";
+$AWDO_2016_WATER_Threshold = "AWDO_2016_WATER_Threshold";
+$AWDO_2016_WD_Threshold = "AWDO_2016_WD_Threshold"; // for WD3
+$LOGIC_DEDUCTION_LARGEST = "LOGIC_DEDUCTION_LARGEST";
+$DAMAGE_THREDSHOLD = "DAMAGE_THREDSHOLD";
+$COEFFICIENT_VARIATION = "COEFFICIENT_VARIATION";
+$DO_LEVEL = "DO_LEVEL";
