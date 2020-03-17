@@ -247,7 +247,7 @@ require_once __DIR__ . "./../constants/word.php";
         }
       },
       onDraw: function() {
-        // console.log('onDraw()');
+        console.log('onDraw(D2)');
       },
       onSuccess: function(data, textStatus, jqXHR) {
         function isNumber(n) {
@@ -260,10 +260,10 @@ require_once __DIR__ . "./../constants/word.php";
             $("#alertNumeric").fadeTo(3000, 1000).slideUp(1000, function() {
               $("alertNumeric").slideUp(1000);
             });
-            $('#loading').show();
-            setTimeout(function() {
-              location.reload()
-            }, 100);
+            // $('#loading').show();
+            // setTimeout(function() {
+            //   location.reload()
+            // }, 100);
             return false
           } else {
             data['data'][0][key] = parseFloat(value);
@@ -274,23 +274,19 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wp-score-table").load(location.href + " #wp-score-table");
+            $("#wa-WP1-score-table").load(location.href + " #wa-WP1-score-table");
+            $("#wa-WP2-score-table").load(location.href + " #wa-WP2-score-table");
           },
         })
       },
       onFail: function(jqXHR, textStatus, errorThrown) {
         console.log('onFail(jqXHR, textStatus, errorThrown)');
-        // console.log(jqXHR);
-        // console.log(textStatus);
-        // console.log(errorThrown);
       },
-      onAlwpys: function() {
-        // console.log('onAlwpys()');
+      onAlways: function() {
+        console.log('onAlways()');
       },
       onAjax: function(action, serialize) {
         console.log('onAjax(action, serialize)');
-        // console.log(action);
-        // console.log(serialize);
       }
     });
   });

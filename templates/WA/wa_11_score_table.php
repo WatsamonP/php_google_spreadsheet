@@ -7,7 +7,7 @@
   <div class="card">
     <div class="card-body">
       <div class='table-responsive'>
-        <table class='table table-hover'>
+        <table class='table table-hover' id="wa-WA11-score-table">
           <thead class="thead-dark">
             <tr">
               <th scope='col' class='text-left'>Year</th>
@@ -52,21 +52,48 @@
   </div>
 </div>
 <!-- -------------------------------------------------------------------------------- -->
-<script type="text/javascript" src="actions/post_editable_cell.js"></script>
 <script type="text/javascript">
   $('body').on('click', '[data-editable-runoff-coeff]', function(e) {
     e.preventDefault();
-
     var $el = $(this);
-    var $input = $('<input type="number" id="' + $el.attr("id") + '" name="' + $el.attr("name") + '"  type="text" style="min-width:100px;" class="form-control">').val($el.text());
+    var $input = $('<input type="number" id="' + $el.attr("id") + '" type="text" style="min-width:100px;" class="form-control">').val($el.text());
     $el.replaceWith($input);
-
     var save = function() {
-      var $a = $('<a id="' + $el.attr("id") + '" data-editable-runoff-coeff name="' + $el.attr("name") + '" />').text($input.val());
+      var $a = $('<a id="' + $el.attr("id") + '" data-editable-runoff-coeff />').text($input.val());
       $input.replaceWith($a);
     };
-
     $input.one('blur', save).focus();
-    post_editable_cell($input, $el);
+    ////////////////////////////////////////////////////////////////////
+    function callAjax(data) {
+      return $.ajax({
+        url: 'actions/act_edit_cell.php',
+        type: 'post',
+        data: data,
+        success: function(response) {
+          $("#wa-WA11-score-table").load(location.href + " #wa-WA11-score-table");
+          $("#wa-WA1-score-table").load(location.href + " #wa-WA1-score-table");
+        },
+      })
+    }
+    ////////////////////////////////////////////////////////////////////
+    $input.keydown(function(e) {
+      if (e.keyCode == 13 | e.keyCode == 9) {
+        callAjax({
+          id: $el.attr("name"),
+          sheet_id: "SpecificInputYears",
+          year: $el.attr("id"),
+          val: $input.val(),
+        });
+        $input.blur();
+      };
+    })
+    $input.blur(function() {
+      callAjax({
+        id: $el.attr("name"),
+        sheet_id: "SpecificInputYears",
+        year: $el.attr("id"),
+        val: $input.val(),
+      });
+    })
   });
 </script>

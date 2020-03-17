@@ -40,7 +40,6 @@
   </div>
 </div>
 <!-- -------------------------------------------------------------------------------- -->
-<script type="text/javascript" src="actions/post_edit_weight.js"></script>
 <script type="text/javascript">
   $('#import-wa62-data').click(function() {
     alert("TODO// INSERT DATA");
@@ -53,17 +52,42 @@
 
   $('body').on('click', '[data-editable-wa62-reservoirs]', function(e) {
     e.preventDefault();
-
     var $el = $(this);
     var $input = $('<input type="number" id="' + $el.attr("id") + '" type="text" style="min-width:100px;" class="form-control">').val($el.text());
     $el.replaceWith($input);
-
     var save = function() {
       var $a = $('<a id="' + $el.attr("id") + '" data-editable-wa62-reservoirs />').text($input.val());
       $input.replaceWith($a);
     };
-
     $input.one('blur', save).focus();
-    post_edit_weight($input, $el);
+    ////////////////////////////////////////////////////////////////////
+    function callAjax(data) {
+      return $.ajax({
+        url: 'actions/act_edit_specific.php',
+        type: 'post',
+        data: data,
+        success: function(response) {
+          $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
+        },
+      })
+    }
+    ////////////////////////////////////////////////////////////////////
+    $input.keydown(function(e) {
+      if (e.keyCode == 13 | e.keyCode == 9) {
+        callAjax({
+          id: $el.attr("id"),
+          sheet_id: "SpecificInput",
+          val: $input.val(),
+        });
+        $input.blur();
+      };
+    })
+    $input.blur(function() {
+      callAjax({
+        id: $el.attr("id"),
+        sheet_id: "SpecificInput",
+        val: $input.val(),
+      });
+    })
   });
 </script>

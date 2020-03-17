@@ -281,7 +281,7 @@ require_once __DIR__ . "./../constants/word.php";
         }
       },
       onDraw: function() {
-        // console.log('onDraw()');
+        console.log('onDraw(D1)');
       },
       onSuccess: function(data, textStatus, jqXHR) {
         function isNumber(n) {
@@ -294,10 +294,10 @@ require_once __DIR__ . "./../constants/word.php";
             $("#alertNumeric").fadeTo(3000, 1000).slideUp(1000, function() {
               $("alertNumeric").slideUp(1000);
             });
-            $('#loading').show();
-            setTimeout(function() {
-              location.reload()
-            }, 100);
+            // $('#loading').show();
+            // setTimeout(function() {
+            //   location.reload()
+            // }, 100);
             return false
           } else {
             data['data'][0][key] = parseFloat(value);
@@ -308,23 +308,23 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wa-score-table").load(location.href + " #wa-score-table");
+            $("#wa-WA1-score-table").load(location.href + " #wa-WA1-score-table");
+            $("#wa-WA2-score-table").load(location.href + " #wa-WA2-score-table");
+            $("#wa-WA3-score-table").load(location.href + " #wa-WA3-score-table");
+            $("#wa-WA4-score-table").load(location.href + " #wa-WA4-score-table");
+            $("#wa-WA5-score-table").load(location.href + " #wa-WA5-score-table");
+            $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
           },
         })
       },
       onFail: function(jqXHR, textStatus, errorThrown) {
         console.log('onFail(jqXHR, textStatus, errorThrown)');
-        // console.log(jqXHR);
-        // console.log(textStatus);
-        // console.log(errorThrown);
       },
       onAlways: function() {
-        // console.log('onAlways()');
+        console.log('onAlways()');
       },
       onAjax: function(action, serialize) {
         console.log('onAjax(action, serialize)');
-        // console.log(action);
-        // console.log(serialize);
       }
     });
   });
