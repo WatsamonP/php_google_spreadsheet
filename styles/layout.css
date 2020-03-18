@@ -4,6 +4,7 @@ html, body {
   overflow-x: hidden !important;
 }
 .container {
+  position: relative;
   max-width: 100% !important;
   overflow-x: hidden !important;
 }
