@@ -1,7 +1,7 @@
 <div style="margin-top:30px" class='table-responsive'>
   <H5>
     <i class="fas fa-table"></i>
-    <?php echo $SpecificInputYears['WA1']['WA11']['annualAverageRainfall']['key'] ?> (<?php echo toSup($SpecificInputYears['WA1']['WA11']['annualAverageRainfall']['unit']) ?>)
+    <?php echo $SpecificInputYears['WA1']['WA11']['runoffCoeff']['key'] ?>
   </H5>
   <!--  -->
   <table id="tableTab" class='table table-hover'>
@@ -19,9 +19,9 @@
     <tbody>
       <tr>
         <td class="text-center table-success"><i class="fas fa-edit"></i></td>
-        <?php foreach ($SpecificInputYears['WA1']['WA11']['annualAverageRainfall']['table'] as $key => $_data) { ?>
+        <?php foreach ($SpecificInputYears['WA1']['WA11']['runoffCoeff']['table'] as $key => $_data) { ?>
           <td id="EditText" class='text-right table-success'>
-            <a name='annualAverageRainfall' <?php echo "id='" . $key . "'" ?> data-editable-aar><?php echo number_format($_data, 2, '.', '')  ?></a>
+            <a name='runoffCoeff' <?php echo "id='" . $key . "'" ?> data-editable-runoff-coeff><?php echo number_format($_data, 2, '.', '')  ?></a>
           </td>
         <?php }
         ?>
@@ -31,13 +31,13 @@
 </div>
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
-  $('body').on('click', '[data-editable-aar]', function(e) {
+  $('body').on('click', '[data-editable-runoff-coeff]', function(e) {
     e.preventDefault();
     var $el = $(this);
     var $input = $('<input type="number" id="' + $el.attr("id") + '" name="' + $el.attr("name") + '" type="text" style="min-width:100px;" class="form-control">').val($el.text());
     $el.replaceWith($input);
     var save = function() {
-      var $a = $('<a id="' + $el.attr("id") + '" name="' + $el.attr("name") + '" data-editable-aar />').text($input.val());
+      var $a = $('<a id="' + $el.attr("id") + '" name="' + $el.attr("name") + '" data-editable-runoff-coeff />').text($input.val());
       $input.replaceWith($a);
     };
     $input.one('blur', save).focus();
@@ -56,7 +56,6 @@
     ////////////////////////////////////////////////////////////////////
     $input.keydown(function(e) {
       if (e.keyCode == 13 | e.keyCode == 9) {
-        console.log($el.attr("name"), $el.attr("id"), $input.val())
         callAjax({
           id: $el.attr("name"),
           sheet_id: "SpecificInputYears",

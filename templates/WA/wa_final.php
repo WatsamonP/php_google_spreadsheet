@@ -58,8 +58,8 @@
                   <!--   -->
                   <td class='text-center table-danger'></td>
                   <?php
-                  if (isset($FINAL_INDICATOR))
-                    foreach ($FINAL_INDICATOR as  $year => $score) { ?>
+                  if (isset($FINAL_INDICATOR_WA))
+                    foreach ($FINAL_INDICATOR_WA as  $year => $score) { ?>
                     <td class='text-center table-danger'>
                       <?php echo number_format($score, 2, '.', '')  ?>
                     </td>
@@ -79,7 +79,7 @@
 </div>
 <!-- -------------------------------------------------------------------------------- -->
 <script>
-  function showChart(chartData = <?php echo json_encode($FINAL_INDICATOR); ?>) {
+  function showChart(chartData = <?php echo json_encode($FINAL_INDICATOR_WA); ?>) {
     var dataset = [];
     var labels = [];
     for (const property in chartData) {
@@ -93,7 +93,7 @@
       data: {
         labels: labels,
         datasets: [{
-          label: 'Water Availability',
+          // label: 'Water Availability',
           backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
           borderColor: window.chartColors.red,
           pointBackgroundColor: window.chartColors.red,
@@ -118,6 +118,16 @@
           },
           ticks: {
             suggestedMin: 0.15,
+          }
+        },
+        tooltips: {
+          callbacks: {
+            title: function() {},
+            label: function(t, d) {
+              // var xLabel = d.datasets[t.datasetIndex].label;
+              var yLabel = t.yLabel;
+              return (Math.round(yLabel * 100) / 100).toFixed(3);
+            }
           }
         },
       }
