@@ -24,9 +24,9 @@ and open the template in the editor.
   <!-- Custom stylesheet -->
   <link rel="stylesheet" href="./styles/layout.css">
   <link rel="stylesheet" href="./styles/slidebar.css">
+  <link rel="stylesheet" href="./styles/callout.css">
   <link rel="stylesheet" href="./styles/btn_colors.css">
   <link rel="stylesheet" href="./styles/reload.css">
-
   <!--  -->
 
   <!-- Font Awesome JS -->
@@ -38,7 +38,7 @@ and open the template in the editor.
 
 
 <body style="font-family: 'Nunito';">
-  <div id="loading" class="loader" style="display:none"></div>
+  <div id="loading" class="loader" style="display:none;"></div>
   <div class="wrapper">
     <!-- Sidebar  -->
     <?php include 'templates/slidebar.php'; ?>
@@ -53,6 +53,21 @@ and open the template in the editor.
           break;
         case ('dimension_two'):
           include 'templates/dimension_two.php';
+          break;
+        case ('dimension_two'):
+          include 'templates/dimension_two.php';
+          break;
+        case ('dimension_three'):
+          include 'templates/dimension_three.php';
+          break;
+        case ('dimension_four'):
+          include 'templates/dimension_four.php';
+          break;
+        case ('dimension_five'):
+          include 'templates/dimension_five.php';
+          break;
+        case ('aggregation'):
+          include 'templates/aggregation.php';
           break;
         default:
           include 'templates/overview.php';
@@ -69,10 +84,11 @@ and open the template in the editor.
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
   <script type="text/javascript">
+    $(window).on('beforeunload', function() {
+      $('#loading').show()
+    });
     $(document).ready(function() {
       $('#sidebar').toggleClass(window.localStorage.toggled);
-      // $('#sidebarIcon').toggleClass(window.localStorage.toggledIcon);
-
       $('#sidebarCollapse').on('click', function(e) {
         if (window.localStorage.toggled != "active") {
           $('#sidebar').toggleClass("active", true);
