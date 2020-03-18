@@ -8,8 +8,6 @@ require_once __DIR__ . "./../php/calculation/utils.php";
 require_once __DIR__ . "./../php/calculation/getScore.php";
 require_once __DIR__ . "./../php/fetch/fetchWX.php";
 require_once __DIR__ . "./../php/fetch/fetchWeightKey.php";
-// require_once __DIR__ . "./../php/fetch/fetchSpecificInputYears.php";
-// require_once __DIR__ . "./../php/fetch/fetchSpecificInput.php";
 require_once __DIR__ . "./../php/fetch/fetchRespondent.php";
 
 /***************************** */
@@ -112,4 +110,4 @@ $FINAL_SCORE_WG = array(
 );
 
 $FINAL_INDICATOR_WG = getWeightedValue($FINAL_SCORE_WG, $WeightKeysData);
-// print_r($FINAL_INDICATOR_WG);
+// print_r(array_key_first($RespondentList['WG1']['WG11']));
