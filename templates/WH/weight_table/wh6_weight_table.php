@@ -1,8 +1,7 @@
 <!-- START WEIGHT CARD -->
 <div class="container">
   <div class="row justify-content-center">
-
-    <div class="col-6 order-1">
+    <div class="col-3 order-1">
       <div class="card border-success mb-3">
         <div class="card-header text-success">Weight</div>
         <div class="card-body">
@@ -16,9 +15,9 @@
               </thead>
               <tbody>
                 <tr class="text-center">
-                  <td>WD11</td>
+                  <td>WH61</td>
                   <td class="table-success">
-                    <a id="WD11" data-editable-weight-wd1><?php echo $WeightKeysData['WD11']['weight'] ?></a>
+                    <a id="WH61" data-editable-weight-wh6><?php echo $WeightKeysData['WH61']['weight'] ?></a>
                   </td>
                 </tr>
               </tbody>
@@ -27,18 +26,35 @@
         </div>
       </div>
     </div>
-    <div class="col-6 order-2">
+    <div class="col-9 order-2">
       <div class="card border-warning mb-3">
         <div class="card-header text-warning">Score</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table id="wd-WD1-score-table" class='table table-hover' style="margin: 0 auto;">
+            <table id="wh-WH6-score-table" class='table table-hover' style="margin: 0 auto;">
               <thead class='thead-dark'>
-                <th class="text-center">Score</th>
-              </thead>
-              <tbody class="text-center">
                 <tr>
-                  <td class="table-warning"><?php echo $WD11_TB['score']['table'] ?></td>
+                  <th scope='col' class='text-center'>Year</th>
+                  <?php
+                  foreach ($YEAR_RANGE as $year) {
+                  ?>
+                    <th class='text-center'><?php echo $year ?></th>
+                  <?php }
+                  ?>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <!--   -->
+                  <td class='text-center table-warning'></td>
+                  <?php
+                  if (isset($FINAL_SCORE_WH['WH6']))
+                    foreach ($FINAL_SCORE_WH['WH6'] as  $year => $score) { ?>
+                    <td class='text-center table-warning'>
+                      <?php echo number_format($score, 2, '.', '')  ?>
+                    </td>
+                  <?php }
+                  ?>
                 </tr>
               </tbody>
             </table>
@@ -51,13 +67,13 @@
 <!-- END WEIGHT CARD -->
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
-  $('body').on('click', '[data-editable-weight-wd1]', function(e) {
+  $('body').on('click', '[data-editable-weight-wh6]', function(e) {
     e.preventDefault();
     var $el = $(this);
     var $input = $('<input type="number" id="' + $el.attr("id") + '" type="text" style="min-width:100px;" class="form-control">').val($el.text());
     $el.replaceWith($input);
     var save = function() {
-      var $a = $('<a id="' + $el.attr("id") + '" data-editable-weight-wd1 />').text($input.val());
+      var $a = $('<a id="' + $el.attr("id") + '" data-editable-weight-wh6 />').text($input.val());
       $input.replaceWith($a);
     };
     $input.one('blur', save).focus();
@@ -68,7 +84,7 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wd-WD1-score-table").load(location.href + " #wd-WD1-score-table");
+          $("#wh-WH6-score-table").load(location.href + " #wh-WH6-score-table");
         },
       })
     }

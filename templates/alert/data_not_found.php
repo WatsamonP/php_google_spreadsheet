@@ -1,7 +1,3 @@
-<!-- <div id="dataNotFound" style="display: none" class="alert alert-danger" role="alert">
-  [NOTE] <a href="#" class="alert-link"></a>DATA IS NOT EXIST</a> | The Calculation will replace data by 0
-</div> -->
-
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
   <strong>DATA NOT FOUND</strong>
   <?php

@@ -51,13 +51,13 @@ require_once __DIR__ . "./../constants/word.php";
   <div class="card-body">
     <div class="tab-content">
       <div class="tab-pane active" id="WH1" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WH/wh_11_table.php" ?>
+        <?php include __DIR__ . "./../templates/WH/wh_11_table.php"; ?>
       </div>
       <div class="tab-pane" id="WH6" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WH/wh_61_table.php" ?>
+        <?php include __DIR__ . "./../templates/WH/wh_61_table.php"; ?>
       </div>
       <div class="tab-pane" id="whfinal" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WH/wh_final.php" ?>
+        <?php include __DIR__ . "./../templates/WH/wh_final.php"; ?>
       </div>
       <!--  -->
       <?php foreach ($WH_SET as $sKey => $SET) {

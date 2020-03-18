@@ -1,4 +1,4 @@
-<H3 style="margin-bottom:40px"><strong><?php echo "[ WD11 ] " . $WeightKeysData['WD11']['name'] ?></strong></H3>
+<H3 style="margin-bottom:40px"><strong><?php echo "[ WD1 ] " . $WeightKeysData['WD1']['name'] ?></strong></H3>
 
 <H4 style="margin-bottom:20px">
   <a id=<?php echo "import-wd-11" ?>><i style="font-size:20px" class="fas fa-plus-circle"></i>

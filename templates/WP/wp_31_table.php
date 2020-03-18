@@ -1,3 +1,5 @@
+<H3 style="margin-bottom:40px"><strong><?php echo "[ WP3 ] " . $WeightKeysData['WP3']['name'] ?></strong></H3>
+<!-- ------------------------------------------------- -->
 <H4 style="margin-bottom:20px"><?php echo $WeightKeysData['WP31']['id'] ?> : <?php echo $WeightKeysData['WP31']['name'] ?></H4>
 <!-- ------------------------------------------------- -->
 <div class='table-responsive' style="margin-top:30px">
