@@ -1,12 +1,12 @@
 <div style="margin-top:30px">
   <H5>
-    <i class="fas fa-clipboard-list"></i> #WP Table Name#
+    <i class="fas fa-clipboard-list"></i> #WH Table Name#
   </H5>
   <!--  -->
   <div class="card">
     <div class="card-body">
       <div class='table-responsive'>
-        <table class='table table-hover' id="wp-score-table">
+        <table class='table table-hover' id="wh-score-table">
           <thead class="thead-dark">
             <tr">
               <th scope='col' class='text-left'>Year</th>
@@ -19,7 +19,7 @@
               </tr>
           </thead>
           <tbody>
-            <?php foreach ($WP_TB_TEMP as $key => $item) { ?>
+            <?php foreach ($WH_TB_TEMP as $key => $item) { ?>
               <tr class="table-active">
                 <td style="white-space: nowrap;"><?php echo $item['key'] ?></td>
                 <?php foreach ($item['table'] as $value) { ?>

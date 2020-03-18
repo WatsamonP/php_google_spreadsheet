@@ -9,7 +9,7 @@ require_once __DIR__ . "./../constants/word.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      DIMENSION 2 : Interbasin wpter transfers
+      DIMENSION 2
     </div>
   </a>
 </nav>
@@ -31,7 +31,7 @@ require_once __DIR__ . "./../constants/word.php";
       <?php
       } ?>
       <li class="nav-item">
-        <a class='nav-link' href='#wp3' role="tab" aria-controls='wp3' aria-selected="false">WP3</a>
+        <a class='nav-link' href='#WP3' role="tab" aria-controls='WP3' aria-selected="false">WP3</a>
       </li>
       <li class="nav-item">
         <a class='nav-link' href='#wpfinal' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
@@ -41,8 +41,8 @@ require_once __DIR__ . "./../constants/word.php";
   </div>
   <div class="card-body">
     <div class="tab-content">
-      <div class="tab-pane" id="wp3" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WP/wp_31_score_table.php" ?>
+      <div class="tab-pane" id="WP3" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WP/wp_31_table.php" ?>
       </div>
       <div class="tab-pane" id="wpfinal" role="tabpanel" aria-labelledby="history-tab">
         <?php include __DIR__ . "./../templates/WP/wp_final.php" ?>
@@ -52,6 +52,7 @@ require_once __DIR__ . "./../constants/word.php";
         $ACTIVE_TAB = $sKey == 'WP1' ? 'active' : '';
       ?>
         <div <?php echo "class='tab-pane " . $ACTIVE_TAB . "'" ?> <?php echo "id='" . $sKey . "'" ?> role="tabpanel" aria-labelledby="history-tab">
+          <H3 style="margin-bottom:40px"><strong><?php echo "[ " . $sKey . " ] " . $WeightKeysData[$sKey]['name'] ?></strong></H3>
           <?php
           foreach ($SET as $gKey => $GROUP) {
           ?> <H4 style="margin-bottom:20px"><?php echo $gKey ?>
@@ -99,29 +100,14 @@ require_once __DIR__ . "./../constants/word.php";
             </div>
             <!-- END INPUT TABLE [GREEN] -->
 
-            <!-- START SCORE TABLE -->
-            <?php
-            if ($gKey == "WP11_D") {
-              include  __DIR__ . "./../templates/utils/hr.html";
-              $WP_TB_TEMP = $WP11_TB;
-              include __DIR__ . "./../templates/WP/wp_score_table.php";
-              ////////////////////////////////////////////
-            } else if ($gKey == "WP21_B") {
-              include  __DIR__ . "./../templates/utils/hr.html";
-              $WP_TB_TEMP = $WP21_TB;
-              include __DIR__ . "./../templates/WP/wp_score_table.php";
-              ////////////////////////////////////////////
-            } else {
-              echo "";
-            } ?>
-            <!--  END SCORE TABLE -->
+            <!-- START OPTIONAL TABLE -->
+            <!--  END OPTIONAL TABLE -->
             <?php include  __DIR__ . "./../templates/utils/hr.html" ?>
           <?php }
           ?>
           <!-- START WEIGHT CARD -->
           <div class="container">
             <div class="row justify-content-center">
-
               <div class="col-3 order-1">
                 <div class="card border-success mb-3">
                   <div class="card-header text-success">Weight</div>
@@ -274,8 +260,8 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wa-WP1-score-table").load(location.href + " #wa-WP1-score-table");
-            $("#wa-WP2-score-table").load(location.href + " #wa-WP2-score-table");
+            $("#wp-WP1-score-table").load(location.href + " #wp-WP1-score-table");
+            $("#wp-WP2-score-table").load(location.href + " #wp-WP2-score-table");
           },
         })
       },

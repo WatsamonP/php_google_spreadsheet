@@ -16,21 +16,47 @@
               </thead>
               <tbody>
                 <tr class="text-center">
-                  <td><?php echo $WeightKeysData['WP1']['id']  ?></td>
+                  <td><?php echo $WeightKeysData['WH1']['id']  ?></td>
                   <td class="table-success">
-                    <a id="WP1-final" data-editable-weight-wp-final><?php echo $WeightKeysData['WP1']['weight'] ?></a>
+                    <a id="WH1-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH1']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
-                  <td><?php echo $WeightKeysData['WP2']['id'] ?></td>
+                  <td><?php echo $WeightKeysData['WH2']['id'] ?></td>
                   <td class="table-success">
-                    <a id="WP2-final" data-editable-weight-wp-final><?php echo $WeightKeysData['WP2']['weight'] ?></a>
+                    <a id="WH2-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH2']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
-                  <td><?php echo $WeightKeysData['WP3']['id'] ?></td>
+                  <td><?php echo $WeightKeysData['WH3']['id']  ?></td>
                   <td class="table-success">
-                    <a id="WP3-final" data-editable-weight-wp-final><?php echo $WeightKeysData['WP3']['weight'] ?></a>
+                    <a id="WH3-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH3']['weight'] ?></a>
+                  </td>
+                </tr>
+                <tr class="text-center">
+                  <td><?php echo $WeightKeysData['WH4']['id']  ?></td>
+                  <td class="table-success">
+                    <a id="WH4-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH4']['weight'] ?></a>
+                  </td>
+                </tr>
+                <tr class="text-center">
+                  <td><?php echo $WeightKeysData['WH5']['id'] ?></td>
+                  <td class="table-success">
+                    <a id="WH5-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH5']['weight'] ?></a>
+                  </td>
+                </tr>
+                
+                <tr class="text-center">
+                  <td><?php echo $WeightKeysData['WH6']['id']  ?></td>
+                  <!-- TODO -->
+                  <td class="table-warning">
+                    <a id="WH6-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH6']['weight'] ?></a>
+                  </td>
+                </tr>
+                <tr class="text-center">
+                  <td><?php echo $WeightKeysData['WH7']['id']  ?></td>
+                  <td class="table-success">
+                    <a id="WH7-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH7']['weight'] ?></a>
                   </td>
                 </tr>
               </tbody>
@@ -42,10 +68,10 @@
 
     <div class="col-8 order-2">
       <div class="card border-danger">
-        <div class="card-header text-danger">Final Index for Dim. 02</div>
+        <div class="card-header text-danger">Final Index for Dim. 04</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class='table table-hover' id="wp-score-table-final">
+            <table class='table table-hover' id="wh-score-table-final">
               <thead class='thead-dark'>
                 <tr>
                   <th scope='col' class='text-center'>Year</th>
@@ -58,12 +84,12 @@
                 </tr>
               </thead>
               <tbody>
-                <tr id="wp-final-value">
+                <tr id="wh-final-value">
                   <!--   -->
                   <td class='text-center table-danger'></td>
                   <?php
-                  if (isset($FINAL_INDICATOR_WP))
-                    foreach ($FINAL_INDICATOR_WP as  $year => $score) { ?>
+                  if (isset($FINAL_INDICATOR_WH))
+                    foreach ($FINAL_INDICATOR_WH as  $year => $score) { ?>
                     <td class='text-center table-danger'>
                       <?php echo number_format($score, 2, '.', '')  ?>
                     </td>
@@ -75,17 +101,15 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="chart-container" style="width:80%; display:block; margin-top:30px">
-      <canvas id="wpFinalGraph"></canvas>
+      <div class="chart-container" style="width:100%; display:block; margin-top:30px">
+        <canvas id="whFinalGraph"></canvas>
+      </div>
     </div>
   </div>
 </div>
 <!-- -------------------------------------------------------------------------------- -->
 <script>
-  function showChart(chartData = <?php echo json_encode($FINAL_INDICATOR_WP); ?>) {
+  function showChart(chartData = <?php echo json_encode($FINAL_INDICATOR_WH); ?>) {
     var dataset = [];
     var labels = [];
     for (const property in chartData) {
@@ -99,7 +123,7 @@
       data: {
         labels: labels,
         datasets: [{
-          // label: 'Water Productivity',
+          // label: 'Watershed Health',
           backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
           borderColor: window.chartColors.red,
           pointBackgroundColor: window.chartColors.red,
@@ -114,7 +138,7 @@
         },
         title: {
           display: true,
-          text: 'Dimension 2 : Water Productivity',
+          text: 'Dimension 4 : Watershed Health',
           fontSize: 20
         },
         scale: {
@@ -142,18 +166,18 @@
   }
 
   window.onload = function() {
-    window.myRadar = new Chart(document.getElementById('wpFinalGraph'), showChart());
+    window.myRadar = new Chart(document.getElementById('whFinalGraph'), showChart());
   };
 </script>
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
-  $('body').on('click', '[data-editable-weight-wp-final]', function(e) {
+  $('body').on('click', '[data-editable-weight-wh-final]', function(e) {
     e.preventDefault();
     var $el = $(this);
     var $input = $('<input type="number" id="' + $el.attr("id") + '" type="text" style="min-width:100px;" class="form-control">').val($el.text());
     $el.replaceWith($input);
     var save = function() {
-      var $a = $('<a id="' + $el.attr("id") + '" data-editable-weight-wp-final />').text($input.val());
+      var $a = $('<a id="' + $el.attr("id") + '" data-editable-weight-wh-final />').text($input.val());
       $input.replaceWith($a);
     };
     $input.one('blur', save).focus();
@@ -164,10 +188,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $('#wp-score-table-final').load(location.href + " #wp-score-table-final", function() {
-            var newVal = $("#wp-final-value").text()
+          $('#wh-score-table-final').load(location.href + " #wh-score-table-final", function() {
+            var newVal = $("#wh-final-value").text()
             var newArr = newVal.match(/[^\s]+/g);
-            window.myRadar = new Chart(document.getElementById('wpFinalGraph'), showChart(newArr));
+            window.myRadar = new Chart(document.getElementById('whFinalGraph'), showChart(newArr));
           });
         }
       })

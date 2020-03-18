@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . "./../config.php";
 require __DIR__ . "./../php/brief.php";
-require __DIR__ . "./../php/dimension_one.php";
+require __DIR__ . "./../php/dimension_four.php";
 require_once __DIR__ . "./../constants/word.php";
 ?>
 <!--  -->
@@ -9,7 +9,7 @@ require_once __DIR__ . "./../constants/word.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      DIMENSION 1
+      DIMENSION 4
     </div>
   </a>
 </nav>
@@ -21,28 +21,47 @@ require_once __DIR__ . "./../constants/word.php";
   <div class="card-header">
     <!-- START TAB -->
     <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
-      <?php
-      foreach ($WA_SET as $sKey => $SET) {
-        $ACTIVE_TAB = $sKey == 'WA1' ? 'active' : '';
-      ?>
-        <li class="nav-item">
-          <a <?php echo "class='nav-link " . $ACTIVE_TAB . "'" ?> <?php echo "href='#" . $sKey . "'" ?> role="tab" <?php echo "aria-controls='" . $sKey . "'" ?> aria-selected="false"><?php echo $sKey ?> </a>
-        </li>
-      <?php
-      } ?>
       <li class="nav-item">
-        <a class='nav-link' href='#wa_final' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
+        <a class='nav-link active' href='#WH1' role="tab" aria-controls='WH1' aria-selected="false">WH1</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#WH2' role="tab" aria-controls='WH2' aria-selected="false">WH2</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#WH3' role="tab" aria-controls='WH3' aria-selected="false">WH3</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#WH4' role="tab" aria-controls='WH4' aria-selected="false">WH4</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#WH5' role="tab" aria-controls='WH5' aria-selected="false">WH5</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#WH6' role="tab" aria-controls='WH6' aria-selected="false">WH6</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#WH7' role="tab" aria-controls='WH7' aria-selected="false">WH7</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#whfinal' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
       </li>
     </ul>
     <!-- END TAB -->
   </div>
   <div class="card-body">
     <div class="tab-content">
-      <div class="tab-pane" id="wa_final" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WA/wa_final.php" ?>
+      <div class="tab-pane active" id="WH1" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WH/wh_11_table.php" ?>
       </div>
-      <?php foreach ($WA_SET as $sKey => $SET) {
-        $ACTIVE_TAB = $sKey == 'WA1' ? 'active' : '';
+      <div class="tab-pane" id="WH6" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WH/wh_61_table.php" ?>
+      </div>
+      <div class="tab-pane" id="whfinal" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WH/wh_final.php" ?>
+      </div>
+      <!--  -->
+      <?php foreach ($WH_SET as $sKey => $SET) {
+        $ACTIVE_TAB = $sKey == 'WH1' ? 'active' : '';
       ?>
         <div <?php echo "class='tab-pane " . $ACTIVE_TAB . "'" ?> <?php echo "id='" . $sKey . "'" ?> role="tabpanel" aria-labelledby="history-tab">
           <H3 style="margin-bottom:40px"><strong><?php echo "[ " . $sKey . " ] " . $WeightKeysData[$sKey]['name'] ?></strong></H3>
@@ -50,12 +69,6 @@ require_once __DIR__ . "./../constants/word.php";
           foreach ($SET as $gKey => $GROUP) {
           ?> <H4 style="margin-bottom:20px"><?php echo $gKey ?>
               : <?php echo $GROUP['name'] ?></H4>
-            <!-- START SPECIAL TABLE -->
-            <?php
-            if ($gKey == "WA11") {
-              include __DIR__ . "./../templates/WA/wa_11_annual_rainfall_table.php";
-            } ?>
-            <!-- START END TABLE -->
 
             <!-- START INPUT TABLE [GREEN] -->
             <div class='table-responsive' style="margin-top:30px">
@@ -100,16 +113,6 @@ require_once __DIR__ . "./../constants/word.php";
             <!-- END INPUT TABLE [GREEN] -->
 
             <!-- START OPTIONAL TABLE -->
-            <?php
-            if ($gKey == "WA11") {
-              include __DIR__ . "./../templates/WA/wa_11_runoffCoeff.php";
-              ////////////////////////////////////////////
-            } else if ($gKey == "WA61") {
-              include __DIR__ . "./../templates/WA/wa_62_table.php";
-              ////////////////////////////////////////////
-            } else {
-              echo "";
-            } ?>
             <!--  END OPTIONAL TABLE -->
             <?php include  __DIR__ . "./../templates/utils/hr.html" ?>
           <?php }
@@ -131,18 +134,16 @@ require_once __DIR__ . "./../constants/word.php";
                         </thead>
                         <tbody>
                           <?php
-                          if ($sKey == "WA1") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa1_weight_table.php";
-                          } else if ($sKey == "WA2") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa2_weight_table.php";
-                          } else if ($sKey == "WA3") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa3_weight_table.php";
-                          } else if ($sKey == "WA4") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa4_weight_table.php";
-                          } else if ($sKey == "WA5") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa5_weight_table.php";
-                          } else if ($sKey == "WA6") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa6_weight_table.php";
+                          if ($sKey == "WH2") {
+                            include __DIR__ . "./../templates/WH/weight_table/wh2_weight_table.php";
+                          } else if ($sKey == "WH3") {
+                            include __DIR__ . "./../templates/WH/weight_table/wh3_weight_table.php";
+                          } else if ($sKey == "WH4") {
+                            include __DIR__ . "./../templates/WH/weight_table/wh4_weight_table.php";
+                          } else if ($sKey == "WH5") {
+                            include __DIR__ . "./../templates/WH/weight_table/wh5_weight_table.php";
+                          } else if ($sKey == "WH7") {
+                            include __DIR__ . "./../templates/WH/weight_table/wh7_weight_table.php";
                           } else {
                             echo "<p>Data not Found</p>";
                           } ?>
@@ -158,8 +159,8 @@ require_once __DIR__ . "./../constants/word.php";
                   <div class="card-body">
                     <div class="table-responsive">
                       <table <?php
-                              if (isset($FINAL_SCORE_WA[$sKey])) {
-                                echo "id='wa-" . $sKey . "-score-table'";
+                              if (isset($FINAL_SCORE_WH[$sKey])) {
+                                echo "id='wh-" . $sKey . "-score-table'";
                               } ?> class='table table-hover' style="margin: 0 auto;">
                         <thead class='thead-dark'>
                           <tr>
@@ -177,8 +178,8 @@ require_once __DIR__ . "./../constants/word.php";
                             <!--   -->
                             <td class='text-center table-warning'></td>
                             <?php
-                            if (isset($FINAL_SCORE_WA[$sKey]))
-                              foreach ($FINAL_SCORE_WA[$sKey] as  $year => $score) { ?>
+                            if (isset($FINAL_SCORE_WH[$sKey]))
+                              foreach ($FINAL_SCORE_WH[$sKey] as  $year => $score) { ?>
                               <td class='text-center table-warning'>
                                 <?php echo number_format($score, 2, '.', '')  ?>
                               </td>
@@ -216,12 +217,9 @@ require_once __DIR__ . "./../constants/word.php";
       editableData[index] = [index + year_start_col, value]
     });
 
-    var editaleID = "#editable_table_WA11, #editable_table_WA12, " +
-      "#editable_table_WA21_A, #editable_table_WA21_B, " +
-      "#editable_table_WA31_A, #editable_table_WA31_B, " +
-      "#editable_table_WA41_A, #editable_table_WA41_B, " +
-      "#editable_table_WA51, " +
-      "#editable_table_WA61"
+    var editaleID = "#editable_table_WH21_A, #editable_table_WH21_B, " +
+      "#editable_table_WH31, #editable_table_WH32, " +
+      "#editable_table_WH41, #editable_table_WH51, #editable_table_WH71 ";
 
     $(editaleID).Tabledit({
       url: 'actions/act_pre_dimension_one.php',
@@ -253,7 +251,7 @@ require_once __DIR__ . "./../constants/word.php";
         }
       },
       onDraw: function() {
-        console.log('onDraw(D1)');
+        console.log('onDraw(D2)');
       },
       onSuccess: function(data, textStatus, jqXHR) {
         function isNumber(n) {
@@ -280,12 +278,11 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wa-WA1-score-table").load(location.href + " #wa-WA1-score-table");
-            $("#wa-WA2-score-table").load(location.href + " #wa-WA2-score-table");
-            $("#wa-WA3-score-table").load(location.href + " #wa-WA3-score-table");
-            $("#wa-WA4-score-table").load(location.href + " #wa-WA4-score-table");
-            $("#wa-WA5-score-table").load(location.href + " #wa-WA5-score-table");
-            $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
+            $("#wh-WH2-score-table").load(location.href + " #wh-WH2-score-table");
+            $("#wh-WH3-score-table").load(location.href + " #wh-WH3-score-table");
+            $("#wh-WH4-score-table").load(location.href + " #wh-WH4-score-table");
+            $("#wh-WH5-score-table").load(location.href + " #wh-WH5-score-table");
+            $("#wh-WH7-score-table").load(location.href + " #wh-WH7-score-table");
           },
         })
       },

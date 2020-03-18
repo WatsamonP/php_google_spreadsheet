@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . "./../config.php";
 require __DIR__ . "./../php/brief.php";
-require __DIR__ . "./../php/dimension_one.php";
+require __DIR__ . "./../php/dimension_three.php";
 require_once __DIR__ . "./../constants/word.php";
 ?>
 <!--  -->
@@ -9,7 +9,7 @@ require_once __DIR__ . "./../constants/word.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      DIMENSION 1
+      DIMENSION 3
     </div>
   </a>
 </nav>
@@ -21,9 +21,12 @@ require_once __DIR__ . "./../constants/word.php";
   <div class="card-header">
     <!-- START TAB -->
     <ul class="nav nav-tabs card-header-tabs" id="bologna-list" role="tablist">
+      <li class="nav-item">
+        <a class='nav-link active' href='#WD1' role="tab" aria-controls='WD1' aria-selected="false">WD1</a>
+      </li>
       <?php
-      foreach ($WA_SET as $sKey => $SET) {
-        $ACTIVE_TAB = $sKey == 'WA1' ? 'active' : '';
+      foreach ($WD_SET as $sKey => $SET) {
+        $ACTIVE_TAB = $sKey == 'WD1' ? 'active' : '';
       ?>
         <li class="nav-item">
           <a <?php echo "class='nav-link " . $ACTIVE_TAB . "'" ?> <?php echo "href='#" . $sKey . "'" ?> role="tab" <?php echo "aria-controls='" . $sKey . "'" ?> aria-selected="false"><?php echo $sKey ?> </a>
@@ -31,18 +34,28 @@ require_once __DIR__ . "./../constants/word.php";
       <?php
       } ?>
       <li class="nav-item">
-        <a class='nav-link' href='#wa_final' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
+        <a class='nav-link' href='#WD6' role="tab" aria-controls='WD6' aria-selected="false">WD6</a>
+      </li>
+      <li class="nav-item">
+        <a class='nav-link' href='#wdfinal' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
       </li>
     </ul>
     <!-- END TAB -->
   </div>
   <div class="card-body">
     <div class="tab-content">
-      <div class="tab-pane" id="wa_final" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WA/wa_final.php" ?>
+      <div class="tab-pane active" id="WD1" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WD/wd_11_table.php" ?>
       </div>
-      <?php foreach ($WA_SET as $sKey => $SET) {
-        $ACTIVE_TAB = $sKey == 'WA1' ? 'active' : '';
+      <div class="tab-pane" id="WD6" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WD/wd_61_table.php" ?>
+      </div>
+      <div class="tab-pane" id="wdfinal" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WD/wd_final.php" ?>
+      </div>
+      <!--  -->
+      <?php foreach ($WD_SET as $sKey => $SET) {
+        $ACTIVE_TAB = $sKey == 'WD1' ? 'active' : '';
       ?>
         <div <?php echo "class='tab-pane " . $ACTIVE_TAB . "'" ?> <?php echo "id='" . $sKey . "'" ?> role="tabpanel" aria-labelledby="history-tab">
           <H3 style="margin-bottom:40px"><strong><?php echo "[ " . $sKey . " ] " . $WeightKeysData[$sKey]['name'] ?></strong></H3>
@@ -50,12 +63,6 @@ require_once __DIR__ . "./../constants/word.php";
           foreach ($SET as $gKey => $GROUP) {
           ?> <H4 style="margin-bottom:20px"><?php echo $gKey ?>
               : <?php echo $GROUP['name'] ?></H4>
-            <!-- START SPECIAL TABLE -->
-            <?php
-            if ($gKey == "WA11") {
-              include __DIR__ . "./../templates/WA/wa_11_annual_rainfall_table.php";
-            } ?>
-            <!-- START END TABLE -->
 
             <!-- START INPUT TABLE [GREEN] -->
             <div class='table-responsive' style="margin-top:30px">
@@ -100,16 +107,6 @@ require_once __DIR__ . "./../constants/word.php";
             <!-- END INPUT TABLE [GREEN] -->
 
             <!-- START OPTIONAL TABLE -->
-            <?php
-            if ($gKey == "WA11") {
-              include __DIR__ . "./../templates/WA/wa_11_runoffCoeff.php";
-              ////////////////////////////////////////////
-            } else if ($gKey == "WA61") {
-              include __DIR__ . "./../templates/WA/wa_62_table.php";
-              ////////////////////////////////////////////
-            } else {
-              echo "";
-            } ?>
             <!--  END OPTIONAL TABLE -->
             <?php include  __DIR__ . "./../templates/utils/hr.html" ?>
           <?php }
@@ -131,18 +128,14 @@ require_once __DIR__ . "./../constants/word.php";
                         </thead>
                         <tbody>
                           <?php
-                          if ($sKey == "WA1") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa1_weight_table.php";
-                          } else if ($sKey == "WA2") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa2_weight_table.php";
-                          } else if ($sKey == "WA3") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa3_weight_table.php";
-                          } else if ($sKey == "WA4") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa4_weight_table.php";
-                          } else if ($sKey == "WA5") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa5_weight_table.php";
-                          } else if ($sKey == "WA6") {
-                            include __DIR__ . "./../templates/WA/weight_table/wa6_weight_table.php";
+                          if ($sKey == "WD2") {
+                            include __DIR__ . "./../templates/WD/weight_table/wd2_weight_table.php";
+                          } else if ($sKey == "WD3") {
+                            include __DIR__ . "./../templates/WD/weight_table/wd3_weight_table.php";
+                          } else if ($sKey == "WD4") {
+                            include __DIR__ . "./../templates/WD/weight_table/wd4_weight_table.php";
+                          } else if ($sKey == "WD5") {
+                            include __DIR__ . "./../templates/WD/weight_table/wd5_weight_table.php";
                           } else {
                             echo "<p>Data not Found</p>";
                           } ?>
@@ -158,8 +151,8 @@ require_once __DIR__ . "./../constants/word.php";
                   <div class="card-body">
                     <div class="table-responsive">
                       <table <?php
-                              if (isset($FINAL_SCORE_WA[$sKey])) {
-                                echo "id='wa-" . $sKey . "-score-table'";
+                              if (isset($FINAL_SCORE_WD[$sKey])) {
+                                echo "id='wd-" . $sKey . "-score-table'";
                               } ?> class='table table-hover' style="margin: 0 auto;">
                         <thead class='thead-dark'>
                           <tr>
@@ -177,8 +170,8 @@ require_once __DIR__ . "./../constants/word.php";
                             <!--   -->
                             <td class='text-center table-warning'></td>
                             <?php
-                            if (isset($FINAL_SCORE_WA[$sKey]))
-                              foreach ($FINAL_SCORE_WA[$sKey] as  $year => $score) { ?>
+                            if (isset($FINAL_SCORE_WD[$sKey]))
+                              foreach ($FINAL_SCORE_WD[$sKey] as  $year => $score) { ?>
                               <td class='text-center table-warning'>
                                 <?php echo number_format($score, 2, '.', '')  ?>
                               </td>
@@ -216,12 +209,10 @@ require_once __DIR__ . "./../constants/word.php";
       editableData[index] = [index + year_start_col, value]
     });
 
-    var editaleID = "#editable_table_WA11, #editable_table_WA12, " +
-      "#editable_table_WA21_A, #editable_table_WA21_B, " +
-      "#editable_table_WA31_A, #editable_table_WA31_B, " +
-      "#editable_table_WA41_A, #editable_table_WA41_B, " +
-      "#editable_table_WA51, " +
-      "#editable_table_WA61"
+    var editaleID = "#editable_table_WD21, " +
+      "#editable_table_WD31_A, #editable_table_WD31_B, " +
+      "#editable_table_WD41, #editable_table_WD42, " +
+      "#editable_table_WD51, #editable_table_WD52 ";
 
     $(editaleID).Tabledit({
       url: 'actions/act_pre_dimension_one.php',
@@ -253,7 +244,7 @@ require_once __DIR__ . "./../constants/word.php";
         }
       },
       onDraw: function() {
-        console.log('onDraw(D1)');
+        console.log('onDraw(D3)');
       },
       onSuccess: function(data, textStatus, jqXHR) {
         function isNumber(n) {
@@ -280,12 +271,10 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wa-WA1-score-table").load(location.href + " #wa-WA1-score-table");
-            $("#wa-WA2-score-table").load(location.href + " #wa-WA2-score-table");
-            $("#wa-WA3-score-table").load(location.href + " #wa-WA3-score-table");
-            $("#wa-WA4-score-table").load(location.href + " #wa-WA4-score-table");
-            $("#wa-WA5-score-table").load(location.href + " #wa-WA5-score-table");
-            $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
+            $("#wd-WD2-score-table").load(location.href + " #wd-WD2-score-table");
+            $("#wd-WD3-score-table").load(location.href + " #wd-WD3-score-table");
+            $("#wd-WD4-score-table").load(location.href + " #wd-WD4-score-table");
+            $("#wd-WD5-score-table").load(location.href + " #wd-WD5-score-table");
           },
         })
       },
