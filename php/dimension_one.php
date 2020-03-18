@@ -7,6 +7,11 @@ require_once __DIR__ . "./../constants/word.php";
 require_once __DIR__ . "./../php/calculation/utils.php";
 require_once __DIR__ . "./../php/calculation/getCalculationWA.php";
 require_once __DIR__ . "./../php/calculation/getScore.php";
+//
+require_once __DIR__ . "./../php/fetch/fetchWX.php";
+require_once __DIR__ . "./../php/fetch/fetchWeightKey.php";
+require_once __DIR__ . "./../php/fetch/fetchSpecificInputYears.php";
+require_once __DIR__ . "./../php/fetch/fetchSpecificInput.php";
 
 /************************************ */
 // CALCULATE RATIO AND SUM BASIN AREA //
@@ -20,142 +25,21 @@ $sumBasinArea = getSumBasinArea($provincesData, $string_basinArea);
 $range = $WA_SHEET;
 $response = $service->spreadsheets_values->get($spreadsheetId, $range);
 $array = $response->getValues();
-
-if (empty($array)) {
-  echo "<p>No data Found</p>";
-} else {
-  foreach ($array[0] as $i => $item) { // Find key (the header)
-    $columnKey[$i] = $item;
-  }
-  foreach ($array as $r => $row) {   // Construct data
-    if ($r !== 0) {
-      foreach ($columnKey as $k => $key) {
-        if (isset($row[$k])) {
-          $data[$r - 1][$key] = $row[$k];
-        } else {
-          $data[$r - 1][$key] = 0;
-          include_once __DIR__ . "./../templates/alert/data_not_found.php";
-        }
-      }
-    }
-  }
-
-  /******************************************** */
-  // CONSTRUCT TABLE FOR WA1X [get GREEN TABLE] //
-  /******************************************** */
-  $WA_DIMEN = array_unique(array_column($data, 'dimen'));
-  $WA_GROUP = array_unique(array_column($data, 'subgroup'));
-  $WA_SET = []; // contains WA1, WA2, WA3, WA4 ...
-  $YEAR_RANGE = [];
-  foreach ($WA_DIMEN as $dimen) {
-    foreach ($WA_GROUP as $group) {
-      foreach ($data as $row) {
-        if ($row['dimen'] == $dimen) {
-          if ($row['subgroup'] == $group) {
-            foreach (array_keys($row) as $col) {
-              if (startsWithNumber($col)) {
-                $WA_SET[$dimen][$group]['data'][$row['id']]['table'][$col] = $row[$col];
-                $YEAR_RANGE[$col] = $col;
-              } else if ($col == 'key') {
-                $WA_SET[$dimen][$group]['key'] = $row[$col];
-              } else if ($col == 'unit') {
-                $WA_SET[$dimen][$group]['unit'] = $row[$col];
-              } else {
-                $WA_SET[$dimen][$group]['data'][$row['id']][$col] = $row[$col];
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  /************************************************** */
-  // CONSTRUCT CALCULATION TABLE FOR WA1X [RED TABLE] //
-  /************************************************** */
-  foreach ($WA_SET as $dKey => $dimen) {
-    foreach ($dimen as $gKey => $group) {
-      $index = 0;
-      foreach ($group['data'] as $iKey => $item) {
-        $row = $item['table'];
-        foreach ($row as $key => $cell) {
-          if (isset($cell)) {
-            $cal = (float) $cell * (float) $ratio[$index];
-          } else {
-            $cal = 0;
-          }
-          $WA_SET[$dKey][$gKey]['data'][$iKey]['cal_table'][$key] = $cal;
-        }
-        $index++;
-      }
-    }
-  }
-}
+$WA_SET = getWxData($array, $ratio)["SET"];
+$YEAR_RANGE = getWxData($array, $ratio)["YEAR_RANGE"];
 
 /*********************************** */
 // GET SPECIAL INPUT FOR CALCULATION //
 /*********************************** */
-// FOR YEAR RANGE
-// TODO Refactor use key instead index
 $rangeSI = $SPECIFIC_INPUT_YEARS_SHEET;
 $responseSI = $service->spreadsheets_values->get($spreadsheetId, $rangeSI);
 $arraySI = $responseSI->getValues();
-if (empty($arraySI)) {
-  echo "<p>No data Found</p>";
-} else {
-  foreach ($arraySI[0] as $i => $item) { // Find key
-    $columnSIKey[$i] = $item;
-  }
-  foreach ($arraySI as $r => $row) {   // Construct data
-    if ($r !== 0) {
-      foreach ($columnSIKey as $k => $key) {
-        if (isset($row[$k])) {
-          $RawSpecificInputYears[$r - 1][$key] = $row[$k]; // GRAP ALL DATA
-          if (startsWithNumber($key)) {
-            $SpecificInputYears[$r - 1][$key] = $row[$k];   // GRAP ONLY YEARS
-          }
-        } else {
-          $RawSpecificInputYears[$r - 1][$key] = 0; // GRAP ALL DATA
-          if (startsWithNumber($key)) {
-            $SpecificInputYears[$r - 1][$key] = 0;   // GRAP ONLY YEARS
-          }
-          $LOCATION = $RawSpecificInputYears[$r - 1]['key'];
-          include __DIR__ . "./../templates/alert/data_not_found.php";
-        }
-      }
-    }
-  }
-}
-
-// FOR VERY SPECIFIC E.G., WA62
+$SpecificInputYears = getSpecificInputYears($arraySI);
+///////////////////
 $rangeVS = $SPECIFIC_INPUT_SHEET;
 $responseVS = $service->spreadsheets_values->get($spreadsheetId, $rangeVS);
 $arrayVS = $responseVS->getValues();
-if (empty($arrayVS)) {
-  echo "<p>No data Found</p>";
-} else {
-  foreach ($arrayVS[0] as $i => $item) { // Find key
-    $columnVSKey[$i] = $item;
-  }
-  foreach ($arrayVS as $r => $row) {   // Construct data
-    if ($r !== 0) {
-      foreach ($columnVSKey as $k => $key) {
-        if (isset($row[$k])) {
-          $RawSpecificInput[$r - 1][$key] = $row[$k];
-        }
-      }
-    }
-  }
-}
-// Construct a new one
-// Using key value instead of index
-foreach ($RawSpecificInput as $item) {
-  if (($item['subgroup'] == "")) {
-    $SpecificInput[$item['dimen']][$item['group']][$item['id']] = $item;
-  } else {
-    $SpecificInput[$item['dimen']][$item['group']][$item['subgroup']][$item['id']] = $item;
-  }
-}
+$SpecificInput = getSpecificInput($arrayVS);
 
 
 //////////////////////////////////////////////// 
@@ -166,12 +50,12 @@ foreach ($RawSpecificInput as $item) {
 /********************** */
 // SCORE TABLE FOR WA11 //
 /********************** */
-$surfaceRunoff = getSurfaceRunoff($SpecificInputYears, $sumBasinArea);
+$surfaceRunoff = getSurfaceRunoff($SpecificInputYears['WA1']['WA11']['runoffCoeff']['table'], $sumBasinArea);
 $population = sumColumnCal($WA_SET, 'WA1', 'WA11');
 $waterAvailabilityWA1 = getWaterAvailability($surfaceRunoff, $population);
 
 $WA11_TB = array(
-  "runoffCoeff" => array('key' => "Runoff Coeff.", 'table' => $SpecificInputYears[0]),
+  "runoffCoeff" => array('key' => "Runoff Coeff.", 'table' => $SpecificInputYears['WA1']['WA11']['runoffCoeff']['table']),
   // "basinArea" => array('key' => 'Basin Area', 'table' => array_fill(0, sizeof($YEAR_RANGE), $sumBasinArea)),
   // "surfaceRunoff" => array('key' => 'Surface Runoff', 'table' => $surfaceRunoff),
   // "population" => array('key' => "Population", 'table' => $population),
@@ -281,34 +165,8 @@ $WA62_TB = array(
 $rangeWeightKeys = $WEIGHT_KEY_SHEET;
 $responseSK = $service->spreadsheets_values->get($spreadsheetId, $rangeWeightKeys);
 $arraySK = $responseSK->getValues();
-if (empty($arraySK)) {
-  echo "<p>No data Found</p>";
-} else {
-  foreach ($arraySK[0] as $i => $item) { // Find key
-    $columnSKKey[$i] = $item;
-  }
-  foreach ($arraySK as $r => $row) {   // Construct data
-    if ($r !== 0) {
-      foreach ($columnSKKey as $k => $key) {
-        $WeightKeysData[$row[0]][$key] = $row[$k];
-      }
-    }
-  }
-}
-
-foreach ($WA_SET as $sKey => $set) {
-  foreach ($set as $gKey => $group) {
-    if (strpos($gKey, '_A')) {
-      $temp_A = str_replace("_A", "", $gKey);
-      $WA_SET[$sKey][$gKey]['name'] = $WeightKeysData[$temp_A]['name'];
-    } else if (strpos($gKey, '_B')) {
-      $temp_B = str_replace("_B", "", $gKey);
-      $WA_SET[$sKey][$gKey]['name'] = $WeightKeysData[$temp_A]['name'];
-    } else {
-      $WA_SET[$sKey][$gKey]['name'] = $WeightKeysData[$gKey]['name'];
-    };
-  }
-}
+$WeightKeysData = getWeightKey($arraySK);
+$WA_SET = combineWeightKey($WA_SET, $WeightKeysData);
 
 /************************************ */
 // CONSTRUCT FINAL SCORE (below page) //
@@ -327,5 +185,5 @@ $FINAL_SCORE_WA = array(
   'WA6' => getWeightedValue(['WA61' => $WA61_TB['score']['table'], 'WA62' => $TEMP_WA62_SCORE], $WeightKeysData)
 );
 
-$FINAL_INDICATOR = getWeightedValue($FINAL_SCORE_WA, $WeightKeysData);
-// print_r($FINAL_INDICATOR);
+$FINAL_INDICATOR_WA = getWeightedValue($FINAL_SCORE_WA, $WeightKeysData);
+// print_r($SpecificInputYears);

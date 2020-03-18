@@ -19,7 +19,7 @@ $response = $service->spreadsheets_values->get($spreadsheetId, $range);
 $array = $response->getValues();
 $WD_SET = getWxData($array, $ratio)["SET"];
 $YEAR_RANGE = getWxData($array, $ratio)["YEAR_RANGE"];
-//
+// get WA
 $responseWA = $service->spreadsheets_values->get($spreadsheetId, $WA_SHEET);
 $arrayWA = $responseWA->getValues();
 $WA_SET = getWxData($arrayWA, $ratio)["SET"];
@@ -136,9 +136,9 @@ $WD52_TB = array(
 /********************** */
 // SCORE TABLE FOR WD61 //
 /********************** */
-$sdtRainfall = $SpecificInputYears['WD6']['WD61']['sdtRainfall']['table'];
+$stdRainfall = $SpecificInputYears['WD6']['WD61']['stdRainfall']['table'];
 $meanRainfall = $SpecificInputYears['WD6']['WD61']['meanRainfall']['table'];
-$_WD61 = divideTwoArray($sdtRainfall, $meanRainfall);
+$_WD61 = divideTwoArray($stdRainfall, $meanRainfall);
 $WD61_SCORE = getScore($_WD61, $COEFFICIENT_VARIATION);
 $WD61_TB = array(
   "score" => array('key' => "Score", 'table' => $WD61_SCORE)

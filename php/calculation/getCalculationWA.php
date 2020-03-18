@@ -7,8 +7,8 @@
 function getSurfaceRunoff($SpecificInputYears, $sumBasinArea)
 {
   $surfaceRunoff = [];
-  foreach ($SpecificInputYears[0] as $i => $item) {
-    $surfaceRunoff[$i] = $item * $sumBasinArea * $SpecificInputYears[1][$i] * pow(10, -3);
+  foreach ($SpecificInputYears as $i => $item) {
+    $surfaceRunoff[$i] = $item * $sumBasinArea * $SpecificInputYears[$i] * pow(10, -3);
   }
   return $surfaceRunoff;
 }

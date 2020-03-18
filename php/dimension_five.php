@@ -108,8 +108,8 @@ $FINAL_SCORE_WG = array(
   'WG1' => $arrayOfWG11,
   'WG2' => $arrayOfWG21,
   'WG3' => getWeightedValue(['WG31' => $WG31_TB['score']['table']], $WeightKeysData),
-//   // 'WG4' => getWeightedValue(['WG41' => $WG41_TB['score']['table']], $WeightKeysData),
+  // 'WG4' => []
 );
 
 $FINAL_INDICATOR_WG = getWeightedValue($FINAL_SCORE_WG, $WeightKeysData);
-print_r($FINAL_INDICATOR_WG);
+// print_r($FINAL_INDICATOR_WG);

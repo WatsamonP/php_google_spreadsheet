@@ -1,9 +1,9 @@
 <?php
 
-function getWeightedValue($FINAL_SCORE_WA, $WEIGHT)
+function getWeightedValue($FINAL_SCORE, $WEIGHT)
 {
   $MUL_SETS = [];
-  foreach ($FINAL_SCORE_WA as $sKey => $data) {
+  foreach ($FINAL_SCORE as $sKey => $data) {
     $MUL_SETS[$sKey] = [];
     foreach ($data as $year => $value) {
       if (isset($WEIGHT[$sKey])) {

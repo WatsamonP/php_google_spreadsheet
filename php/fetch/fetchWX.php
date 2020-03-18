@@ -10,7 +10,6 @@ function getWxData($array, $ratio)
       $columnKey[$i] = $item;
     }
 
-    print_r(isset($var));
     foreach ($array as $r => $row) {   // Construct data
       if ($r !== 0) {
         foreach ($columnKey as $k => $key) {
@@ -38,7 +37,11 @@ function getWxData($array, $ratio)
             if ($row['subgroup'] == $group) {
               foreach (array_keys($row) as $col) {
                 if (startsWithNumber($col)) {
-                  $WX_SET[$dimen][$group]['data'][$row['id']]['table'][$col] = $row[$col];
+                  if (empty($row[$col])) {
+                    $WX_SET[$dimen][$group]['data'][$row['id']]['table'][$col] = (float) (0);
+                  } else {
+                    $WX_SET[$dimen][$group]['data'][$row['id']]['table'][$col] = $row[$col];
+                  }
                   $YEAR_RANGE[$col] = $col;
                 } else if ($col == 'key') {
                   $WX_SET[$dimen][$group]['key'] = $row[$col];

@@ -1,5 +1,21 @@
 <?php
 
+function getAverageColumns($arrays)
+{
+  $resList = [];
+  $length = sizeof($arrays);
+  foreach ($arrays as $array) {
+    foreach ($array as $key => $value) {
+      if (!isset($resList[$key])) {
+        $resList[$key] = $value / $length;
+      } else {
+        $resList[$key] += $value / $length;
+      }
+    }
+  }
+  return $resList;
+}
+
 function getRatio($provincesData, $string_provinceArea, $string_basinArea)
 {
   $ratio = [];
