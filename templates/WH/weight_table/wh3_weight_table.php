@@ -29,7 +29,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wh-WH3-score-table").load(location.href + " #wh-WH3-score-table");
+          $('#loading').show()
+          $("#wh-WH3-score-table").load(location.href + " #wh-WH3-score-table", function() {
+            $('#loading').hide()
+          });
         },
       })
     }

@@ -9,7 +9,7 @@ require_once __DIR__ . "./../constants/word.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      OVERVIEW
+      <strong><?php echo $title[2] ?></strong> : OVERVIEW
     </div>
   </a>
   <form class="form-inline">
@@ -19,8 +19,23 @@ require_once __DIR__ . "./../constants/word.php";
   </form>
 </nav>
 <!--  -->
-<div class="modal fade bd-example-modal-sm" id="confirmDialog" tabindex="-1" role="dialog">
+<div class="modal fade bd-example-modal-sm" id="confirm_three_times" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <H1 id="processStatus" class="loading_dot" style="color:rgb(14, 128, 194);">Processing WA Sheet</H1>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  -->
+<div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
@@ -33,7 +48,7 @@ require_once __DIR__ . "./../constants/word.php";
       </div>
       <div class="modal-footer">
         <button id="confirmEditBrief" type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="cancelConfirmEditBrief" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
@@ -141,12 +156,19 @@ require_once __DIR__ . "./../constants/word.php";
     table.data('Tabledit').reload();
   });
 
+  $('#cancelConfirmEditBrief').click(function() {
+    $('#confirmDialog').modal('hide');
+  });
+
   document.getElementById("edit_brief").addEventListener("submit", function(event) {
     event.preventDefault();
   });
 
   function submitForm(title, year_start, year_end, province_unit, basin_unit, prev_year_start, prev_year_end) {
     var headerID = ['dimen', 'group', 'subgroup', 'key', 'id', 'province', 'unit'];
+    var headerSI = ['dimen', 'group', 'key', 'id', 'unit'];
+    var headerRD = ['dimen', 'group', 'key', 'id', 'type', 'name', 'length', 'unit'];
+
     var insertBefortStart = [];
     var removeBefortStart = [];
     var insertAfterEnd = [];
@@ -157,7 +179,9 @@ require_once __DIR__ . "./../constants/word.php";
     var removeEndMessage = "";
 
     for (var i = year_start; i <= year_end; i++) {
-      headerID.push(parseInt(i))
+      headerID.push(parseInt(i));
+      headerSI.push(parseInt(i));
+      headerRD.push(parseInt(i));
     }
     //////////////////////////////////////////////
     // e.g., first we have [2005, 2015]
@@ -203,175 +227,211 @@ require_once __DIR__ . "./../constants/word.php";
     if ((year_start == prev_year_start) && (year_end == prev_year_end)) {
 
     } else {
-      message = "The Year Range Will Change" +
-        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" +
+      message = "<a class='text-danger'><i class='fas fa-exclamation-triangle'></i> There exist a risk that the service failed to handle this task and you may lose raw data</a>" +
+        "<br/><strong><a class='text-primary'>Recommendation, You should backup a worksheet before continuing this task</strong></a>" +
+        "<br/><br/>&emsp;&emsp;&emsp;&emsp;The Year Range Will Change" +
+        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;" +
         "FROM <strong>[" + prev_year_start + ", " + prev_year_end + "]</strong>" +
-        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;" +
         "TO <strong>[" + headerID[7] + ", " + headerID[headerID.length - 1] + "]</strong><br/>" +
-        addSign + insertStartMessage + insertEndMessage +
-        delSign + removeStartMessage + removeEndMessage +
-        "<br/><br/><i class='fas fa-exclamation-triangle'></i> Note that" +
-        "<br/>You cannot <strong>RESTORE</strong> the data that going to be deleted";
+        "&emsp;&emsp;" + addSign + insertStartMessage + insertEndMessage +
+        "&emsp;&emsp;" + delSign + removeStartMessage + removeEndMessage +
+        "<br/><br/><a class='text-danger'><i class='fas fa-exclamation-triangle'></i> Note that</a>" +
+        "<br/>- You cannot <strong>RESTORE</strong> the data that going to be deleted" +
+        "<br/>- When you delete data of any particular year, this should be fine" +
+        "<br/>- However, when you insert year's data don't forget to fill those data, it will be treated like 'zero' for calculations" +
+        "<br/>- Actually, they are missing values and they might tell you the wrong information";
     }
-
     // INSERT NEW COLS -> CLEAR HEADER ROW -> INSERT NEW HEADER
     // [2005, 2015]
     // new = [2003, 2017] -> INSERT + APPEND(Nothing to do)
     // new = [2007, 2013] -> REMOVE_FISRT_TWO + REMOVE_LAST_TWO 
+    /////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
     $('#confirmEditBriefContent').html(message);
     $('#editBriefModal').modal('hide');
     $('#confirmDialog').modal('show');
     $('#confirmEditBrief').click(function() {
-      // IMPORTANCE
-      /////////////////////////////////////////////////////////////////
-      /////////////////////////////////////////////////////////////////
-      const YEAR_RANGE_SHEETS_GID = [1478239757];
-      const YEAR_RANGE_SHEETS = ['TESTWA!1:1'];
-      /////////////////////////////////////////////////////////////////
-      /////////////////////////////////////////////////////////////////
-      if (removeAfterEnd.length !== 0) {
-        deleteYearAfter();
-      } else if (removeBefortStart.length !== 0) {
-        deleteYearBefore();
-      } else if (insertBefortStart.length !== 0) {
-        insertYearBefore();
-      } else if (insertAfterEnd.length !== 0) {
-        clearHeader();
-      } else {
-        // Northing about year range change
+      if ((year_start == prev_year_start) && (year_end == prev_year_end)) {
         updateOverview();
-      }
+        $('#confirmDialog').modal('hide');
+      } else {
+        $('#confirmDialog').modal('hide');
+        $('#confirm_three_times').modal('show');
 
-      function updateOverview() {
-        $.ajax({
-          url: "actions/act_edit_brief.php",
-          type: 'post',
-          data: {
-            'title': title,
-            'year_start': parseInt(year_start),
-            'year_end': parseInt(year_end),
-            'province_unit': province_unit,
-            'basin_unit': basin_unit
-          },
-          success: function(response) {
-            $('#confirmDialog').modal('hide');
-          }
-        });
-      }
-
-      // [FIRST PRIORITY]
-      function deleteYearAfter() {
-        const startIndex = 7; // DO NOT CHANGE THIS VALUE
-        console.log('PROCESSING REMOVE COLS AFTER END YEAR')
-        const prevLastIndex = (prev_year_end - prev_year_start) + startIndex + 1;
-        const startRemoveIndex = prevLastIndex - removeAfterEnd.length;
-        for (var i = 0; i < YEAR_RANGE_SHEETS_GID.length; i++) {
-          $.ajax({
-            url: "actions/batch_delete_cols.php",
-            type: 'post',
-            data: {
-              'id': "DELETE_COLS",
-              'sheetId': YEAR_RANGE_SHEETS_GID[i],
-              'startIndex': startRemoveIndex,
-              'endIndex': prevLastIndex
-            },
-            success: function(response) {
-              console.log("SUCCESS REMOVE COLS AFTER END YEAR")
-              if (removeBefortStart.length !== 0) {
-                deleteYearBefore();
-              } else if (insertBefortStart.length !== 0) {
-                insertYearBefore();
-              } else {
-                clearHeader();
-              }
-            }
-          })
-        }
-      }
-
-      function deleteYearBefore() {
-        const startIndex = 7; // DO NOT CHANGE THIS VALUE
-        console.log('PROCESSING REMOVE COLS BEFORE START YEAR')
-        for (var i = 0; i < YEAR_RANGE_SHEETS_GID.length; i++) {
-          $.ajax({
-            url: "actions/batch_delete_cols.php",
-            type: 'post',
-            data: {
-              'id': "DELETE_COLS",
-              'sheetId': YEAR_RANGE_SHEETS_GID[i],
-              'startIndex': startIndex,
-              'endIndex': startIndex + removeBefortStart.length
-            },
-            success: function(response) {
-              console.log("SUCCESS REMOVE COLS BEFORE START YEAR")
-              clearHeader();
-            }
-          })
-        }
-      }
-      /////////////////////////////////////////////////////////////////
-      function insertYearBefore() {
-        const startIndex = 7; // DO NOT CHANGE THIS VALUE
-        console.log('PROCESSING INSERT COLS BEFORE START YEAR')
-        for (var i = 0; i < YEAR_RANGE_SHEETS_GID.length; i++) {
-          $.ajax({
-            url: "actions/batch_insert_cols.php",
-            type: 'post',
-            data: {
-              'id': "INSERT_COLS",
-              'sheetId': YEAR_RANGE_SHEETS_GID[i],
-              'startIndex': startIndex,
-              'endIndex': startIndex + insertBefortStart.length
-            },
-            success: function(response) {
-              console.log("SUCCESS INSERT COLS BEFORE START YEAR")
-              clearHeader();
-            }
-          })
-        }
-      }
-      ////////////////////////////////////////////////////
-      function clearHeader() {
-        console.log('[2] PROCESSING CLEAR HEADER')
-        for (var i = 0; i < YEAR_RANGE_SHEETS_GID.length; i++) {
-          $.ajax({
-            url: "actions/batch_clear_rows.php",
-            type: 'post',
-            data: {
-              'id': "CLEAR_HEADER",
-              'sheetId': YEAR_RANGE_SHEETS_GID[i],
-              'startRowIndex': 0,
-              'endRowIndex': 1
-            },
-            success: function(response) {
-              console.log("SUCCESS CLEAR HEADER")
-              insertHeader();
-            }
-          })
-        }
-      }
-
-      function insertHeader() {
-        console.log('[3] PROCESSING INSERT NEW HEADER')
-        for (var i = 0; i < YEAR_RANGE_SHEETS.length; i++) {
-          $.ajax({
-            url: "actions/act_insert_value_row.php",
-            type: 'post',
-            data: {
-              'id': "INSERT_ROW",
-              'range': YEAR_RANGE_SHEETS[i],
-              'data': headerID,
-            },
-            success: function(response) {
-              console.log("SUCCESS INSERT NEW HEADER")
-              updateOverview();
-            }
-          })
-        }
+        StartTask(startIndex = 7, headerID, SHEET_GID = 1335863120, SHEET = 'WA!1:1', 'confirm_wa_sheet')
+        setTimeout(function() {
+          StartTask(startIndex = 7, headerID, SHEET_GID = 935267031, SHEET = 'WP!1:1', 'confirm_wp_sheet')
+        }, 2000);
+        setTimeout(function() {
+          StartTask(startIndex = 7, headerID, SHEET_GID = 1766300651, SHEET = 'WD!1:1', 'confirm_wd_sheet')
+        }, 2000);
+        setTimeout(function() {
+          StartTask(startIndex = 7, headerID, SHEET_GID = 1788620073, SHEET = 'WH!1:1', 'confirm_wh_sheet')
+        }, 2000);
+        setTimeout(function() {
+          StartTask(startIndex = 7, headerID, SHEET_GID = 1535857742, SHEET = 'WG!1:1', 'confirm_wg_sheet')
+        }, 2000);
+        setTimeout(function() {
+          StartTask(startIndex = 5, headerSI, SHEET_GID = 297170486, SHEET = 'SpecificInputYears!1:1', 'confirm_sta_val')
+        }, 2000);
+        setTimeout(function() {
+          StartTask(startIndex = 8, headerRD, SHEET_GID = 1005902613, SHEET = 'RiverDamList!1:1', 'confirm_river_dam')
+        }, 2000);
       }
     })
-  }
 
+    function StartTask(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID) {
+      if (removeAfterEnd.length !== 0) {
+        deleteYearAfter(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID);
+      } else if (removeBefortStart.length !== 0) {
+        deleteYearBefore(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID);
+      } else if (insertBefortStart.length !== 0) {
+        insertYearBefore(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID);
+      } else if (insertAfterEnd.length !== 0) {
+        clearHeader(HEADER, SHEET_GID, SHEET, DIV_ID);
+      } else {
+        console.log('Nothing update about year range')
+        updateOverview();
+      }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // [FIRST PRIORITY]
+    function deleteYearAfter(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID) {
+      console.log('PROCESSING REMOVE COLS AFTER END YEAR')
+      var prevLastIndex = (prev_year_end - prev_year_start) + startIndex + 1;
+      var startRemoveIndex = prevLastIndex - removeAfterEnd.length;
+      $.ajax({
+        url: "actions/batch_delete_cols.php",
+        type: 'post',
+        data: {
+          'id': "DELETE_COLS",
+          'sheetId': SHEET_GID,
+          'startIndex': startRemoveIndex,
+          'endIndex': prevLastIndex
+        },
+        success: function(response) {
+          console.log("SUCCESS REMOVE COLS AFTER END YEAR")
+          if (removeBefortStart.length !== 0) {
+            deleteYearBefore(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID);
+          } else if (insertBefortStart.length !== 0) {
+            insertYearBefore(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID);
+          } else {
+            clearHeader(HEADER, SHEET_GID, SHEET, DIV_ID);
+          }
+        }
+      })
+    }
+    ///////////////////////////////////////////////////////
+    function deleteYearBefore(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID) {
+      console.log('PROCESSING REMOVE COLS BEFORE START YEAR')
+      $.ajax({
+        url: "actions/batch_delete_cols.php",
+        type: 'post',
+        data: {
+          'id': "DELETE_COLS",
+          'sheetId': SHEET_GID,
+          'startIndex': startIndex,
+          'endIndex': startIndex + removeBefortStart.length
+        },
+        success: function(response) {
+          console.log("SUCCESS REMOVE COLS BEFORE START YEAR")
+          clearHeader(HEADER, SHEET_GID, SHEET, DIV_ID);
+        }
+      })
+    }
+    /////////////////////////////////////////////////////////////////
+    function insertYearBefore(startIndex, HEADER, SHEET_GID, SHEET, DIV_ID) {
+      console.log('PROCESSING INSERT COLS BEFORE START YEAR')
+      $.ajax({
+        url: "actions/batch_insert_cols.php",
+        type: 'post',
+        data: {
+          'id': "INSERT_COLS",
+          'sheetId': SHEET_GID,
+          'startIndex': startIndex,
+          'endIndex': startIndex + insertBefortStart.length
+        },
+        success: function(response) {
+          console.log("SUCCESS INSERT COLS BEFORE START YEAR")
+          clearHeader(HEADER, SHEET_GID, SHEET, DIV_ID);
+        }
+      })
+    }
+    ////////////////////////////////////////////////////
+    function clearHeader(HEADER, SHEET_GID, SHEET, DIV_ID) {
+      console.log('[2] PROCESSING CLEAR HEADER')
+      $.ajax({
+        url: "actions/batch_clear_rows.php",
+        type: 'post',
+        data: {
+          'id': "CLEAR_HEADER",
+          'sheetId': SHEET_GID,
+          'startRowIndex': 0,
+          'endRowIndex': 1
+        },
+        success: function(response) {
+          console.log("SUCCESS CLEAR HEADER")
+          insertHeader(HEADER, SHEET, DIV_ID);
+        }
+      })
+    }
+
+    function insertHeader(HEADER, SHEET, DIV_ID) {
+      console.log('[3] PROCESSING INSERT NEW HEADER')
+      $.ajax({
+        url: "actions/act_insert_value_row.php",
+        type: 'post',
+        data: {
+          'id': "INSERT_ROW",
+          'range': SHEET,
+          'data': HEADER,
+        },
+        success: function(response) {
+          console.log("SUCCESS INSERT NEW HEADER")
+          if (DIV_ID == 'confirm_wa_sheet') {
+            $('#processStatus').html('Processing WP Sheet');
+          } else if (DIV_ID == 'confirm_wp_sheet') {
+            $('#processStatus').html('Processing WD Sheet');
+          } else if (DIV_ID == 'confirm_wd_sheet') {
+            $('#processStatus').html('Processing WH Sheet');
+          } else if (DIV_ID == 'confirm_wh_sheet') {
+            $('#processStatus').html('Processing WG Sheet');
+          } else if (DIV_ID == 'confirm_wg_sheet') {
+            $('#processStatus').html('Almost done');
+          } else if (DIV_ID == 'confirm_sta_val') {
+            console.log('confirm_sta_val');
+          } else if (DIV_ID == 'confirm_river_dam') {
+            updateOverview();
+          }
+        }
+      })
+    }
+    //////////////////////////////////////////////////////////////////
+    function updateOverview() {
+      $.ajax({
+        url: "actions/act_edit_brief.php",
+        type: 'post',
+        data: {
+          'title': title,
+          'year_start': parseInt(year_start),
+          'year_end': parseInt(year_end),
+          'province_unit': province_unit,
+          'basin_unit': basin_unit
+        },
+        success: function(response) {
+          $('#confirm_three_times').modal('hide');
+          console.log('SUCCESS')
+          $('#loading').show();
+          setTimeout(function() {
+            location.reload()
+          }, 1000);
+        }
+      });
+    }
+  }
+  ///////////////////////////////////////////////////////////////////////////////
   $(document).ready(function() {
     $('#editable_table').Tabledit({
       url: 'actions/act_pre_overview.php',

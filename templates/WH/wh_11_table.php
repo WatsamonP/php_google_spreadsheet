@@ -1,13 +1,45 @@
+<!-- --------------------------------------------------- -->
+<div class="modal fade" id="addRiverModal_wh11" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-plus-circle"></i> Add New River</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 150px;" id="basic-addon1">River Name</span>
+          </div>
+          <input id="addNewRiver_wh11" type="text" class="form-control" placeholder="River Name" aria-label="Name" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" style="width: 150px;" id="basic-addon1">Length (km)</span>
+          </div>
+          <input type="number" id="addNewRiver_wh11_length" type="text" class="form-control" placeholder="1234.00" aria-label="Name" aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="addRiver_wh11" type="button" class="btn btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ------------------------------------------------- -->
 <H3 style="margin-bottom:40px"><strong><?php echo "[ WH1 ] " . $WeightKeysData['WH1']['name'] ?></strong></H3>
 
 <H4 style="margin-bottom:20px">
-  <a id=<?php echo "import-wh-11" ?>><i style="font-size:20px" class="fas fa-plus-circle"></i>
-    <?php echo $WeightKeysData['WH11']['id'] ?> : <?php echo $WeightKeysData['WH11']['name'] ?>
+  <a><a href="#" id=<?php echo "import-wh-11" ?>><i style="font-size:20px" class="fas fa-plus-circle"></i></a>
+    <?php echo $WeightKeysData['WH11']['id'] ?> : <?php echo $WeightKeysData['WH11']['name'] ?> ( DO (mg/l) )
   </a>
 </H4>
 <!-- ------------------------------------------------- -->
 <div class='table-responsive' style="margin-top:30px">
-  <table class='table table-bordered table-hover'>
+  <table id="editable_wh_11" class='table table-bordered table-hover'>
     <thead class='thead-dark'>
       <tr class="text-center">
         <th>#</th>
@@ -49,15 +81,46 @@
 <!-- -------------------------------------------------------------------------------- -->
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
-  $('#import-wh-11-data').click(function() {
-    alert("TODO// INSERT DATA");
-    // var table = $('#editable_table');
-    // var body = $('#editable_tableBody');
-    // var nextId = body.find('tr').length + 1;
-    // table.append($('<tr><td>' + nextId + '</td><td>Sue</td></tr>'));
-    // table.data('Tabledit').reload();
+  $('#import-wh-11').click(function() {
+    $('#addRiverModal_wh11').modal('show');
   });
-
+  $('#addRiver_wh11').click(function() {
+    ///////////////////////////////////////
+    var yearRange = <?php echo json_encode($YEAR_RANGE); ?>;
+    var lastRiverId = $('#editable_wh_11 tr td a').last().attr('name')
+    var name = $('#addNewRiver_wh11').val()
+    var riverLength = $('#addNewRiver_wh11_length').val()
+    var newKey = 'WH11_' + (parseInt(lastRiverId.toString().replace("WH11_", '')) + 1);
+    var range = [];
+    for (var i = 0; i < Object.keys(yearRange).length; i++) {
+      range.push(0)
+    }
+    if (name !== "" && riverLength) { 
+      var newData = ['WH1', 'WH11', '', newKey, "River", name, riverLength ? riverLength : 0, 'DO (mg/l)', ...range];
+      $.ajax({
+        url: "actions/act_append.php",
+        type: 'post',
+        data: {
+          'id': 'addNewRiver_wh11',
+          'data': newData,
+          'sheet_id': "RiverDamList",
+        },
+        success: function(response) {
+          $('#addRiverModal_wh11').modal('hide');
+          $('#loading').show()
+          $('#editable_wh_11').load(location.href + " #editable_wh_11", function() {
+            $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table");
+            $('#loading').hide()
+            $('#addNewRiver_wh11').val('');
+            $('#addNewRiver_wh11_length').val('');
+          });
+        }
+      });
+    } else {
+      alert("Cannot be empty")
+    }
+  })
+  ////////////////////////////////////////////////////////////
   $('body').on('click', '[data-editable-wh11-river]', function(e) {
     e.preventDefault();
     var $el = $(this);

@@ -84,7 +84,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table");
+          $('#loading').show()
+          $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table", function() {
+            $('#loading').hide()
+          });
         },
       })
     }

@@ -85,7 +85,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wp-WP3-score-table").load(location.href + " #wp-WP3-score-table");
+          $('#loading').show()
+          $("#wp-WP3-score-table").load(location.href + " #wp-WP3-score-table", function() {
+            $('#loading').hide()
+          });
         },
       })
     }

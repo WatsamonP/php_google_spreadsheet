@@ -65,7 +65,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wd-WD6-score-table").load(location.href + " #wd-WD6-score-table");
+          $('#loading').show()
+          $("#wd-WD6-score-table").load(location.href + " #wd-WD6-score-table", function() {
+            $('#loading').hide()
+          });
         },
       })
     }
@@ -90,7 +93,7 @@
       });
     })
   });
-// <!-- -------------------------------------------------------------------------------- -->
+  // <!-- -------------------------------------------------------------------------------- -->
   $('body').on('click', '[data-editable-wd61-meanRainfall]', function(e) {
     e.preventDefault();
     var $el = $(this);

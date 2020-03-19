@@ -68,7 +68,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wd-WD1-score-table").load(location.href + " #wd-WD1-score-table");
+          $('#loading').show()
+          $("#wd-WD1-score-table").load(location.href + " #wd-WD1-score-table", function() {
+            $('#loading').hide()
+          });
         },
       })
     }
