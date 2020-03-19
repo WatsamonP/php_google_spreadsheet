@@ -35,7 +35,11 @@ function getSpecificInputYears($array)
     foreach ($item as $key => $value) {
       if (isset($key)) {
         if (startsWithNumber($key)) {
-          $SpecificInputYears[$item['dimen']][$item['group']][$item['id']]['table'][$key] = $value;
+          if (empty($value)) {
+            $SpecificInputYears[$item['dimen']][$item['group']][$item['id']]['table'][$key] = (float) 0;
+          } else {
+            $SpecificInputYears[$item['dimen']][$item['group']][$item['id']]['table'][$key] = $value;
+          }
         } else {
           $SpecificInputYears[$item['dimen']][$item['group']][$item['id']][$key] = $value;
         }

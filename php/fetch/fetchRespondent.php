@@ -15,6 +15,8 @@ function getRespondentList($array)
       $name = $row[4];
       if (startsWithNumber($item)) {
         $List[$dimen][$subgroup][$id]['score']['Q' . (int) ($i - 4)] = $item;
+      } else if (empty($item)) {
+        $List[$dimen][$subgroup][$id]['score']['Q' . (int) ($i - 4)] = 0;
       } else {
         $List[$dimen][$subgroup][$id]['id'] = $id;
         $List[$dimen][$subgroup][$id]['name'] = $name;
