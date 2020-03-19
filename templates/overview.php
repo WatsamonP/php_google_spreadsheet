@@ -3,6 +3,8 @@ require __DIR__ . "./../config.php";
 require __DIR__ . "./../php/brief.php";
 require __DIR__ . "./../php/overview.php";
 require_once __DIR__ . "./../constants/word.php";
+require_once __DIR__ . "./../constants/gid.php";
+require_once __DIR__ . "./../constants/keys.php";
 ?>
 <!--  -->
 <nav class="navbar navbar-light bg-light">
@@ -258,24 +260,24 @@ require_once __DIR__ . "./../constants/word.php";
         $('#confirmDialog').modal('hide');
         $('#confirm_three_times').modal('show');
 
-        StartTask(startIndex = 7, headerID, SHEET_GID = 1335863120, SHEET = 'WA!1:1', 'confirm_wa_sheet')
+        StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WA_SHEET_GID); ?>, SHEET = <?php echo json_encode($WA_SHEET); ?> + "!1:1", 'confirm_wa_sheet');
         setTimeout(function() {
-          StartTask(startIndex = 7, headerID, SHEET_GID = 935267031, SHEET = 'WP!1:1', 'confirm_wp_sheet')
+          StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WP_SHEET_GID); ?>, SHEET = <?php echo json_encode($WP_SHEET); ?> + "!1:1", 'confirm_wp_sheet');
         }, 2000);
         setTimeout(function() {
-          StartTask(startIndex = 7, headerID, SHEET_GID = 1766300651, SHEET = 'WD!1:1', 'confirm_wd_sheet')
+          StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WD_SHEET_GID); ?>, SHEET = <?php echo json_encode($WD_SHEET); ?> + "!1:1", 'confirm_wd_sheet');
         }, 2000);
         setTimeout(function() {
-          StartTask(startIndex = 7, headerID, SHEET_GID = 1788620073, SHEET = 'WH!1:1', 'confirm_wh_sheet')
+          StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WH_SHEET_GID); ?>, SHEET = <?php echo json_encode($WH_SHEET); ?> + "!1:1", 'confirm_wh_sheet');
         }, 2000);
         setTimeout(function() {
-          StartTask(startIndex = 7, headerID, SHEET_GID = 1535857742, SHEET = 'WG!1:1', 'confirm_wg_sheet')
+          StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WG_SHEET_GID); ?>, SHEET = <?php echo json_encode($WG_SHEET); ?> + "!1:1", 'confirm_wg_sheet');
         }, 2000);
         setTimeout(function() {
-          StartTask(startIndex = 5, headerSI, SHEET_GID = 297170486, SHEET = 'SpecificInputYears!1:1', 'confirm_sta_val')
+          StartTask(startIndex = 5, headerSI, SHEET_GID = <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET_GID); ?>, SHEET = <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?> + "!1:1", 'confirm_sta_val');
         }, 2000);
         setTimeout(function() {
-          StartTask(startIndex = 8, headerRD, SHEET_GID = 1005902613, SHEET = 'RiverDamList!1:1', 'confirm_river_dam')
+          StartTask(startIndex = 8, headerRD, SHEET_GID = <?php echo json_encode($RIVER_DAM_LIST_GID); ?>, SHEET = <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?> + "!1:1", 'confirm_river_dam');
         }, 2000);
       }
     })

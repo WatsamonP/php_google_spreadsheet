@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . "./../../constants/keys.php";
+?>
+
 <H3 style="margin-bottom:40px"><strong><?php echo "[ WD6 ] " . $WeightKeysData['WD6']['name'] ?></strong></H3>
 
 <H4 style="margin-bottom:20px">
@@ -77,7 +81,7 @@
       if (e.keyCode == 13 | e.keyCode == 9) {
         callAjax({
           id: $el.attr("name"),
-          sheet_id: "SpecificInputYears",
+          sheet_id: <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?>,
           year: $el.attr("id"),
           val: $input.val(),
         });
@@ -87,7 +91,7 @@
     $input.blur(function() {
       callAjax({
         id: $el.attr("name"),
-        sheet_id: "SpecificInputYears",
+        sheet_id: <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?>,
         year: $el.attr("id"),
         val: $input.val(),
       });
@@ -120,7 +124,7 @@
       if (e.keyCode == 13 | e.keyCode == 9) {
         callAjax({
           id: $el.attr("name"),
-          sheet_id: "SpecificInputYears",
+          sheet_id: <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?>,
           year: $el.attr("id"),
           val: $input.val(),
         });
@@ -130,7 +134,7 @@
     $input.blur(function() {
       callAjax({
         id: $el.attr("name"),
-        sheet_id: "SpecificInputYears",
+        sheet_id: <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?>,
         year: $el.attr("id"),
         val: $input.val(),
       });

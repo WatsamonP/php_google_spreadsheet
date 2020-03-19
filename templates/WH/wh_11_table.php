@@ -103,7 +103,7 @@
         data: {
           'id': 'addNewRiver_wh11',
           'data': newData,
-          'sheet_id': "RiverDamList",
+          'sheet_id': <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?>,
         },
         success: function(response) {
           $('#addRiverModal_wh11').modal('hide');
@@ -147,7 +147,7 @@
       if (e.keyCode == 13 | e.keyCode == 9) {
         callAjax({
           id: $el.attr("name"),
-          sheet_id: "RiverDamList",
+          sheet_id: <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?>,
           year: $el.attr("id"),
           val: $input.val(),
         });
@@ -157,7 +157,7 @@
     $input.blur(function() {
       callAjax({
         id: $el.attr("name"),
-        sheet_id: "RiverDamList",
+        sheet_id: <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?>,
         year: $el.attr("id"),
         val: $input.val(),
       });

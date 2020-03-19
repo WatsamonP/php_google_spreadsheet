@@ -179,7 +179,7 @@
       if (e.keyCode == 13 | e.keyCode == 9) {
         callAjax({
           id: $el.attr("id").replace('-final', ''),
-          sheet_id: "WeightKey",
+          sheet_id: <?php echo json_encode($WEIGHT_KEY_SHEET); ?>,
           val: $input.val(),
         });
         $input.blur();
@@ -188,7 +188,7 @@
     $input.blur(function() {
       callAjax({
         id: $el.attr("id").replace('-final', ''),
-        sheet_id: "WeightKey",
+        sheet_id: <?php echo json_encode($WEIGHT_KEY_SHEET); ?>,
         val: $input.val(),
       });
     })

@@ -61,7 +61,7 @@
         console.log($el.attr("name"), $el.attr("id"), $input.val())
         callAjax({
           id: $el.attr("name"),
-          sheet_id: "SpecificInputYears",
+          sheet_id: <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?>,
           year: $el.attr("id"),
           val: $input.val(),
         });
@@ -71,7 +71,7 @@
     $input.blur(function() {
       callAjax({
         id: $el.attr("name"),
-        sheet_id: "SpecificInputYears",
+        sheet_id: <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?>,
         year: $el.attr("id"),
         val: $input.val(),
       });

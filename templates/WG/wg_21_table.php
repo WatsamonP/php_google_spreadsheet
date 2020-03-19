@@ -101,7 +101,7 @@
         data: {
           'id': 'addNewRespondent_wg21',
           'data': newData,
-          'sheet_id': "RespondentList",
+          'sheet_id': <?php echo json_encode($RESPONDENT_LIST_SHEET); ?>,
         },
         success: function(response) {
           $('#addRespondentModal_wg21').modal('hide');
@@ -149,7 +149,7 @@
       if (e.keyCode == 13 | e.keyCode == 9) {
         callAjax({
           id: $el.attr("name"),
-          sheet_id: "RespondentList",
+          sheet_id: <?php echo json_encode($RESPONDENT_LIST_SHEET); ?>,
           year: $el.attr("id"),
           val: $input.val(),
         });
@@ -159,7 +159,7 @@
     $input.blur(function() {
       callAjax({
         id: $el.attr("name"),
-        sheet_id: "RespondentList",
+        sheet_id: <?php echo json_encode($RESPONDENT_LIST_SHEET); ?>,
         year: $el.attr("id"),
         val: $input.val(),
       });

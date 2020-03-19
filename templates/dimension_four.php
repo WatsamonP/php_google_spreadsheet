@@ -3,6 +3,7 @@ require __DIR__ . "./../config.php";
 require __DIR__ . "./../php/brief.php";
 require __DIR__ . "./../php/dimension_four.php";
 require_once __DIR__ . "./../constants/word.php";
+require_once __DIR__ . "./../constants/keys.php";
 ?>
 <!--  -->
 <nav class="navbar navbar-light bg-light">

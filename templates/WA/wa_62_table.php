@@ -71,9 +71,9 @@
         url: "actions/act_append.php",
         type: 'post',
         data: {
-          'id': 'addNewReservoir_wa62',
-          'data': newData,
-          'sheet_id': "SpecificInput",
+          id: 'addNewReservoir_wa62',
+          data: newData,
+          sheet_id: <?php echo json_encode($SPECIFIC_INPUT_SHEET); ?>,
         },
         success: function(response) {
           $('#addReservoirModal_wa62').modal('hide');
@@ -117,7 +117,7 @@
       if (e.keyCode == 13 | e.keyCode == 9) {
         callAjax({
           id: $el.attr("id"),
-          sheet_id: "SpecificInput",
+          sheet_id: <?php echo json_encode($SPECIFIC_INPUT_SHEET); ?>,
           val: $input.val(),
         });
         $input.blur();
@@ -126,7 +126,7 @@
     $input.blur(function() {
       callAjax({
         id: $el.attr("id"),
-        sheet_id: "SpecificInput",
+        sheet_id: <?php echo json_encode($SPECIFIC_INPUT_SHEET); ?>,
         val: $input.val(),
       });
     })
