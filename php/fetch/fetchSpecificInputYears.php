@@ -8,6 +8,7 @@ function getSpecificInputYears($array)
     foreach ($array[0] as $i => $item) { // Find key
       $columnSIKey[$i] = $item;
     }
+    $temp = [];
     foreach ($array as $r => $row) {   // Construct data
       if ($r !== 0) {
         foreach ($columnSIKey as $k => $key) {
@@ -21,8 +22,11 @@ function getSpecificInputYears($array)
             if (startsWithNumber($key)) {
               $SpecificInputYearsArray[$r - 1][$key] = 0;   // GRAP ONLY YEARS
             }
-            $LOCATION = $RawSpecificInputYearsArray[$r - 1]['key'];
-            include __DIR__ . "./../../templates/alert/data_not_found.php";
+            if (!in_array($RawSpecificInputYearsArray[$r - 1]['key'], $temp)) {
+              $temp[$r] = $RawSpecificInputYearsArray[$r - 1]['key'];
+              $LOCATION = $temp[$r];
+              include __DIR__ . "./../../templates/alert/data_not_found.php";
+            }
           }
         }
       }
