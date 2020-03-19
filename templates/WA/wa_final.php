@@ -158,10 +158,12 @@
         type: 'post',
         data: data,
         success: function(response) {
+          $('#loadingPink').show()
           $('#wa-score-table-final').load(location.href + " #wa-score-table-final", function() {
             var newVal = $("#wa-final-value").text()
             var newArr = newVal.match(/[^\s]+/g);
             window.myRadar = new Chart(document.getElementById('waFinalGraph'), showChart(newArr));
+            $('#loadingPink').hide()
           });
         }
       })

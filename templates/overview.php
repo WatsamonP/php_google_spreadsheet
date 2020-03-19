@@ -34,8 +34,8 @@ require_once __DIR__ . "./../constants/word.php";
   </div>
 </div>
 <!--  -->
-<div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+<div style="overflow-y:auto;" class="modal fade" id="confirmDialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
@@ -217,30 +217,29 @@ require_once __DIR__ . "./../constants/word.php";
     var addSign = "";
     var delSign = "";
     if (removeStartMessage !== "" || removeEndMessage !== "") {
-      delSign = "<br/> <i class='fas fa-minus-circle'></i> "
+      delSign = "<br/> &emsp;&emsp;&emsp;<i class='fas fa-minus-circle'></i> "
       removeEndMessage += " will be deleted"
     }
     if (insertStartMessage !== "" || insertEndMessage !== "") {
-      addSign = "<br/> <i class='fas fa-plus-circle'></i> "
+      addSign = "<br/> &emsp;&emsp;&emsp;<i class='fas fa-plus-circle'></i> "
       insertEndMessage += " will be inserted"
     }
     if ((year_start == prev_year_start) && (year_end == prev_year_end)) {
 
     } else {
-      message = "<a class='text-danger'><i class='fas fa-exclamation-triangle'></i> There exist a risk that the service failed to handle this task and you may lose raw data</a>" +
-        "<br/><strong><a class='text-primary'>Recommendation, You should backup a worksheet before continuing this task</strong></a>" +
-        "<br/><br/>&emsp;&emsp;&emsp;&emsp;The Year Range Will Change" +
-        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;" +
+      message = "<a class='text-danger'><i class='fas fa-exclamation-triangle'></i> There might exist a risk that the service failed to handle this task and you may lose raw data</a>" +
+        "<br/><a class='text-primary'><i class='fas fa-lightbulb'></i><strong> Recommendation</strong>. You should backup a worksheet before continuing this task</a>" +
+        "<br/><hr/><br/>&emsp; The Year Range will change " +
         "FROM <strong>[" + prev_year_start + ", " + prev_year_end + "]</strong>" +
-        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;" +
+        "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" +
         "TO <strong>[" + headerID[7] + ", " + headerID[headerID.length - 1] + "]</strong><br/>" +
-        "&emsp;&emsp;" + addSign + insertStartMessage + insertEndMessage +
-        "&emsp;&emsp;" + delSign + removeStartMessage + removeEndMessage +
-        "<br/><br/><a class='text-danger'><i class='fas fa-exclamation-triangle'></i> Note that</a>" +
-        "<br/>- You cannot <strong>RESTORE</strong> the data that going to be deleted" +
-        "<br/>- When you delete data of any particular year, this should be fine" +
-        "<br/>- However, when you insert year's data don't forget to fill those data, it will be treated like 'zero' for calculations" +
-        "<br/>- Actually, they are missing values and they might tell you the wrong information";
+        addSign + insertStartMessage + insertEndMessage +
+        delSign + removeStartMessage + removeEndMessage +
+        "<br/><hr/><a class='text-danger'><i class='fas fa-exclamation-triangle'></i> Note that</a>" +
+        "<li> You cannot <strong>RESTORE</strong> the data that going to be deleted</li>" +
+        "<li> When you delete data of any particular year, this should be fine</li>" +
+        "<li> However, when you insert year's data don't forget to fill those data, it will be treated like 'zero' for calculations</li>" +
+        "<li> Actually, they are missing values and they might tell you the wrong information</li>";
     }
     // INSERT NEW COLS -> CLEAR HEADER ROW -> INSERT NEW HEADER
     // [2005, 2015]

@@ -1,7 +1,7 @@
 <nav id="sidebar">
   <div class="sidebar-header">
-    <h3>Project Name</h3>
-    <strong>AIT</strong>
+    <h3>WSA PROJECT</h3>
+    <strong>WSA</strong>
   </div>
 
   <ul class="list-unstyled components">

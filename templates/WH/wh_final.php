@@ -188,10 +188,12 @@
         type: 'post',
         data: data,
         success: function(response) {
+          $('#loadingPink').show()
           $('#wh-score-table-final').load(location.href + " #wh-score-table-final", function() {
             var newVal = $("#wh-final-value").text()
             var newArr = newVal.match(/[^\s]+/g);
             window.myRadar = new Chart(document.getElementById('whFinalGraph'), showChart(newArr));
+            $('#loadingPink').hide()
           });
         }
       })

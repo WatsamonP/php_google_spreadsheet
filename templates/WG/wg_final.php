@@ -169,10 +169,12 @@
         type: 'post',
         data: data,
         success: function(response) {
+          $('#loadingPink').show()
           $('#wg-score-table-final').load(location.href + " #wg-score-table-final", function() {
             var newVal = $("#wg-final-value").text()
             var newArr = newVal.match(/[^\s]+/g);
             window.myRadar = new Chart(document.getElementById('wgFinalGraph'), showChart(newArr));
+            $('#loadingPink').hide()
           });
         }
       })

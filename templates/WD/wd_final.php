@@ -180,10 +180,12 @@
         type: 'post',
         data: data,
         success: function(response) {
+          $('#loadingPink').show()
           $('#wd-score-table-final').load(location.href + " #wd-score-table-final", function() {
             var newVal = $("#wd-final-value").text()
             var newArr = newVal.match(/[^\s]+/g);
             window.myRadar = new Chart(document.getElementById('wdFinalGraph'), showChart(newArr));
+            $('#loadingPink').hide()
           });
         }
       })

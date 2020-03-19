@@ -164,10 +164,12 @@
         type: 'post',
         data: data,
         success: function(response) {
+          $('#loadingPink').show()
           $('#wp-score-table-final').load(location.href + " #wp-score-table-final", function() {
             var newVal = $("#wp-final-value").text()
             var newArr = newVal.match(/[^\s]+/g);
             window.myRadar = new Chart(document.getElementById('wpFinalGraph'), showChart(newArr));
+            $('#loadingPink').hide()
           });
         }
       })
