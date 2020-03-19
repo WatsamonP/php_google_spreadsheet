@@ -271,10 +271,26 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wd-WD2-score-table").load(location.href + " #wd-WD2-score-table");
-            $("#wd-WD3-score-table").load(location.href + " #wd-WD3-score-table");
-            $("#wd-WD4-score-table").load(location.href + " #wd-WD4-score-table");
-            $("#wd-WD5-score-table").load(location.href + " #wd-WD5-score-table");
+            $('#loading').show()
+            if (data.id.includes('WD2')) {
+              $("#wd-WD2-score-table").load(location.href + " #wd-WD2-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WD3')) {
+              $("#wd-WD3-score-table").load(location.href + " #wd-WD3-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WD4')) {
+              $("#wd-WD4-score-table").load(location.href + " #wd-WD4-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WD5')) {
+              $("#wd-WD5-score-table").load(location.href + " #wd-WD5-score-table", function() {
+                $('#loading').hide()
+              });
+            } else {
+              $('#loading').hide()
+            }
           },
         })
       },

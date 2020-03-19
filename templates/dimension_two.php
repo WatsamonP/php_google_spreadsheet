@@ -260,8 +260,18 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wp-WP1-score-table").load(location.href + " #wp-WP1-score-table");
-            $("#wp-WP2-score-table").load(location.href + " #wp-WP2-score-table");
+            $('#loading').show()
+            if (data.id.includes('WP1')) {
+              $("#wp-WP1-score-table").load(location.href + " #wp-WP1-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WP2')) {
+              $("#wp-WP2-score-table").load(location.href + " #wp-WP2-score-table", function() {
+                $('#loading').hide()
+              });
+            } else {
+              $('#loading').hide()
+            }
           },
         })
       },

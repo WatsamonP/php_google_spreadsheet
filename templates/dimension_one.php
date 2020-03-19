@@ -280,12 +280,34 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wa-WA1-score-table").load(location.href + " #wa-WA1-score-table");
-            $("#wa-WA2-score-table").load(location.href + " #wa-WA2-score-table");
-            $("#wa-WA3-score-table").load(location.href + " #wa-WA3-score-table");
-            $("#wa-WA4-score-table").load(location.href + " #wa-WA4-score-table");
-            $("#wa-WA5-score-table").load(location.href + " #wa-WA5-score-table");
-            $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
+            $('#loading').show()
+            if (data.id.includes('WA1')) {
+              $("#wa-WA1-score-table").load(location.href + " #wa-WA1-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WA2')) {
+              $("#wa-WA2-score-table").load(location.href + " #wa-WA2-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WA3')) {
+              $("#wa-WA3-score-table").load(location.href + " #wa-WA3-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WA4')) {
+              $("#wa-WA4-score-table").load(location.href + " #wa-WA4-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WA5')) {
+              $("#wa-WA5-score-table").load(location.href + " #wa-WA5-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WA6')) {
+              $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table", function() {
+                $('#loading').hide()
+              });
+            } else {
+              $('#loading').hide()
+            }
           },
         })
       },

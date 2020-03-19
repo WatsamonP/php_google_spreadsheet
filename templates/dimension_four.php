@@ -278,11 +278,30 @@ require_once __DIR__ . "./../constants/word.php";
           type: 'post',
           data: data,
           success: function(response) {
-            $("#wh-WH2-score-table").load(location.href + " #wh-WH2-score-table");
-            $("#wh-WH3-score-table").load(location.href + " #wh-WH3-score-table");
-            $("#wh-WH4-score-table").load(location.href + " #wh-WH4-score-table");
-            $("#wh-WH5-score-table").load(location.href + " #wh-WH5-score-table");
-            $("#wh-WH7-score-table").load(location.href + " #wh-WH7-score-table");
+            $('#loading').show()
+            if (data.id.includes('WH2')) {
+              $("#wh-WH2-score-table").load(location.href + " #wh-WH2-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WH3')) {
+              $("#wh-WH3-score-table").load(location.href + " #wh-WH3-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WH4')) {
+              $("#wh-WH4-score-table").load(location.href + " #wh-WH4-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WH5')) {
+              $("#wh-WH5-score-table").load(location.href + " #wh-WH5-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WH7')) {
+              $("#wh-WH7-score-table").load(location.href + " #wh-WH7-score-table", function() {
+                $('#loading').hide()
+              });
+            } else {
+              $('#loading').hide()
+            }
           },
         })
       },
