@@ -23,7 +23,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wa-WA3-score-table").load(location.href + " #wa-WA3-score-table");
+          $('#loading').show()
+          $("#wa-WA3-score-table").load(location.href + " #wa-WA3-score-table", function() {
+            $('#loading').hide()
+          });
         },
       })
     }

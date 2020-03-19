@@ -30,7 +30,10 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
+          $('#loading').show()
+          $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table", function() {
+            $('#loading').hide()
+          });
         },
       })
     }
