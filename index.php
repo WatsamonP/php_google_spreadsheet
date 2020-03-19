@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
 
 <head>
-  <title>ProjectName</title>
+  <title>WSA</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -27,7 +27,10 @@ and open the template in the editor.
   <link rel="stylesheet" href="./styles/callout.css">
   <link rel="stylesheet" href="./styles/btn_colors.css">
   <link rel="stylesheet" href="./styles/reload.css">
-  <!--  -->
+  <link rel="stylesheet" href="./styles/loading_dot.css">
+
+  <!-- ICON  -->
+  <link rel="icon" type="image/png" href="./assets/ait-logo.png">
 
   <!-- Font Awesome JS -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -39,6 +42,7 @@ and open the template in the editor.
 
 <body style="font-family: 'Nunito';">
   <div id="loading" class="loader" style="display:none;"></div>
+  <div id="loadingPink" class="loader_pink" style="display:none;"></div>
   <div class="wrapper">
     <!-- Sidebar  -->
     <?php include 'templates/slidebar.php'; ?>
