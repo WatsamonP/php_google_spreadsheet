@@ -17,6 +17,7 @@ function getWxData($array, $ratio)
             $data[$r - 1][$key] = $row[$k];
           } else {
             $data[$r - 1][$key] = 0;
+            $LOCATION = "Table " . $array[$r][1];
             include_once __DIR__ . "./../../templates/alert/data_not_found.php";
           }
         }

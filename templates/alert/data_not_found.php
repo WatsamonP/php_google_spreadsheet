@@ -1,7 +1,7 @@
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
   <strong>DATA NOT FOUND</strong>
   <?php
-  if (isset($LOCATION)) {
+  if (isset($LOCATION) && $LOCATION !== "") {
     echo "At <strong>" . $LOCATION . "</strong>";
   }
   ?>
