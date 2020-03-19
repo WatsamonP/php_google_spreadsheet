@@ -172,25 +172,25 @@ require_once __DIR__ . "./../constants/word.php";
         data: dataWa,
         fill: false,
       }, {
-        label: 'Dimesion 2',
+        label: 'Dimension 2',
         fill: false,
         backgroundColor: window.chartColors.blue,
         borderColor: window.chartColors.blue,
         data: dataWp,
       }, {
-        label: 'Dimesion 3',
+        label: 'Dimension 3',
         fill: false,
         backgroundColor: window.chartColors.green,
         borderColor: window.chartColors.green,
         data: dataWd,
       }, {
-        label: 'Dimesion 4',
+        label: 'Dimension 4',
         fill: false,
         backgroundColor: window.chartColors.yellow,
         borderColor: window.chartColors.yellow,
         data: dataWh,
       }, {
-        label: 'Dimesion 5',
+        label: 'Dimension 5',
         fill: false,
         backgroundColor: window.chartColors.orange,
         borderColor: window.chartColors.orange,
@@ -205,12 +205,13 @@ require_once __DIR__ . "./../constants/word.php";
         fontSize: 20
       },
       tooltips: {
-        mode: 'index',
+        mode: 'point',
         intersect: true,
         callbacks: {
           label: function(t, d) {
+            var xLabel = d.datasets[t.datasetIndex].label;
             var yLabel = t.yLabel;
-            return (Math.round(yLabel * 100) / 100).toFixed(3);
+            return xLabel + ": " + (Math.round(yLabel * 100) / 100).toFixed(3);
           }
         }
       },
