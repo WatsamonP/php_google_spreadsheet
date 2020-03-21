@@ -15,7 +15,9 @@ function getWeightKey($array)
     foreach ($array as $r => $row) {   // Construct data
       if ($r !== 0) {
         foreach ($columnSKKey as $k => $key) {
-          $WeightKeysData[$row[0]][$key] = $row[$k];
+          if(isset($row[$k])){
+            $WeightKeysData[$row[0]][$key] = $row[$k];
+          }
         }
       }
     }

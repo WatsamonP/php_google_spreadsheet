@@ -22,11 +22,12 @@ function getSpecificInputYears($array)
             if (startsWithNumber($key)) {
               $SpecificInputYearsArray[$r - 1][$key] = 0;   // GRAP ONLY YEARS
             }
-            if (!in_array($RawSpecificInputYearsArray[$r - 1]['key'], $temp)) {
-              $temp[$r] = $RawSpecificInputYearsArray[$r - 1]['key'];
-              $LOCATION = $temp[$r];
-              include __DIR__ . "./../../templates/alert/data_not_found.php";
-            }
+            // if (!in_array($RawSpecificInputYearsArray[$r - 1]['key'], $temp)) { // This might show many alert and tell the place 
+            //   $temp[$r] = $RawSpecificInputYearsArray[$r - 1]['key'];
+            //   $LOCATION = $temp[$r];
+            //   include __DIR__ . "./../../templates/alert/data_not_found.php";
+            // }
+            include_once __DIR__ . "./../../templates/alert/data_not_found.php"; // This will show only one alert
           }
         }
       }

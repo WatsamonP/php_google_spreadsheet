@@ -20,7 +20,12 @@ function getRatio($provincesData, $string_provinceArea, $string_basinArea)
 {
   $ratio = [];
   foreach ($provincesData as $key => $province) {
-    $ratio[$key] = $province[$string_basinArea] / $province[$string_provinceArea];
+    if ($province[$string_provinceArea] == 0) {
+      include_once __DIR__ . "./../../templates/alert/division_by_zero.php"; // CALL ALERT
+      $ratio[$key] = 0;
+    } else {
+      $ratio[$key] = $province[$string_basinArea] / $province[$string_provinceArea];
+    }
   }
 
   return $ratio;

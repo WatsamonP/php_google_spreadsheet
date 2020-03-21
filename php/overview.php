@@ -22,7 +22,11 @@ if (empty($arrayP)) {
   foreach ($arrayP as $r => $row) {
     if ($r !== 0) {
       foreach ($provincesHead as $h => $key) {
-        $provincesData[$r - 1][$key] = $row[$h];
+        if(!isset($row[$h])){
+          $provincesData[$r - 1][$key] = 0;
+        }else{
+          $provincesData[$r - 1][$key] = $row[$h];
+        }
       }
     }
   }

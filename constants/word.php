@@ -11,5 +11,5 @@ $string_BasinArea = "Basin Area";
 function toSup(String $str)
 {
     $str = str_replace(['2', '3'], ['<sup>2</sup>', '<sup>3</sup>'], $str);
-    return "<a>" . $str ."</a>";
+    return "<a>" . $str . "</a>";
 }
