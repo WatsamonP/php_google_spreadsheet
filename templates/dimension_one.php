@@ -4,6 +4,7 @@ require __DIR__ . "./../php/brief.php";
 require __DIR__ . "./../php/dimension_one.php";
 require_once __DIR__ . "./../constants/word.php";
 require_once __DIR__ . "./../constants/keys.php";
+require_once __DIR__ . "./../constants/gid.php";
 ?>
 <!--  -->
 <nav class="navbar navbar-light bg-light">
@@ -78,22 +79,21 @@ require_once __DIR__ . "./../constants/keys.php";
                     ?>
                   </tr>
                 </thead>
-                <tbody id="editable_tableBody">
+                <tbody>
                   <?php
                   $index = 1;
                   foreach ($GROUP['data'] as $iKey => $item) {
                   ?>
                     <tr>
                       <td style='display: none'><?php echo $iKey ?></td>
-                      <th class='text-center'><?php echo $index ?></th>
+                      <td class='text-center'><?php echo $index ?></td>
                       <td><?php echo $item['province'] ?></td>
                       <?php
                       foreach ($item['table'] as $val) {
                       ?>
-                        <td class='text-right'><?php echo number_format($val, 2, '.', '') ?></th>
-                        <?php }
-                        ?>
-                        </td>
+                        <td class='text-right'><?php echo number_format($val, 2, '.', ''); ?></td>
+                      <?php }
+                      ?>
                     </tr> <?php $index++;
                         } ?> </tbody>
               </table>
@@ -260,7 +260,6 @@ require_once __DIR__ . "./../constants/keys.php";
         function isNumber(n) {
           return !isNaN(parseFloat(n)) && !isNaN(n - 0)
         }
-
         for (const [key, value] of Object.entries(data['data'][0])) {
           if (!isNumber(value)) {
             data['data'][0][key] = parseFloat(0);

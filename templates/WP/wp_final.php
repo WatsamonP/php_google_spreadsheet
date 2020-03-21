@@ -17,19 +17,19 @@
               <tbody>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WP1']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WP1-final" data-editable-weight-wp-final><?php echo $WeightKeysData['WP1']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WP2']['id'] ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WP2-final" data-editable-weight-wp-final><?php echo $WeightKeysData['WP2']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WP3']['id'] ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WP3-final" data-editable-weight-wp-final><?php echo $WeightKeysData['WP3']['weight'] ?></a>
                   </td>
                 </tr>

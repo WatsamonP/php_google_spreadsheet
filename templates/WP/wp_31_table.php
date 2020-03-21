@@ -37,6 +37,7 @@
   <table id="editable_wp_31-a" class='table table-bordered table-hover'>
     <thead class='thead-dark'>
       <tr class="text-center">
+        <th style="width:40px;"></th>
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <?php
@@ -52,12 +53,13 @@
       foreach ($RiverDamList['WP3']['WP31_A'] as $key => $dam) {
       ?>
         <tr class="text-center">
+          <td><a id="DeleteButton" thisId="<?php echo $dam['id']; ?>" name="<?php echo $dam['name']; ?>" class="text-secondary" href="#" class="text-right"><i class="fas fa-trash"></i></a></td>
           <td style="width: 8%"><?php echo $index ?></td>
           <td style="white-space: nowrap; width: 20%"><?php echo $dam['name'] ?></td>
           <?php
           foreach ($dam['table'] as $year => $value) {
           ?>
-            <td class="table-success">
+            <td style="cursor: pointer" class="table-success">
               <a <?php echo "name='" . $dam['id'] . "'" ?> <?php echo "id='" . $year . "'" ?> data-editable-wp31-a><?php echo $value ?></a>
             </td>
           <?php } ?>
@@ -78,6 +80,7 @@
   <table id="editable_wp_31-b" class='table table-bordered table-hover'>
     <thead class='thead-dark'>
       <tr class="text-center">
+        <th style="width:40px;"></th>
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <?php
@@ -93,6 +96,7 @@
       foreach ($RiverDamList['WP3']['WP31_B'] as $key => $dam) {
       ?>
         <tr class="text-center">
+          <td><a id="DeleteButton" thisId="<?php echo $dam['id']; ?>" name="<?php echo $dam['name']; ?>" class="text-secondary" href="#" class="text-right"><i class="fas fa-trash"></i></a></td>
           <td style="width: 8%"><?php echo $index ?></td>
           <td style="white-space: nowrap; width: 20%"><?php echo $dam['name'] ?></td>
           <?php
@@ -114,6 +118,62 @@
 <!-- -------------------------------------------------------------------------------- -->
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
+  $("#editable_wp_31-a").on("click", "#DeleteButton", function() {
+    $el = $(this);
+    var id = $el.attr('thisId');
+    var name = $el.attr('name');
+    if (confirm("Do you want to delete " + name + " ?")) {
+      if (id !== null) {
+        $.ajax({
+          url: 'actions/act_delete_rows.php',
+          type: 'post',
+          data: {
+            id_column: "D",
+            id: id,
+            sheet_id: <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?>,
+            gid: <?php echo json_encode($RIVER_DAM_LIST_GID); ?>,
+          },
+          success: function(response) {
+            $el.closest("tr").remove();
+            $('#loading').show()
+            $('#editable_wp_31-a').load(location.href + " #editable_wp_31-a", function() {
+              $('#loading').hide()
+            });
+          }
+        });
+      }
+    }
+    return false;
+  });
+  ////////////////////////////////////////
+  $("#editable_wp_31-b").on("click", "#DeleteButton", function() {
+    $el = $(this);
+    var id = $el.attr('thisId');
+    var name = $el.attr('name');
+    if (confirm("Do you want to delete " + name + " ?")) {
+      if (id !== null) {
+        $.ajax({
+          url: 'actions/act_delete_rows.php',
+          type: 'post',
+          data: {
+            id_column: "D",
+            id: id,
+            sheet_id: <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?>,
+            gid: <?php echo json_encode($RIVER_DAM_LIST_GID); ?>,
+          },
+          success: function(response) {
+            $el.closest("tr").remove();
+            $('#loading').show()
+            $('#editable_wp_31-b').load(location.href + " #editable_wp_31-b", function() {
+              $('#loading').hide()
+            });
+          }
+        });
+      }
+    }
+    return false;
+  });
+  ////////////////////////////////////////
   $('#import-wp-31-a').click(function() {
     $('#addDamModal_wp31').modal('show');
     $('#addDam_wp31').click(function() {

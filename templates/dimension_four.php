@@ -4,6 +4,7 @@ require __DIR__ . "./../php/brief.php";
 require __DIR__ . "./../php/dimension_four.php";
 require_once __DIR__ . "./../constants/word.php";
 require_once __DIR__ . "./../constants/keys.php";
+require_once __DIR__ . "./../constants/gid.php";
 ?>
 <!--  -->
 <nav class="navbar navbar-light bg-light">
@@ -103,10 +104,9 @@ require_once __DIR__ . "./../constants/keys.php";
                       <?php
                       foreach ($item['table'] as $val) {
                       ?>
-                        <td class='text-right'><?php echo number_format($val, 2, '.', '') ?></th>
+                        <td class='text-right'><?php echo number_format($val, 2, '.', '') ?></td>
                         <?php }
                         ?>
-                        </td>
                     </tr> <?php $index++;
                         } ?> </tbody>
               </table>

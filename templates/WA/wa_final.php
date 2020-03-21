@@ -21,7 +21,7 @@
                     if (isset($WeightKeysData[$sKey])) { ?>
                       <tr class="text-center">
                         <td><?php echo $sKey ?></td>
-                        <td class="table-success">
+                        <td style="cursor: pointer" class="table-success">
                           <a <?php echo "id='" . $sKey . "-final'" ?> data-editable-weight-wa-final><?php echo $WeightKeysData[$sKey]['weight'] ?></a>
                         </td>
                       </tr>

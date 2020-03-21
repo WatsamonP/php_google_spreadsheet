@@ -33,7 +33,8 @@
   <table id="editable_wa_62" class='table table-bordered table-hover'>
     <thead class='thead-dark'>
       <tr class="text-center">
-        <th style="width:150px;">No of Reservoirs</th>
+        <th style="width:40px;"></th>
+        <th style="width:100px;">No of Reservoirs</th>
         <th>Name</th>
         <th>Capacity</th>
       </tr>
@@ -44,9 +45,10 @@
       foreach ($SpecificInput['WA6']['WA62']['reservoirs'] as $key => $item) {
       ?>
         <tr class="text-center">
-          <td><?php echo $index ?></td>
-          <td><?php echo $item['key'] ?></td>
-          <td class="table-success">
+          <td><a id="DeleteButton" thisId="<?php echo $item['id']; ?>" name="<?php echo $item['key']; ?>" class="text-secondary" href="#" class="text-right"><i class="fas fa-trash"></i></a></td>
+          <td><?php echo $index; ?></td>
+          <td><?php echo $item['key']; ?></td>
+          <td style="cursor: pointer" class="table-success">
             <a <?php echo "id='" . $item['id'] . "'" ?> data-editable-wa62-reservoirs><?php echo $item['value'] ?></a>
           </td>
         </tr>
@@ -57,6 +59,35 @@
 </div>
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
+  $("#editable_wa_62").on("click", "#DeleteButton", function() {
+    $el = $(this);
+    var id = $el.attr('thisId');
+    var name = $el.attr('name');
+    if (confirm("Do you want to delete " + name + " ?")) {
+      if (id !== null) {
+        $.ajax({
+          url: 'actions/act_delete_rows.php',
+          type: 'post',
+          data: {
+            id_column: "E",
+            id: id,
+            sheet_id: <?php echo json_encode($SPECIFIC_INPUT_SHEET); ?>,
+            gid: <?php echo json_encode($SPECIFIC_INPUT_SHEET_GID); ?>,
+          },
+          success: function(response) {
+            $el.closest("tr").remove();
+            $('#loading').show()
+            $('#editable_wa_62').load(location.href + " #editable_wa_62", function() {
+              $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
+              $('#loading').hide()
+            });
+          }
+        });
+      }
+    }
+    return false;
+  });
+  ////////////////////////////////////////
   $('#import-wa-62').click(function() {
     $('#addReservoirModal_wa62').modal('show');
   });
@@ -66,6 +97,7 @@
     var newKey = 'WA62_' + name.toString().toLowerCase().replace(" ", '_');
 
     if (name !== "") {
+
       var newData = ['WA6', 'WA62', 'reservoirs', name, newKey, 0];
       $.ajax({
         url: "actions/act_append.php",
@@ -77,9 +109,11 @@
         },
         success: function(response) {
           $('#addReservoirModal_wa62').modal('hide');
+          $('#loading').show()
           $('#editable_wa_62').load(location.href + " #editable_wa_62", function() {
             $("#wa-WA6-score-table").load(location.href + " #wa-WA6-score-table");
             $('#addNewReservoir_wa62').val('');
+            $('#loading').hide()
           });
         }
       });

@@ -28,7 +28,7 @@ require_once __DIR__ . "./../../constants/keys.php";
         <td style="white-space: nowrap;"><?php echo $SpecificInputYears['WD6']['WD61']['stdRainfall']['key'] ?></td>
         <?php foreach ($SpecificInputYears['WD6']['WD61']['stdRainfall']['table'] as $year => $value) {
         ?>
-          <td id="EditText" class='text-right table-success'>
+          <td style="cursor: pointer" id="EditText" class='text-right table-success'>
             <a name="stdRainfall" <?php echo "id='" . $year . "'" ?> data-editable-wd61-stdRainfall><?php echo number_format($value, 2, '.', '')  ?></a>
           </td>
         <?php } ?>

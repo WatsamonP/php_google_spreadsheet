@@ -42,6 +42,7 @@
   <table id="editable_wh_11" class='table table-bordered table-hover'>
     <thead class='thead-dark'>
       <tr class="text-center">
+        <th style="width:40px;"></th>
         <th>#</th>
         <th>River Name</th>
         <th>Length (km)</th>
@@ -58,13 +59,14 @@
       $index = 1;
       foreach ($RiverDamList['WH1']['WH11'] as $key => $river) { ?>
         <tr class="text-center">
+          <td><a id="DeleteButton" thisId="<?php echo $river['id']; ?>" name="<?php echo $river['name']; ?>" class="text-secondary" href="#" class="text-right"><i class="fas fa-trash"></i></a></td>
           <td><?php echo $index ?></td>
           <td style="white-space: nowrap;"><?php echo $river['name'] ?></td>
           <td><?php echo $river['length'] ?></td>
           <?php
           foreach ($river['table'] as $year => $value) {
           ?>
-            <td class="text-right table-success">
+            <td style="cursor: pointer" class="text-right table-success">
               <a <?php echo "name='" . $river['id'] . "'" ?> <?php echo "id='" . $year . "'" ?> data-editable-wh11-river><?php echo $value ?></a>
             </td>
           <?php } ?>
@@ -81,6 +83,35 @@
 <!-- -------------------------------------------------------------------------------- -->
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
+  $("#editable_wh_11").on("click", "#DeleteButton", function() {
+    $el = $(this);
+    var id = $el.attr('thisId');
+    var name = $el.attr('name');
+    if (confirm("Do you want to delete " + name + " ?")) {
+      if (id !== null) {
+        $.ajax({
+          url: 'actions/act_delete_rows.php',
+          type: 'post',
+          data: {
+            id_column: "D",
+            id: id,
+            sheet_id: <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?>,
+            gid: <?php echo json_encode($RIVER_DAM_LIST_GID); ?>,
+          },
+          success: function(response) {
+            $el.closest("tr").remove();
+            $('#loading').show()
+            $('#editable_wh_11').load(location.href + " #editable_wh_11", function() {
+              $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table");
+              $('#loading').hide()
+            });
+          }
+        });
+      }
+    }
+    return false;
+  });
+  ///////////////////////////////////////
   $('#import-wh-11').click(function() {
     $('#addRiverModal_wh11').modal('show');
   });
@@ -95,7 +126,7 @@
     for (var i = 0; i < Object.keys(yearRange).length; i++) {
       range.push(0)
     }
-    if (name !== "" && riverLength) { 
+    if (name !== "" && riverLength) {
       var newData = ['WH1', 'WH11', '', newKey, "River", name, riverLength ? riverLength : 0, 'DO (mg/l)', ...range];
       $.ajax({
         url: "actions/act_append.php",

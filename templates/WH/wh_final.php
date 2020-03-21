@@ -17,31 +17,31 @@
               <tbody>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH1']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WH1-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH1']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH2']['id'] ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WH2-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH2']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH3']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WH3-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH3']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH4']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WH4-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH4']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH5']['id'] ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WH5-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH5']['weight'] ?></a>
                   </td>
                 </tr>
@@ -49,13 +49,13 @@
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH6']['id']  ?></td>
                   <!-- TODO -->
-                  <td class="table-warning">
+                  <td style="cursor: pointer" class="table-warning">
                     <a id="WH6-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH6']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH7']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WH7-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH7']['weight'] ?></a>
                   </td>
                 </tr>

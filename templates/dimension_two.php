@@ -4,6 +4,7 @@ require __DIR__ . "./../php/brief.php";
 require __DIR__ . "./../php/dimension_two.php";
 require_once __DIR__ . "./../constants/word.php";
 require_once __DIR__ . "./../constants/keys.php";
+require_once __DIR__ . "./../constants/gid.php";
 ?>
 <!--  -->
 <nav class="navbar navbar-light bg-light">
@@ -91,10 +92,9 @@ require_once __DIR__ . "./../constants/keys.php";
                       <?php
                       foreach ($item['table'] as $val) {
                       ?>
-                        <td class='text-right'><?php echo number_format($val, 2, '.', '') ?></th>
-                        <?php }
-                        ?>
-                        </td>
+                        <td class='text-right'><?php echo number_format($val, 2, '.', '') ?></td>
+                      <?php }
+                      ?>
                     </tr> <?php $index++;
                         } ?> </tbody>
               </table>
@@ -102,6 +102,10 @@ require_once __DIR__ . "./../constants/keys.php";
             <!-- END INPUT TABLE [GREEN] -->
 
             <!-- START OPTIONAL TABLE -->
+            <?php
+            if ($gKey == "WP11_D") {
+              include  __DIR__ . "./../templates/WP/wp_11_exchange_value.php";
+            } ?>
             <!--  END OPTIONAL TABLE -->
             <?php include  __DIR__ . "./../templates/utils/hr.html" ?>
           <?php }

@@ -1,7 +1,6 @@
 <!-- START WEIGHT CARD -->
 <div class="container">
   <div class="row justify-content-center">
-
     <div class="col-3 order-1">
       <div class="card border-success mb-3">
         <div class="card-header text-success">Weight</div>
@@ -17,7 +16,7 @@
               <tbody>
                 <tr class="text-center">
                   <td>WP31</td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WP31" data-editable-weight-wp3><?php echo $WeightKeysData['WP31']['weight'] ?></a>
                   </td>
                 </tr>

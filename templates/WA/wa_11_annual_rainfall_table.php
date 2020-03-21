@@ -20,7 +20,7 @@
       <tr>
         <td class="text-center table-success"><i class="fas fa-edit"></i></td>
         <?php foreach ($SpecificInputYears['WA1']['WA11']['annualAverageRainfall']['table'] as $key => $_data) { ?>
-          <td id="EditText" class='text-right table-success'>
+          <td style="cursor: pointer" id="EditText" class='text-right table-success'>
             <a name='annualAverageRainfall' <?php echo "id='" . $key . "'" ?> data-editable-aar><?php echo number_format($_data, 2, '.', '')  ?></a>
           </td>
         <?php }

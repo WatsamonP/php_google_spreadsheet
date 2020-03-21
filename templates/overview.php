@@ -5,6 +5,19 @@ require __DIR__ . "./../php/overview.php";
 require_once __DIR__ . "./../constants/word.php";
 require_once __DIR__ . "./../constants/gid.php";
 require_once __DIR__ . "./../constants/keys.php";
+
+require_once __DIR__ . "./../php/fetch/fetchWX.php";
+$responseWA = $service->spreadsheets_values->get($spreadsheetId, $WA_SHEET);
+$WA_SET = getWxData($responseWA->getValues(), $ratio)["SET"];
+$responseWP = $service->spreadsheets_values->get($spreadsheetId, $WP_SHEET);
+$WP_SET = getWxData($responseWP->getValues(), $ratio)["SET"];
+$responseWD = $service->spreadsheets_values->get($spreadsheetId, $WD_SHEET);
+$WD_SET = getWxData($responseWD->getValues(), $ratio)["SET"];
+$responseWH = $service->spreadsheets_values->get($spreadsheetId, $WH_SHEET);
+$WH_SET = getWxData($responseWH->getValues(), $ratio)["SET"];
+$responseWG = $service->spreadsheets_values->get($spreadsheetId, $WG_SHEET);
+$WG_SET = getWxData($responseWG->getValues(), $ratio)["SET"];
+
 ?>
 <!--  -->
 <nav class="navbar navbar-light bg-light">
@@ -18,16 +31,42 @@ require_once __DIR__ . "./../constants/keys.php";
     <button id="editOverview" type="button" class="btn btn-warning" data-toggle="modal" data-target="#editBriefModal">
       <i class="fas fa-edit"></i> Edit
     </button>
+    &nbsp;&nbsp;
+    <button id="addProvince" type="button" class="btn btn-success" data-toggle="modal" data-target="#addProvinceModal">
+      <i class="fas fa-globe-asia"></i> Add
+    </button>
   </form>
 </nav>
-<!--  -->
-<div class="modal fade bd-example-modal-sm" id="confirm_three_times" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
+<!-- --------------------------------------------------- -->
+<div class="modal fade" id="addProvinceModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-globe-asia"></i> Add New Province</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Province Name</span>
+          </div>
+          <input id="addNewProvinceInput" type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="addNewProvinceBtn" type="button" class="btn btn-success"><i class="fas fa-globe-asia"></i> Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ------------------------------------------------- -->
+<div class="modal fade bd-example-modal-sm" id="processing_times" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
       </div>
       <div class="modal-body text-center">
         <H1 id="processStatus" class="loading_dot" style="color:rgb(14, 128, 194);">Processing WA Sheet</H1>
@@ -41,9 +80,6 @@ require_once __DIR__ . "./../constants/keys.php";
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <a id="confirmEditBriefContent"></a>
@@ -117,7 +153,6 @@ require_once __DIR__ . "./../constants/keys.php";
         <th style='width: 25%' scope='col'><?php echo $provincesHead[1] ?></th>
         <th style='width: 20%' scope='col' class='text-center'><?php echo $provincesHead[2] . " (" . toSup($province_unit[2]) . ")"  ?></th>
         <th style='width: 20%' scope='col' class='text-center'><?php echo $provincesHead[3] . " (" . toSup($basin_unit[2]) . ")" ?></th>
-        <th scope='col' class='text-center'><?php echo $provincesHead[4] ?></th>
       </tr>
     </thead>
 
@@ -127,12 +162,11 @@ require_once __DIR__ . "./../constants/keys.php";
         $key = $index + 1;
       ?>
         <tr>
-          <th scope='row'><?php echo $key ?></th>
+          <th scope='row' class="text-center"><?php echo $key ?></th>
           <td style='display: none'><?php echo $province['id'] ?></td>
           <td><?php echo $province['Name of the Province'] ?></td>
           <td class='text-center'><?php echo number_format($province[$string_provinceArea], 2, '.', '') ?></td>
           <td class='text-center'><?php echo number_format($province[$string_basinArea], 2, '.', '') ?></td>
-          <td class='text-center'><?php echo number_format($ratio[$index], 2, '.', '') ?></td>
         </tr>
       <?php }; ?>
     </tbody>
@@ -140,10 +174,10 @@ require_once __DIR__ . "./../constants/keys.php";
   <table class="table">
     <thead class='thead-dark'>
       <tr>
+        <th style='width: 5%'></th>
         <th style='width: 23%' class='text-left'><?php echo $string_BasinArea ?><strong></th>
         <th style='width: 20%'></th>
-        <th style='width: 20%' class='text-center'><strong><?php echo $sumBasinArea ?></strong></th>
-        <th style='width: 25%'></th>
+        <th style='width: 30%' class='text-center'><strong><?php echo $sumBasinArea ?></strong></th>
       </tr>
     </thead>
   </table>
@@ -258,7 +292,19 @@ require_once __DIR__ . "./../constants/keys.php";
         $('#confirmDialog').modal('hide');
       } else {
         $('#confirmDialog').modal('hide');
-        $('#confirm_three_times').modal('show');
+        $('#processing_times').modal('show');
+
+        function doWP(index) {
+          setTimeout(function() {
+            wpValue.forEach(function(element, index) {
+              setTimeout(function() {
+                AppendNewProvince(element, <?php echo json_encode($WP_SHEET); ?>)
+              }, 1200 * (index + 1));
+              if (index == wpValue.length - 1)
+                doWD(index);
+            });
+          }, 1200 * (index + 1));
+        }
 
         StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WA_SHEET_GID); ?>, SHEET = <?php echo json_encode($WA_SHEET); ?> + "!1:1", 'confirm_wa_sheet');
         setTimeout(function() {
@@ -266,19 +312,19 @@ require_once __DIR__ . "./../constants/keys.php";
         }, 2000);
         setTimeout(function() {
           StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WD_SHEET_GID); ?>, SHEET = <?php echo json_encode($WD_SHEET); ?> + "!1:1", 'confirm_wd_sheet');
-        }, 2000);
+        }, 3200);
         setTimeout(function() {
           StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WH_SHEET_GID); ?>, SHEET = <?php echo json_encode($WH_SHEET); ?> + "!1:1", 'confirm_wh_sheet');
-        }, 2000);
+        }, 4400);
         setTimeout(function() {
           StartTask(startIndex = 7, headerID, SHEET_GID = <?php echo json_encode($WG_SHEET_GID); ?>, SHEET = <?php echo json_encode($WG_SHEET); ?> + "!1:1", 'confirm_wg_sheet');
-        }, 2000);
+        }, 5600);
         setTimeout(function() {
           StartTask(startIndex = 5, headerSI, SHEET_GID = <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET_GID); ?>, SHEET = <?php echo json_encode($SPECIFIC_INPUT_YEARS_SHEET); ?> + "!1:1", 'confirm_sta_val');
-        }, 2000);
+        }, 6800);
         setTimeout(function() {
           StartTask(startIndex = 8, headerRD, SHEET_GID = <?php echo json_encode($RIVER_DAM_LIST_GID); ?>, SHEET = <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?> + "!1:1", 'confirm_river_dam');
-        }, 2000);
+        }, 8000);
       }
     })
 
@@ -422,7 +468,7 @@ require_once __DIR__ . "./../constants/keys.php";
           'basin_unit': basin_unit
         },
         success: function(response) {
-          $('#confirm_three_times').modal('hide');
+          $('#processing_times').modal('hide');
           console.log('SUCCESS')
           $('#loading').show();
           setTimeout(function() {
@@ -503,4 +549,160 @@ require_once __DIR__ . "./../constants/keys.php";
       }
     });
   });
+  ////////////////////////////////////////////////////////////////////////////////
+  $('#addNewProvinceBtn').click(function() {
+    ///////////////////////////////////////
+    // $province['id']
+    var provinces = <?php echo json_encode($provincesData); ?>;
+    var lastProvinceId = provinces[provinces.length - 1]['id']
+
+    var newProvinceId = (parseInt(lastProvinceId.replace("P", '')) + 1)
+    var newProvinceName = $('#addNewProvinceInput').val();
+    var newDataProvinces = [newProvinceId, newProvinceName, 0, 0];
+
+    var yearValue = [];
+    var yearStart = <?php echo json_encode($year_start[2]); ?>;
+    var yearEnd = <?php echo json_encode($year_end[2]); ?>;
+    for (var i = yearStart; i <= yearEnd; i++) {
+      yearValue.push(0);
+    }
+
+    function constructData(set) {
+      var tempDimen = [];
+      var tempGroup = [];
+      var tempUnit = [];
+      var tempKey = [];
+      var value = [];
+      for (var i = 0; i < Object.keys(set).length; i++) {
+        for (subset in set[Object.keys(set)[i]]) {
+          tempDimen.push(Object.keys(set)[i])
+          tempGroup.push(subset)
+          tempUnit.push(set[Object.keys(set)[i]][subset]['unit'])
+          tempKey.push(set[Object.keys(set)[i]][subset]['key'])
+        }
+      }
+      for (var i = 0; i < tempGroup.length; i++) {
+        value[i] = [];
+        value[i].push(tempDimen[i])
+        value[i].push(tempGroup[i].replace(/_[A-Z]/g, ""));
+        value[i].push(tempGroup[i])
+        value[i].push(tempKey[i])
+        value[i].push(tempGroup[i] + "_" + newProvinceId)
+        value[i].push(newProvinceName)
+        value[i].push(tempUnit[i])
+        value[i].push(...yearValue)
+      }
+      return value
+    }
+
+    if (newProvinceName == "") {
+      alert("Cannot be empty");
+    } else {
+      $('#addProvinceModal').modal('hide');
+      $('#processing_times').modal('show');
+      /////////////////////////////////////////////////////////////////////
+      // WA SHEET
+      var wa_set = <?php echo json_encode($WA_SET); ?>;
+      var waValue = constructData(wa_set)
+      // WP SHEET
+      var wp_set = <?php echo json_encode($WP_SET); ?>;
+      var wpValue = constructData(wp_set)
+      // WD SHEET
+      var wd_set = <?php echo json_encode($WD_SET); ?>;
+      var wdValue = constructData(wd_set)
+      // WH SHEET
+      var wh_set = <?php echo json_encode($WH_SET); ?>;
+      var whValue = constructData(wh_set);
+      // WG SHEET
+      var wg_set = <?php echo json_encode($WG_SET); ?>;
+      var wgValue = constructData(wg_set);
+      ////////////////////////////////////////////////////////
+      function doWG(index) {
+        setTimeout(function() {
+          wgValue.forEach(function(element, index) {
+            setTimeout(function() {
+              AppendNewProvince(element, <?php echo json_encode($WG_SHEET); ?>)
+            }, 1200 * (index + 1));
+            if (index == wgValue.length - 1)
+              AppendNewProvince(["P" + newProvinceId, newProvinceName, 0, 0], <?php echo json_encode($PROVINCES_SHEET); ?>);
+          });
+        }, 1200 * (index + 1));
+      }
+
+      function doWH(index) {
+        setTimeout(function() {
+          whValue.forEach(function(element, index) {
+            setTimeout(function() {
+              AppendNewProvince(element, <?php echo json_encode($WH_SHEET); ?>)
+            }, 1200 * (index + 1));
+            if (index == whValue.length - 1)
+              doWG(index);
+          });
+        }, 1200 * (index + 1));
+      }
+
+      function doWD(index) {
+        setTimeout(function() {
+          wdValue.forEach(function(element, index) {
+            setTimeout(function() {
+              AppendNewProvince(element, <?php echo json_encode($WD_SHEET); ?>)
+            }, 1200 * (index + 1));
+            if (index == wdValue.length - 1)
+              doWH(index);
+          });
+        }, 1200 * (index + 1));
+      }
+
+      function doWP(index) {
+        setTimeout(function() {
+          wpValue.forEach(function(element, index) {
+            setTimeout(function() {
+              AppendNewProvince(element, <?php echo json_encode($WP_SHEET); ?>)
+            }, 1200 * (index + 1));
+            if (index == wpValue.length - 1)
+              doWD(index);
+          });
+        }, 1200 * (index + 1));
+      }
+      waValue.forEach(function(element, index) {
+        setTimeout(function() {
+          AppendNewProvince(element, <?php echo json_encode($WA_SHEET); ?>)
+        }, 1200 * (index + 1));
+        if (index == waValue.length - 1)
+          doWP(index);
+      });
+    }
+
+    function AppendNewProvince(newData, SHEET_NAME) {
+      $.ajax({
+        url: "actions/act_append.php",
+        type: 'post',
+        data: {
+          'id': 'appendNewProvince',
+          'data': newData,
+          'sheet_id': SHEET_NAME,
+        },
+        success: function(response) {
+          if (SHEET_NAME == 'WA') {
+            $('#processStatus').html('Processing WP Sheet');
+          } else if (SHEET_NAME == 'WP') {
+            $('#processStatus').html('Processing WD Sheet');
+          } else if (SHEET_NAME == 'WD') {
+            $('#processStatus').html('Processing WH Sheet');
+          } else if (SHEET_NAME == 'WH') {
+            $('#processStatus').html('Processing WG Sheet');
+          } else if (SHEET_NAME == 'WG') {
+            $('#processStatus').html('Almost done');
+          } else if (SHEET_NAME == 'Provinces') {
+            $('#processing_times').modal('hide');
+            $('#loading').show();
+            setTimeout(function() {
+              location.reload()
+            }, 1000);
+          }
+        }
+      });
+    }
+  })
+  ////////////////////////////////////////////////////////////
 </script>

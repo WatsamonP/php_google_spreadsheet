@@ -1,12 +1,12 @@
 <tr class="text-center">
   <td>WD41</td>
-  <td class="table-success">
+  <td style="cursor: pointer" class="table-success">
     <a id="WD41" data-editable-weight-wd4><?php echo $WeightKeysData['WD41']['weight'] ?></a>
   </td>
 </tr>
 <tr class="text-center">
   <td>WD42</td>
-  <td class="table-success">
+  <td style="cursor: pointer" class="table-success">
     <a id="WD42" data-editable-weight-wd4><?php echo $WeightKeysData['WD42']['weight'] ?></a>
   </td>
 </tr>

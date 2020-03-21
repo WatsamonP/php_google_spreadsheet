@@ -17,37 +17,37 @@
               <tbody>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WD1']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WD1-final" data-editable-weight-wd-final><?php echo $WeightKeysData['WD1']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WD2']['id'] ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WD2-final" data-editable-weight-wd-final><?php echo $WeightKeysData['WD2']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WD3']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WD3-final" data-editable-weight-wd-final><?php echo $WeightKeysData['WD3']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WD4']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WD4-final" data-editable-weight-wd-final><?php echo $WeightKeysData['WD4']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WD5']['id'] ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WD5-final" data-editable-weight-wd-final><?php echo $WeightKeysData['WD5']['weight'] ?></a>
                   </td>
                 </tr>
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WD6']['id']  ?></td>
-                  <td class="table-success">
+                  <td style="cursor: pointer" class="table-success">
                     <a id="WD6-final" data-editable-weight-wd-final><?php echo $WeightKeysData['WD6']['weight'] ?></a>
                   </td>
                 </tr>

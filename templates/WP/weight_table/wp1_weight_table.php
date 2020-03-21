@@ -1,6 +1,6 @@
 <tr class="text-center">
   <td>WP11</td>
-  <td class="table-success">
+  <td style="cursor: pointer" class="table-success">
     <a id="WP11" data-editable-weight-wp1><?php echo $WeightKeysData['WP11']['weight'] ?></a>
   </td>
 </tr>

@@ -1,6 +1,6 @@
 <tr class="text-center">
   <td>WG31</td>
-  <td class="table-success">
+  <td style="cursor: pointer" class="table-success">
     <a id="WG31" data-editable-weight-wg3><?php echo $WeightKeysData['WG31']['weight'] ?></a>
   </td>
 </tr>

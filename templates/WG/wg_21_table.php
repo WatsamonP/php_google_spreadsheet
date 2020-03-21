@@ -35,6 +35,7 @@
   <table id="editable_wg_21" class='table table-hover'>
     <thead class='thead-dark'>
       <tr>
+        <th style="width:40px;"></th>
         <th scope='col' class='text-center'>#</th>
         <th scope='col' class='text-left' style="white-space: nowrap;">Name of the Respondent</th>
         <?php
@@ -50,10 +51,11 @@
       $index = 1;
       foreach ($RespondentList['WG2']['WG21'] as $rId => $res) { ?>
         <tr>
+          <td><a id="DeleteButton" thisId="<?php echo $rId ?>" name="<?php echo $res['name']; ?>" class="text-secondary" href="#" class="text-right"><i class="fas fa-trash"></i></a></td>
           <td class="text-center"><?php echo $index; ?></td>
           <td class="text-left"><?php echo $res['name']; ?></td>
           <?php foreach ($res['score'] as $q => $value) { ?>
-            <td id="EditText" class='text-center table-success'>
+            <td style="cursor: pointer" id="EditText" class='text-center table-success'>
               <a name="<?php echo $rId; ?>" id="<?php echo $q; ?>" data-editable-wg21><?php echo $value; ?></a>
             </td>
           <?php }
@@ -69,6 +71,35 @@
 <?php include  __DIR__ . "./../../templates/WG/weight_table/wg2_weight_table.php"; ?>
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
+  $("#editable_wg_21").on("click", "#DeleteButton", function() {
+    $el = $(this);
+    var id = $el.attr('thisId');
+    var name = $el.attr('name');
+    if (confirm("Do you want to delete " + name + " ?")) {
+      if (id !== null) {
+        $.ajax({
+          url: 'actions/act_delete_rows.php',
+          type: 'post',
+          data: {
+            id_column: "D",
+            id: id,
+            sheet_id: <?php echo json_encode($RESPONDENT_LIST_SHEET); ?>,
+            gid: <?php echo json_encode($RESPONDENT_LIST_GID); ?>,
+          },
+          success: function(response) {
+            $el.closest("tr").remove();
+            $('#loading').show()
+            $('#editable_wg_21').load(location.href + " #editable_wg_21", function() {
+              $("#wg-WG2-score-table").load(location.href + " #wg-WG2-score-table");
+              $('#loading').hide()
+            });
+          }
+        });
+      }
+    }
+    return false;
+  });
+  ///////////////////////////////////////
   $('#import-wg-21').click(function() {
     $('#addRespondentModal_wg21').modal('show');
   });
