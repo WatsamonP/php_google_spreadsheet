@@ -43,8 +43,8 @@ span {
 }
 
 #sidebar {
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 250px;
+    max-width: 250px;
     background: #405e34;
     color: #fff;
     transition: all 0.3s;
