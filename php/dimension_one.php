@@ -46,13 +46,16 @@ $SpecificInput = getSpecificInput($arrayVS);
 // █▀▀ ▄▀█ █░░ █▀▀ █░█ █░░ ▄▀█ ▀█▀ █ █▀█ █▄░█ //
 // █▄▄ █▀█ █▄▄ █▄▄ █▄█ █▄▄ █▀█ ░█░ █ █▄█ █░▀█ //
 ////////////////////////////////////////////////
+$FIRST_YEAR = array_slice($YEAR_RANGE, 0, 1)[0];
+$arrayOf1 = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), 1);
+$arrayOf10E6 = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), pow(10, 6));
 
 /********************** */
 // SCORE TABLE FOR WA11 //
 /********************** */
-$surfaceRunoff = getSurfaceRunoff($SpecificInputYears['WA1']['WA11']['runoffCoeff']['table'], $sumBasinArea);
+$surfaceRunoff = getSurfaceRunoff($SpecificInputYears['WA1']['WA11']['runoffCoeff']['table'], $sumBasinArea, $SpecificInputYears['WA1']['WA11']['annualAverageRainfall']['table']);
 $population = sumColumnCal($WA_SET, 'WA1', 'WA11');
-$waterAvailabilityWA1 = getWaterAvailability($surfaceRunoff, $population);
+$waterAvailabilityWA1 = divideTwoArray(multTwoArray($surfaceRunoff, $arrayOf10E6), $population);
 
 $WA11_TB = array(
   "runoffCoeff" => array('key' => "Runoff Coeff.", 'table' => $SpecificInputYears['WA1']['WA11']['runoffCoeff']['table']),
@@ -66,16 +69,15 @@ $WA11_TB = array(
 /********************** */
 // SCORE TABLE FOR WA12 //
 /********************** */
-$groundwaterConsumption = sumColumnCal($WA_SET, 'WA1', "WA12");
-$groundwaterAvailabilityWA2 = getGroundwaterAvailability($groundwaterConsumption, $population);
-
+$totalAbstraction = sumColumnTable($WA_SET, 'WA1', "WA12_A");
+$totalRecharge = sumColumnTable($WA_SET, 'WA1', "WA12_B");
+$groundwaterAvailabilityWA2 = minusTwoArray($arrayOf1, divideTwoArray($totalAbstraction, $totalRecharge));
 $WA12_TB = array(
   // "groundwaterConsumption" => array('key' => "Groundwater Consumption", 'table' => $groundwaterConsumption),
   // "population" => array('key' => 'Population', 'table' => $population),
   // "groundwaterAvailabilityWA2" => array('key' => 'Groundwater Availability (WA2)', 'table' => $groundwaterAvailabilityWA2),
-  "score" => array('key' => "Score", 'table' => getScore($groundwaterAvailabilityWA2, $FalkenmarkThreshold))
+  "score" => array('key' => "Score", 'table' => getScore($groundwaterAvailabilityWA2, "ANY_MAX_HIGH", null, [0.2, 0.4, 0.6, 0.8, 0.8]))
 );
-
 /********************** */
 // SCORE TABLE FOR WA21 //
 /********************** */
@@ -176,14 +178,16 @@ $WA_SET = combineWeightKey($WA_SET, $WeightKeysData);
 $FIRST_YEAR = array_slice($YEAR_RANGE, 0, 1)[0];
 $TEMP_WA62_SCORE = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $WA62_TB['score']['table']);
 ////////////////////////
+$tempWA11 = getWeightedValue(['WA11' => $WA11_TB['score']['table']], $WeightKeysData);
+$tempWA12 = getWeightedValue(['WA12' => $WA12_TB['score']['table']], $WeightKeysData);
+
 $FINAL_SCORE_WA = array(
-  'WA1' => calTwoSubGroup(['WA11' => $WA11_TB, 'WA12' => $WA12_TB], $WA_SET['WA1'], $WeightKeysData),
+  'WA1' => addTwoArray($tempWA11, $tempWA12),
   'WA2' => getWeightedValue(['WA21' => $WA21_TB['score']['table']], $WeightKeysData),
-  'WA3' => getWeightedValue(['WA21' => $WA31_TB['score']['table']], $WeightKeysData),
-  'WA4' => getWeightedValue(['WA21' => $WA41_TB['score']['table']], $WeightKeysData),
-  'WA5' => getWeightedValue(['WA21' => $WA51_TB['score']['table']], $WeightKeysData),
+  'WA3' => getWeightedValue(['WA31' => $WA31_TB['score']['table']], $WeightKeysData),
+  'WA4' => getWeightedValue(['WA41' => $WA41_TB['score']['table']], $WeightKeysData),
+  'WA5' => getWeightedValue(['WA51' => $WA51_TB['score']['table']], $WeightKeysData),
   'WA6' => getWeightedValue(['WA61' => $WA61_TB['score']['table'], 'WA62' => $TEMP_WA62_SCORE], $WeightKeysData)
 );
 
 $FINAL_INDICATOR_WA = getWeightedValue($FINAL_SCORE_WA, $WeightKeysData);
-// print_r($SpecificInputYears);

@@ -133,11 +133,11 @@ function getScore($data, $threshold, $scale = 1, $keys = null)
 
 function FalkenmarkThreshold($value)
 {
-  if ($value < 500) {
+  if ($value < 1000) {
     return 1;
-  } else if ($value < 800) {
+  } else if ($value < 1450) {
     return 2;
-  } else if ($value < 1000) {
+  } else if ($value < 1600) {
     return 3;
   } else if ($value < 1700) {
     return 4;

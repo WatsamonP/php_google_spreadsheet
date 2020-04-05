@@ -42,6 +42,26 @@ function getSumBasinArea($provincesData, $string_basinArea)
 }
 
 ///////////////////////////////////////////////////////////////////////////
+function addTwoArray($arr1, $arr2)
+{
+  $result = [];
+  foreach ($arr1 as $i => $value1) {
+    $result[$i] = $value1 + $arr2[$i];
+  }
+
+  return $result;
+}
+
+
+function minusTwoArray($arr1, $arr2)
+{
+  $result = [];
+  foreach ($arr1 as $i => $value1) {
+    $result[$i] = $value1 - $arr2[$i];
+  }
+
+  return $result;
+}
 
 function divideTwoArray($arr1, $arr2)
 {
