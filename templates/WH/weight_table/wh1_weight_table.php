@@ -20,6 +20,12 @@
                     <a id="WH11" data-editable-weight-wh1><?php echo $WeightKeysData['WH11']['weight'] ?></a>
                   </td>
                 </tr>
+                <tr class="text-center">
+                  <td>WH12</td>
+                  <td style="cursor: pointer" class="table-success">
+                    <a id="WH12" data-editable-weight-wh1><?php echo $WeightKeysData['WH12']['weight'] ?></a>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
