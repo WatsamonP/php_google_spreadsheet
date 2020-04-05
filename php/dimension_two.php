@@ -55,7 +55,7 @@ $agriculturalAquacultureLivestockGPP_US = divideTwoArray(multTwoArray($agricultu
 $agriculturalAquacultureLivestockWater = $totalWater;
 $agriculturalAquacultureLivestockGPP = divideTwoArray($agriculturalAquacultureLivestockGPP_US, multTwoArray($agriculturalAquacultureLivestockWater, $arrayOf10E6));
 $agriculturalWaterProductivity = $agriculturalAquacultureLivestockGPP;
-$WP11_SCORE = getScore($agriculturalWaterProductivity, $AWDO_2016_AG_Threshold);
+$WP11_SCORE = getScore($agriculturalWaterProductivity, "HIGH_VALUE_HIGH_SCORE", [0.1, 0.2, 0.35, 1]);
 
 $WP11_TB = array(
   "score" => array('key' => "Score", 'table' => $WP11_SCORE)
@@ -69,7 +69,7 @@ $industrialGPP_US = divideTwoArray(multTwoArray($industrialGPP_Mil_Baht, $arrayO
 $industrialWater = divideTwoArray(sumColumnTable($WP_SET, 'WP2', 'WP21_B'), $arrayOf10E6);
 $industrialGPP = divideTwoArray($industrialGPP_US, multTwoArray($industrialWater, $arrayOf10E6));
 $industrialWaterProductivity = $industrialGPP;
-$WP21_SCORE = getScore($industrialWaterProductivity, $AWDO_2016_NON_AG_Threshold);
+$WP21_SCORE = getScore($industrialWaterProductivity, "HIGH_VALUE_HIGH_SCORE", [2.1, 5.5, 20, 50]);
 
 $WP21_TB = array(
   "score" => array('key' => "Score", 'table' => $WP21_SCORE)
@@ -100,10 +100,10 @@ foreach ($RiverDamList['WP3']['WP31_B'] as $item) {
 $waterProductivity_GWh = divideTwoArray($summationA, $summationB);
 $waterProductivity_Wh = multTwoArray($waterProductivity_GWh, $arrayOf10E9);
 $energyWaterProductivity = $waterProductivity_Wh;
-$WP21_SCORE = getScore($energyWaterProductivity, $AWDO_2016_WATER_Threshold);
+$WP31_SCORE = getScore($energyWaterProductivity, "HIGH_VALUE_HIGH_SCORE", [10000, 25000, 50000, 100000]);
 
 $WP31_TB = array(
-  "score" => array('key' => "Score", 'table' => $WP21_SCORE)
+  "score" => array('key' => "Score", 'table' => $WP31_SCORE)
 );
 
 /****************************** */

@@ -23,24 +23,6 @@ $responseWA = $service->spreadsheets_values->get($spreadsheetId, $WA_SHEET);
 $arrayWA = $responseWA->getValues();
 $WA_SET = getWxData($arrayWA, $ratio)["SET"];
 
-/*********************************** */
-// GET SPECIAL INPUT FOR CALCULATION //
-/*********************************** */
-// $rangeSI = $SPECIFIC_INPUT_YEARS_SHEET;
-// $responseSI = $service->spreadsheets_values->get($spreadsheetId, $rangeSI);
-// $arraySI = $responseSI->getValues();
-// $SpecificInputYears = getSpecificInputYears($arraySI);
-////////////////////
-// $rangeRD = $RIVER_DAM_LIST_SHEET;
-// $responseRD = $service->spreadsheets_values->get($spreadsheetId, $rangeRD);
-// $arrayRD = $responseRD->getValues();
-// $RiverDamList = getSpecificInputYears($arrayRD);
-///////////////////
-// $rangeVS = $SPECIFIC_INPUT_SHEET;
-// $responseVS = $service->spreadsheets_values->get($spreadsheetId, $rangeVS);
-// $arrayVS = $responseVS->getValues();
-// $SpecificInput = getSpecificInput($arrayVS);
-///////////////////
 $rangeRespondent = $RESPONDENT_LIST_SHEET;
 $responseRespondent = $service->spreadsheets_values->get($spreadsheetId, $rangeRespondent);
 $arrayRespondent = $responseRespondent->getValues();

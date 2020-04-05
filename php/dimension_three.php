@@ -62,9 +62,10 @@ foreach ($SpecificInput['WA6']['WA62'] as $key => $items) {
     }
   }
 }
-$reservoirCapacityPerArea =  $_WA62_SUM / $sumBasinArea;
+$reservoirCapacityPerArea = $_WA62_SUM;
+$WA62_SCORE = getScore($reservoirCapacityPerArea, "HIGH_VALUE_HIGH_SCORE", [160, 300, 1700, 1900]);
 $WD11_TB = array(
-  "score" => array('key' => "Score", 'table' => getScore($reservoirCapacityPerArea, $AWDO_2016_AG_Threshold))
+  "score" => array('key' => "Score", 'table' => $WA62_SCORE)
 );
 
 /********************** */
@@ -73,7 +74,7 @@ $WD11_TB = array(
 $totalGDPBasin = sumColumnCal($WD_SET, 'WD2', 'WD21');
 $population = sumColumnCal($WA_SET, 'WA1', 'WA11');
 $_WD21 = divideTwoArray($totalGDPBasin, $population);
-$WD21_SCORE = getScore($_WD21, $AWDO_2016_AG_Threshold, 0.1);
+$WD21_SCORE = getScore($_WD21, "HIGH_VALUE_HIGH_SCORE", [516, 1035, 4085, 12615]);
 $WD21_TB = array(
   "score" => array('key' => "Score", 'table' => $WD21_SCORE)
 );
@@ -83,8 +84,8 @@ $WD21_TB = array(
 /********************** */
 $totalWaterBorneCasesBasin = sumColumnCal($WD_SET, 'WD3', 'WD31_A');
 $totalCasesBasin = sumColumnCal($WD_SET, 'WD3', 'WD31_B');
-$_WD31 = divideTwoArray($totalWaterBorneCasesBasin, $totalCasesBasin);
-$WD31_SCORE = getScore($_WD31, $AWDO_2016_WD_Threshold);
+$_WD31 = multTwoArray(divideTwoArray($totalWaterBorneCasesBasin, $totalCasesBasin), $arrayOf100);
+$WD31_SCORE = getScore($_WD31, "LOW_VALUE_HIGH_SCORE_EQ", [0, 5, 10, 25]);
 $WD31_TB = array(
   "score" => array('key' => "Score", 'table' => $WD31_SCORE)
 );
@@ -95,7 +96,7 @@ $WD31_TB = array(
 $exchangeValueOfOneDollar = $SpecificInputYears['WP1']['WP11']['exchangeValueOfOneD']['table'];
 $temp = divideTwoArray(sumColumnCal($WD_SET, 'WD4', 'WD41'), $exchangeValueOfOneDollar);
 $totalEconomicLossBasin = divideTwoArray($temp, $arrayOf10E6);
-$WD41_SCORE = getScore($totalEconomicLossBasin, $LOGIC_DEDUCTION_LARGEST);
+$WD41_SCORE = getScore($totalEconomicLossBasin, "LOW_VALUE_HIGH_SCORE", [0.5, 2, 10, 50]);
 $WD41_TB = array(
   "score" => array('key' => "Score", 'table' => $WD41_SCORE)
 );
@@ -106,7 +107,7 @@ $WD41_TB = array(
 $totalFloodedAreaBasin = sumColumnCal($WD_SET, 'WD4', 'WD42');
 $maximumFloodedArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), max($totalFloodedAreaBasin));
 $proportionalArea = multTwoArray(divideTwoArray($totalFloodedAreaBasin, $maximumFloodedArea), $arrayOf100);
-$WD42_SCORE = getScore($proportionalArea, $DAMAGE_THREDSHOLD);
+$WD42_SCORE = getScore($proportionalArea, "LOW_VALUE_HIGH_SCORE", [5, 10, 20, 40]);
 $WD42_TB = array(
   "score" => array('key' => "Score", 'table' => $WD42_SCORE)
 );
@@ -117,7 +118,7 @@ $WD42_TB = array(
 $tempWD51 = divideTwoArray(sumColumnCal($WD_SET, 'WD5', 'WD51'), $exchangeValueOfOneDollar);
 $totalEconomicLossBasinWD51 = divideTwoArray($tempWD51, $arrayOf10E6);
 $WD51_Threshold = [0.1, 0.2, 0.35, 1, 1];
-$WD51_SCORE = getScore($totalEconomicLossBasinWD51, "ANY_MIN_HIGH", null, $WD51_Threshold);
+$WD51_SCORE = getScore($totalEconomicLossBasinWD51, "LOW_VALUE_HIGH_SCORE", [0.1, 0.2, 0.35, 1]);
 $WD51_TB = array(
   "score" => array('key' => "Score", 'table' => $WD51_SCORE)
 );
@@ -128,7 +129,7 @@ $WD51_TB = array(
 $totalAffectedAreaBasin = sumColumnCal($WD_SET, 'WD5', 'WD52');
 $maximumAffectedArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), max($totalAffectedAreaBasin));
 $proportionalArea_WD52 = multTwoArray(divideTwoArray($totalAffectedAreaBasin, $maximumAffectedArea), $arrayOf100);
-$WD52_SCORE = getScore($proportionalArea_WD52, $DAMAGE_THREDSHOLD);
+$WD52_SCORE = getScore($proportionalArea_WD52, "LOW_VALUE_HIGH_SCORE", [5, 10, 20, 40]);
 $WD52_TB = array(
   "score" => array('key' => "Score", 'table' => $WD52_SCORE)
 );
@@ -139,7 +140,7 @@ $WD52_TB = array(
 $stdRainfall = $SpecificInputYears['WD6']['WD61']['stdRainfall']['table'];
 $meanRainfall = $SpecificInputYears['WD6']['WD61']['meanRainfall']['table'];
 $_WD61 = divideTwoArray($stdRainfall, $meanRainfall);
-$WD61_SCORE = getScore($_WD61, $COEFFICIENT_VARIATION);
+$WD61_SCORE = getScore($_WD61, "LOW_VALUE_HIGH_SCORE", [0.06, 0.12, 0.18, 0.24]);
 $WD61_TB = array(
   "score" => array('key' => "Score", 'table' => $WD61_SCORE)
 );
@@ -157,6 +158,7 @@ $WD_SET = combineWeightKey($WD_SET, $WeightKeysData);
 // CONSTRUCT FINAL SCORE (below page) //
 /************************************ */
 $arrayOfWD11 = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $WD11_TB['score']['table']);
+
 $FINAL_SCORE_WD = array(
   'WD1' => getWeightedValue(['WD11' => $arrayOfWD11], $WeightKeysData),
   'WD2' => getWeightedValue(['WD21' => $WD21_TB['score']['table']], $WeightKeysData),
