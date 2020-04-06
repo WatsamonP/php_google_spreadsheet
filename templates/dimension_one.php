@@ -11,7 +11,7 @@ require_once __DIR__ . "./../constants/gid.php";
   <a class="navbar-brand" href="#" style="font-size:30px">
     <div id="sidebarCollapse">
       <i id="sidebarIcon" class="fas fa-caret-square-left"></i>
-      DIMENSION 1
+      DIMENSION ONE
     </div>
   </a>
 </nav>
