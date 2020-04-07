@@ -100,7 +100,7 @@ foreach ($RiverDamList['WP3']['WP31_B'] as $item) {
 $waterProductivity_GWh = divideTwoArray($summationA, $summationB);
 $waterProductivity_Wh = multTwoArray($waterProductivity_GWh, $arrayOf10E9);
 $energyWaterProductivity = $waterProductivity_Wh;
-$WP31_SCORE = getScore($energyWaterProductivity, "HIGH_VALUE_HIGH_SCORE", [10000, 25000, 50000, 100000]);
+$WP31_SCORE = getScore($energyWaterProductivity, "HIGH_VALUE_HIGH_SCORE", [10, 25, 50, 100]);
 
 $WP31_TB = array(
   "score" => array('key' => "Score", 'table' => $WP31_SCORE)
