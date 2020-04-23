@@ -4,12 +4,6 @@
     <a id="WA61" data-editable-weight-wa6><?php echo $WeightKeysData['WA61']['weight'] ?></a>
   </td>
 </tr>
-<tr class="text-center">
-  <td>WA62</td>
-  <td style="cursor: pointer" class="table-success">
-    <a id="WA62" data-editable-weight-wa6><?php echo $WeightKeysData['WA62']['weight'] ?></a>
-  </td>
-</tr>
 <!-- -------------------------------------------------------------------------------- -->
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">

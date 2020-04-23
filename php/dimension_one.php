@@ -125,24 +125,6 @@ $WA61_TB = array(
   "score" => array('key' => "Score", 'table' => $WA61_SCORE)
 );
 
-/********************** */
-// SCORE TABLE FOR WA62 //
-/********************** */
-// NOTE THAT sumColumnCal() cannot be use here 
-$_WA62_SUM = 0;
-foreach ($SpecificInput['WA6']['WA62'] as $key => $items) {
-  if ($key == 'reservoirs') {
-    foreach ($items as $reservoir) {
-      $_WA62_SUM += $reservoir['value'];
-    }
-  }
-}
-$reservoirCapacityPerArea = $_WA62_SUM;
-$WA62_SCORE = getScore($reservoirCapacityPerArea, "HIGH_VALUE_HIGH_SCORE", [160, 300, 1700, 1900]);
-$WA62_TB = array(
-  "score" => array('key' => "Score", 'table' => $WA62_SCORE)
-);
-
 /****************************** */
 // PULL DATA from WEIGHT SHEET //
 /****************************** */
@@ -157,7 +139,6 @@ $WA_SET = combineWeightKey($WA_SET, $WeightKeysData);
 /************************************ */
 $tempWA11 = getWeightedValue(['WA11' => $WA11_TB['score']['table']], $WeightKeysData);
 $tempWA12 = getWeightedValue(['WA12' => $WA12_TB['score']['table']], $WeightKeysData);
-$TEMP_WA62_SCORE = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $WA62_TB['score']['table']);
 //
 $FINAL_SCORE_WA = array(
   'WA1' => addTwoArray($tempWA11, $tempWA12),
@@ -165,7 +146,7 @@ $FINAL_SCORE_WA = array(
   'WA3' => getWeightedValue(['WA31' => $WA31_TB['score']['table']], $WeightKeysData),
   'WA4' => getWeightedValue(['WA41' => $WA41_TB['score']['table']], $WeightKeysData),
   'WA5' => getWeightedValue(['WA51' => $WA51_TB['score']['table']], $WeightKeysData),
-  'WA6' => getWeightedValue(['WA61' => $WA61_TB['score']['table'], 'WA62' => $TEMP_WA62_SCORE], $WeightKeysData)
+  'WA6' => getWeightedValue(['WA61' => $WA61_TB['score']['table']], $WeightKeysData)
 );
 
 $FINAL_INDICATOR_WA = getWeightedValue($FINAL_SCORE_WA, $WeightKeysData);

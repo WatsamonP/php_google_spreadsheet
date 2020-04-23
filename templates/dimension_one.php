@@ -105,9 +105,6 @@ require_once __DIR__ . "./../constants/gid.php";
             if ($gKey == "WA11") {
               include __DIR__ . "./../templates/WA/wa_11_runoffCoeff.php";
               ////////////////////////////////////////////
-            } else if ($gKey == "WA61") {
-              include __DIR__ . "./../templates/WA/wa_62_table.php";
-              ////////////////////////////////////////////
             } else {
               echo "";
             } ?>
