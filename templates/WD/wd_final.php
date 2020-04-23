@@ -102,63 +102,74 @@
 <!-- -------------------------------------------------------------------------------- -->
 <script>
   function showChart(chartData = <?php echo json_encode($FINAL_INDICATOR_WD); ?>) {
+    var colorNames = Object.keys(window.chartColors);
+    var color = Chart.helpers.color;
+    var colors = [
+      window.chartColors.red,
+      window.chartColors.blue,
+      window.chartColors.green,
+      window.chartColors.yellow,
+      window.chartColors.orange
+    ]
+
     var dataset = [];
     var labels = [];
+    var colorSet = [];
+    var colorSetAlpha = [];
+
+    var i = 0;
     for (const property in chartData) {
       labels.push(property)
       dataset.push(chartData[property])
+      colorSet.push(colors[i % 5])
+      colorSetAlpha.push(color(colors[i % 5]).alpha(0.2).rgbString())
+      i++
     }
-    var colorNames = Object.keys(window.chartColors);
-    var color = Chart.helpers.color;
+
     var config = {
-      type: 'radar',
+      type: 'bar',
       data: {
         labels: labels,
         datasets: [{
-          // label: 'Water related Disasters',
-          backgroundColor: color(window.chartColors.red).alpha(0.2).rgbString(),
-          borderColor: window.chartColors.red,
-          pointBackgroundColor: window.chartColors.red,
-          data: dataset
+          data: dataset,
+          backgroundColor: colorSetAlpha,
+          borderColor: colorSet,
+          borderWidth: 1
         }]
       },
       options: {
         legend: {
-          display: false,
-          // position: 'top',
-          // labels: { fontSize: 18 }
+          display: false
         },
         title: {
           display: true,
           text: 'Dimension 3 : Water related Disasters',
           fontSize: 20
         },
-        scale: {
-          beginAtZero: true,
-          pointLabels: {
-            fontSize: 16,
-          },
-          ticks: {
-            suggestedMin: 0.15,
-          }
-        },
-        tooltips: {
-          callbacks: {
-            title: function() {},
-            label: function(t, d) {
-              // var xLabel = d.datasets[t.datasetIndex].label;
-              var yLabel = t.yLabel;
-              return (Math.round(yLabel * 100) / 100).toFixed(3);
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              fontSize: 14,
+              display: true,
+              labelString: 'YEAR'
             }
-          }
-        },
+          }],
+          yAxes: [{
+            scaleLabel: {
+              fontSize: 14,
+              display: true,
+              labelString: 'INDEX'
+            }
+          }]
+        }
       }
     };
     return config;
   }
 
   window.onload = function() {
-    window.myRadar = new Chart(document.getElementById('wdFinalGraph'), showChart());
+    var ctx = document.getElementById('wdFinalGraph').getContext('2d');
+    window.chart = new Chart(ctx, showChart());
   };
 </script>
 <!-- -------------------------------------------------------------------------------- -->
@@ -184,7 +195,7 @@
           $('#wd-score-table-final').load(location.href + " #wd-score-table-final", function() {
             var newVal = $("#wd-final-value").text()
             var newArr = newVal.match(/[^\s]+/g);
-            window.myRadar = new Chart(document.getElementById('wdFinalGraph'), showChart(newArr));
+            window.chart = new Chart(document.getElementById('wdFinalGraph').getContext('2d'), showChart(newArr));
             $('#loadingPink').hide()
           });
         }
