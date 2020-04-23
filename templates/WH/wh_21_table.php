@@ -1,5 +1,5 @@
 <!-- --------------------------------------------------- -->
-<div class="modal fade" id="addRiverModal_wh11" tabindex="-1" role="dialog">
+<div class="modal fade" id="addRiverModal_wh21" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -13,39 +13,32 @@
           <div class="input-group-prepend">
             <span class="input-group-text" style="width: 150px;" id="basic-addon1">River Name</span>
           </div>
-          <input id="addNewRiver_wh11" type="text" class="form-control" placeholder="River Name" aria-label="Name" aria-describedby="basic-addon1">
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" style="width: 150px;" id="basic-addon1">Length (km)</span>
-          </div>
-          <input type="number" id="addNewRiver_wh11_length" type="text" class="form-control" placeholder="1234.00" aria-label="Name" aria-describedby="basic-addon1">
+          <input id="addNewRiver_wh21" type="text" class="form-control" placeholder="River Name" aria-label="Name" aria-describedby="basic-addon1">
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button id="addRiver_wh11" type="button" class="btn btn-primary">Add</button>
+        <button id="addRiver_wh21" type="button" class="btn btn-primary">Add</button>
       </div>
     </div>
   </div>
 </div>
 <!-- ------------------------------------------------- -->
-<H3 style="margin-bottom:40px"><strong><?php echo "[ WH1 ] " . $WeightKeysData['WH1']['name'] ?></strong></H3>
+<H3 style="margin-bottom:40px"><strong><?php echo "[ WH2 ] " . $WeightKeysData['WH2']['name'] ?></strong></H3>
 
 <H4 style="margin-bottom:20px">
-  <a><a href="#" id=<?php echo "import-wh-11" ?>><i style="font-size:20px" class="fas fa-plus-circle"></i></a>
-    <?php echo $WeightKeysData['WH11']['id'] ?> : <?php echo $WeightKeysData['WH11']['name'] ?> ( DO (mg/l) )
+  <a><a href="#" id=<?php echo "import-wh-21" ?>><i style="font-size:20px" class="fas fa-plus-circle"></i></a>
+    <?php echo $WeightKeysData['WH21']['id'] ?> : <?php echo $WeightKeysData['WH21']['name'] ?>
   </a>
 </H4>
 <!-- ------------------------------------------------- -->
 <div class='table-responsive' style="margin-top:30px">
-  <table id="editable_wh_11" class='table table-bordered table-hover'>
+  <table id="editable_wh_21" class='table table-bordered table-hover'>
     <thead class='thead-dark'>
       <tr class="text-center">
         <th style="width:40px;"></th>
         <th>#</th>
         <th>River Name</th>
-        <th>Length (km)</th>
         <?php
         foreach ($YEAR_RANGE as $year) {
         ?>
@@ -57,17 +50,16 @@
     <tbody>
       <?php
       $index = 1;
-      foreach ($RiverDamList['WH1']['WH11'] as $key => $river) { ?>
+      foreach ($RiverDamList['WH2']['WH21'] as $key => $river) { ?>
         <tr class="text-center">
           <td><a id="DeleteButton" thisId="<?php echo $river['id']; ?>" name="<?php echo $river['name']; ?>" class="text-secondary" href="#" class="text-right"><i class="fas fa-trash"></i></a></td>
           <td><?php echo $index ?></td>
           <td style="white-space: nowrap;"><?php echo $river['name'] ?></td>
-          <td><?php echo $river['length'] ?></td>
           <?php
           foreach ($river['table'] as $year => $value) {
           ?>
             <td style="cursor: pointer" class="text-right table-success">
-              <a <?php echo "name='" . $river['id'] . "'" ?> <?php echo "id='" . $year . "'" ?> data-editable-wh11-river><?php echo $value ?></a>
+              <a <?php echo "name='" . $river['id'] . "'" ?> <?php echo "id='" . $year . "'" ?> data-editable-wh21-river><?php echo $value ?></a>
             </td>
           <?php } ?>
         </tr>
@@ -79,11 +71,11 @@
 
 <?php include  __DIR__ . "./../../templates/utils/hr.html"; ?>
 <!-- ------------------------------------------------- -->
-<?php include  __DIR__ . "./../../templates/WH/weight_table/wh1_weight_table.php"; ?>
+<?php include  __DIR__ . "./../../templates/WH/weight_table/wh2_weight_table.php"; ?>
 <!-- -------------------------------------------------------------------------------- -->
 <!-- -------------------------------------------------------------------------------- -->
 <script type="text/javascript">
-  $("#editable_wh_11").on("click", "#DeleteButton", function() {
+  $("#editable_wh_21").on("click", "#DeleteButton", function() {
     $el = $(this);
     var id = $el.attr('thisId');
     var name = $el.attr('name');
@@ -101,8 +93,8 @@
           success: function(response) {
             $el.closest("tr").remove();
             $('#loading').show()
-            $('#editable_wh_11').load(location.href + " #editable_wh_11", function() {
-              $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table");
+            $('#editable_wh_21').load(location.href + " #editable_wh_21", function() {
+              $("#wh-WH2-score-table").load(location.href + " #wh-WH2-score-table");
               $('#loading').hide()
             });
           }
@@ -112,38 +104,36 @@
     return false;
   });
   ///////////////////////////////////////
-  $('#import-wh-11').click(function() {
-    $('#addRiverModal_wh11').modal('show');
+  $('#import-wh-21').click(function() {
+    $('#addRiverModal_wh21').modal('show');
   });
-  $('#addRiver_wh11').click(function() {
+  $('#addRiver_wh21').click(function() {
     ///////////////////////////////////////
     var yearRange = <?php echo json_encode($YEAR_RANGE); ?>;
-    var lastRiverId = $('#editable_wh_11 tr td a').last().attr('name')
-    var name = $('#addNewRiver_wh11').val()
-    var riverLength = $('#addNewRiver_wh11_length').val()
-    var newKey = 'WH11_' + (parseInt(lastRiverId.toString().replace("WH11_", '')) + 1);
+    var lastRiverId = $('#editable_wh21 tr td a').last().attr('name')
+    var name = $('#addNewRiver_wh21').val()
+    var newKey = 'WH21_' + (parseInt(lastRiverId.toString().replace("WH21_", '')) + 1);
     var range = [];
     for (var i = 0; i < Object.keys(yearRange).length; i++) {
       range.push(0)
     }
-    if (name !== "" && riverLength) {
-      var newData = ['WH1', 'WH11', '', newKey, "River", name, riverLength ? riverLength : 0, 'DO (mg/l)', ...range];
+    if (name !== "") {
+      var newData = ['WH2', 'WH21', '', newKey, "River", name, '', '', ...range];
       $.ajax({
         url: "actions/act_append.php",
         type: 'post',
         data: {
-          'id': 'addNewRiver_wh11',
+          'id': 'addNewRiver_wh21',
           'data': newData,
           'sheet_id': <?php echo json_encode($RIVER_DAM_LIST_SHEET); ?>,
         },
         success: function(response) {
-          $('#addRiverModal_wh11').modal('hide');
+          $('#addRiverModal_wh21').modal('hide');
           $('#loading').show()
-          $('#editable_wh_11').load(location.href + " #editable_wh_11", function() {
-            $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table");
+          $('#editable_wh_21').load(location.href + " #editable_wh_21", function() {
+            $("#wh-WH2-score-table").load(location.href + " #wh-WH2-score-table");
             $('#loading').hide()
-            $('#addNewRiver_wh11').val('');
-            $('#addNewRiver_wh11_length').val('');
+            $('#addNewRiver_wh21').val('');
           });
         }
       });
@@ -152,13 +142,13 @@
     }
   })
   ////////////////////////////////////////////////////////////
-  $('body').on('click', '[data-editable-wh11-river]', function(e) {
+  $('body').on('click', '[data-editable-wh21-river]', function(e) {
     e.preventDefault();
     var $el = $(this);
     var $input = $('<input type="number" id="' + $el.attr("id") + '" name="' + $el.attr("name") + '" type="text" style="min-width:100px;" class="form-control">').val($el.text());
     $el.replaceWith($input);
     var save = function() {
-      var $a = $('<a id="' + $el.attr("id") + '" name="' + $el.attr("name") + '" data-editable-wh11-river />').text($input.val());
+      var $a = $('<a id="' + $el.attr("id") + '" name="' + $el.attr("name") + '" data-editable-wh21-river />').text($input.val());
       $input.replaceWith($a);
     };
     $input.one('blur', save).focus();
@@ -169,7 +159,7 @@
         type: 'post',
         data: data,
         success: function(response) {
-          $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table");
+          $("#wh-WH2-score-table").load(location.href + " #wh-WH2-score-table");
         },
       })
     }

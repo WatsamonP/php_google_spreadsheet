@@ -48,15 +48,8 @@
 
                 <tr class="text-center">
                   <td><?php echo $WeightKeysData['WH6']['id']  ?></td>
-                  <!-- TODO -->
                   <td style="cursor: pointer" class="table-success">
                     <a id="WH6-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH6']['weight'] ?></a>
-                  </td>
-                </tr>
-                <tr class="text-center">
-                  <td><?php echo $WeightKeysData['WH7']['id']  ?></td>
-                  <td style="cursor: pointer" class="table-success">
-                    <a id="WH7-final" data-editable-weight-wh-final><?php echo $WeightKeysData['WH7']['weight'] ?></a>
                   </td>
                 </tr>
               </tbody>

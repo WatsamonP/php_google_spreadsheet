@@ -42,9 +42,6 @@ require_once __DIR__ . "./../constants/gid.php";
         <a class='nav-link' href='#WH6' role="tab" aria-controls='WH6' aria-selected="false">WH6</a>
       </li>
       <li class="nav-item">
-        <a class='nav-link' href='#WH7' role="tab" aria-controls='WH7' aria-selected="false">WH7</a>
-      </li>
-      <li class="nav-item">
         <a class='nav-link' href='#whfinal' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
       </li>
     </ul>
@@ -52,11 +49,11 @@ require_once __DIR__ . "./../constants/gid.php";
   </div>
   <div class="card-body">
     <div class="tab-content">
-      <div class="tab-pane active" id="WH1" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WH/wh_11_table.php"; ?>
+      <div class="tab-pane" id="WH2" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WH/wh_21_table.php"; ?>
       </div>
-      <div class="tab-pane" id="WH6" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WH/wh_61_table.php"; ?>
+      <div class="tab-pane" id="WH3" role="tabpanel" aria-labelledby="history-tab">
+        <?php include __DIR__ . "./../templates/WH/wh_31_table.php"; ?>
       </div>
       <div class="tab-pane" id="whfinal" role="tabpanel" aria-labelledby="history-tab">
         <?php include __DIR__ . "./../templates/WH/wh_final.php"; ?>
@@ -105,8 +102,8 @@ require_once __DIR__ . "./../constants/gid.php";
                       foreach ($item['table'] as $val) {
                       ?>
                         <td class='text-right'><?php echo number_format($val, 2, '.', '') ?></td>
-                        <?php }
-                        ?>
+                      <?php }
+                      ?>
                     </tr> <?php $index++;
                         } ?> </tbody>
               </table>
@@ -135,16 +132,14 @@ require_once __DIR__ . "./../constants/gid.php";
                         </thead>
                         <tbody>
                           <?php
-                          if ($sKey == "WH2") {
-                            include __DIR__ . "./../templates/WH/weight_table/wh2_weight_table.php";
-                          } else if ($sKey == "WH3") {
-                            include __DIR__ . "./../templates/WH/weight_table/wh3_weight_table.php";
+                          if ($sKey == "WH1") {
+                            include __DIR__ . "./../templates/WH/weight_table/wh1_weight_table.php";
                           } else if ($sKey == "WH4") {
                             include __DIR__ . "./../templates/WH/weight_table/wh4_weight_table.php";
                           } else if ($sKey == "WH5") {
                             include __DIR__ . "./../templates/WH/weight_table/wh5_weight_table.php";
-                          } else if ($sKey == "WH7") {
-                            include __DIR__ . "./../templates/WH/weight_table/wh7_weight_table.php";
+                          } else if ($sKey == "WH6") {
+                            include __DIR__ . "./../templates/WH/weight_table/wh6_weight_table.php";
                           } else {
                             echo "<p>Data not Found</p>";
                           } ?>
@@ -218,9 +213,9 @@ require_once __DIR__ . "./../constants/gid.php";
       editableData[index] = [index + year_start_col, value]
     });
 
-    var editaleID = "#editable_table_WH21_A, #editable_table_WH21_B, " +
-      "#editable_table_WH31, #editable_table_WH32, " +
-      "#editable_table_WH41, #editable_table_WH51, #editable_table_WH71 ";
+    var editaleID = "#editable_table_WH41_A, #editable_table_WH41_B, " +
+      "#editable_table_WH11, #editable_table_WH12, " +
+      "#editable_table_WH51, #editable_table_WH61 ";
 
     $(editaleID).Tabledit({
       url: 'actions/act_pre_dimension_one.php',
@@ -280,24 +275,20 @@ require_once __DIR__ . "./../constants/gid.php";
           data: data,
           success: function(response) {
             $('#loading').show()
-            if (data.id.includes('WH2')) {
-              $("#wh-WH2-score-table").load(location.href + " #wh-WH2-score-table", function() {
-                $('#loading').hide()
-              });
-            } else if (data.id.includes('WH3')) {
-              $("#wh-WH3-score-table").load(location.href + " #wh-WH3-score-table", function() {
-                $('#loading').hide()
-              });
-            } else if (data.id.includes('WH4')) {
+            if (data.id.includes('WH4')) {
               $("#wh-WH4-score-table").load(location.href + " #wh-WH4-score-table", function() {
+                $('#loading').hide()
+              });
+            } else if (data.id.includes('WH1')) {
+              $("#wh-WH1-score-table").load(location.href + " #wh-WH1-score-table", function() {
                 $('#loading').hide()
               });
             } else if (data.id.includes('WH5')) {
               $("#wh-WH5-score-table").load(location.href + " #wh-WH5-score-table", function() {
                 $('#loading').hide()
               });
-            } else if (data.id.includes('WH7')) {
-              $("#wh-WH7-score-table").load(location.href + " #wh-WH7-score-table", function() {
+            } else if (data.id.includes('WH6')) {
+              $("#wh-WH6-score-table").load(location.href + " #wh-WH6-score-table", function() {
                 $('#loading').hide()
               });
             } else {

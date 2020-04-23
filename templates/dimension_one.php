@@ -217,9 +217,9 @@ require_once __DIR__ . "./../constants/gid.php";
     var editaleID = "#editable_table_WA11, #editable_table_WA12, " +
       "#editable_table_WA21_A, #editable_table_WA21_B, " +
       "#editable_table_WA31_A, #editable_table_WA31_B, " +
-      "#editable_table_WA41_A, #editable_table_WA41_B, " +
+      "#editable_table_WA41," +
       "#editable_table_WA51, " +
-      "#editable_table_WA61"
+      "#editable_table_WA61_A, #editable_table_WA61_B"
 
     $(editaleID).Tabledit({
       url: 'actions/act_pre_dimension_one.php',

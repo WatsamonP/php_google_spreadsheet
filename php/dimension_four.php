@@ -53,69 +53,73 @@ $arrayOf7_25 = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), 7.25);
 /********************** */
 // SCORE TABLE FOR WH11 //
 /********************** */
-$totalLength = 0;
-$sumWH11 = [];
-foreach ($RiverDamList['WH1']['WH11'] as $river) {
-  $totalLength += $river['length'];
-  foreach ($river['table'] as $year => $item) {
-    if (!isset($sumWH11[$year])) {
-      $sumWH11[$year] = $item * $river['length'];
-    } else {
-      $sumWH11[$year] += $item * $river['length'];
-    }
-  }
-}
-$totalLengthArray = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $totalLength);
-$totalWH11 = divideTwoArray($sumWH11, $totalLengthArray);
-$DO_Percent = multTwoArray(divideTwoArray($totalWH11, $arrayOf7_25), $arrayOf100);
-$WH11_SCORE = getScore($DO_Percent, "HIGH_VALUE_HIGH_SCORE", [60, 70, 90, 100]);
-$WH21_SCORE = getScore($totalWH11, "LOW_VALUE_HIGH_SCORE", [2, 3, 4, 5]);
+$totalForestAreaBasin = sumColumnCal($WH_SET, 'WH1', 'WH11');
+$totalAreaBasin = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $sumBasinArea);
+$_WH11 = multTwoArray(divideTwoArray($totalForestAreaBasin, $totalAreaBasin), $arrayOf100);
+$WH11_SCORE = getScore($_WH11, "HIGH_VALUE_HIGH_SCORE", [10, 17, 24, 31]);
 $WH11_TB = array(
   "score" => array('key' => "Score", 'table' => $WH11_SCORE)
 );
+
+/********************** */
+// SCORE TABLE FOR WH12 //
+/********************** */
+$totalWetlandAreaBasin = sumColumnCal($WH_SET, 'WH1', 'WH12');
+$_WH12 = multTwoArray(divideTwoArray($totalWetlandAreaBasin, $totalAreaBasin), $arrayOf100);
+$WH12_SCORE = getScore($_WH12, "HIGH_VALUE_HIGH_SCORE", [10, 17, 24, 31]);
 $WH12_TB = array(
-  "score" => array('key' => "Score", 'table' => $WH21_SCORE)
+  "score" => array('key' => "Score", 'table' => $WH12_SCORE)
 );
 
 /********************** */
 // SCORE TABLE FOR WH21 //
 /********************** */
-$totalTreatedWastewaterVolume = sumColumnCal($WH_SET, 'WH2', 'WH21_A');
-$totalGeneratedWastewaterVolume = sumColumnCal($WH_SET, 'WH2', 'WH21_B');
-$_WH21 = multTwoArray(divideTwoArray($totalTreatedWastewaterVolume, $totalGeneratedWastewaterVolume), $arrayOf100);
-$WH21_SCORE = getScore($_WH21, "HIGH_VALUE_HIGH_SCORE", [60, 70, 80, 90]);
+$WH21_VALUE = [];
+foreach ($RiverDamList['WH2']['WH21'] as $river) {
+  foreach ($river['table'] as $year => $item) {
+    $WH21_VALUE[$year] = $item;
+  }
+}
+$WH21_SCORE = getScore($WH21_VALUE, "HIGH_VALUE_HIGH_SCORE", [750, 1500, 2250, 3000]);
 $WH21_TB = array(
   "score" => array('key' => "Score", 'table' => $WH21_SCORE)
 );
 
+
 /********************** */
 // SCORE TABLE FOR WH31 //
 /********************** */
-$totalForestAreaBasin = sumColumnCal($WH_SET, 'WH3', 'WH31');
-$totalAreaBasin = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $sumBasinArea);
-$_WH31 = multTwoArray(divideTwoArray($totalForestAreaBasin, $totalAreaBasin), $arrayOf100);
-$WH31_SCORE = getScore($_WH31, "HIGH_VALUE_HIGH_SCORE", [10, 17, 24, 31]);
+$totalLength = 0;
+$sumWH31 = [];
+foreach ($RiverDamList['WH3']['WH31'] as $river) {
+  $totalLength += $river['length'];
+  foreach ($river['table'] as $year => $item) {
+    if (!isset($sumWH31[$year])) {
+      $sumWH31[$year] = $item * $river['length'];
+    } else {
+      $sumWH31[$year] += $item * $river['length'];
+    }
+  }
+}
+$totalLengthArray = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $totalLength);
+$totalWH31 = divideTwoArray($sumWH31, $totalLengthArray);
+$DO_Percent = multTwoArray(divideTwoArray($totalWH31, $arrayOf7_25), $arrayOf100);
+$WH31_SCORE = getScore($DO_Percent, "HIGH_VALUE_HIGH_SCORE", [60, 70, 90, 100]);
+$WH32_SCORE = getScore($totalWH31, "LOW_VALUE_HIGH_SCORE", [2, 3, 4, 5]);
 $WH31_TB = array(
   "score" => array('key' => "Score", 'table' => $WH31_SCORE)
 );
-
-/********************** */
-// SCORE TABLE FOR WH32 //
-/********************** */
-$totalWetlandAreaBasin = sumColumnCal($WH_SET, 'WH3', 'WH32');
-$_WH32 = multTwoArray(divideTwoArray($totalWetlandAreaBasin, $totalAreaBasin), $arrayOf100);
-$WH32_SCORE = getScore($_WH32, "HIGH_VALUE_HIGH_SCORE", [10, 17, 24, 31]);
 $WH32_TB = array(
-  "score" => array('key' => "Score", 'table' => $WH32_SCORE)
+  "score" => array('key' => "Score", 'table' => $WH31_SCORE)
 );
 
 /********************** */
 // SCORE TABLE FOR WH41 //
 /********************** */
-$totalGeneratedWastewaterVolumeBasin = $totalGeneratedWastewaterVolume;
-$totalWaterUsedBasin = sumColumnCal($WH_SET, 'WH4', 'WH41');
-$_WH41 = multTwoArray(divideTwoArray($totalGeneratedWastewaterVolumeBasin, $totalWaterUsedBasin), $arrayOf100);
-$WH41_SCORE = getScore($_WH41, "LOW_VALUE_HIGH_SCORE", [60, 70, 80, 90]);
+$totalTreatedWastewaterVolume = sumColumnCal($WH_SET, 'WH4', 'WH41_A');
+$totalGeneratedWastewaterVolume = sumColumnCal($WH_SET, 'WH4', 'WH41_B');
+$_WH41 = multTwoArray(divideTwoArray($totalTreatedWastewaterVolume, $totalGeneratedWastewaterVolume), $arrayOf100);
+$WH41_SCORE = getScore($_WH41, "HIGH_VALUE_HIGH_SCORE", [60, 70, 80, 90]);
 $WH41_TB = array(
   "score" => array('key' => "Score", 'table' => $WH41_SCORE)
 );
@@ -131,30 +135,15 @@ $WH51_TB = array(
   "score" => array('key' => "Score", 'table' => $WH51_SCORE)
 );
 
-// TODO
 /********************** */
 // SCORE TABLE FOR WH61 //
 /********************** */
-$WH61_VALUE = [];
-foreach ($RiverDamList['WH6']['WH61'] as $river) {
-  foreach ($river['table'] as $year => $item) {
-    $WH61_VALUE[$year] = $item;
-  }
-}
-$WH61_SCORE = getScore($WH61_VALUE, "HIGH_VALUE_HIGH_SCORE", [750, 1500, 2250, 3000]);
+$populationAccessPipedWaterSupplyBasin =  sumColumnCal($WH_SET, 'WH6', 'WH61');
+$totalPopulationBasin  = sumColumnCal($WA_SET, 'WA1', 'WA11');
+$proportionalArea_WH61 = multTwoArray(divideTwoArray($populationAccessPipedWaterSupplyBasin, $totalPopulationBasin), $arrayOf100);
+$WH61_SCORE = getScore($proportionalArea_WH61, "HIGH_VALUE_HIGH_SCORE", [60, 70, 80, 90]);
 $WH61_TB = array(
   "score" => array('key' => "Score", 'table' => $WH61_SCORE)
-);
-
-/********************** */
-// SCORE TABLE FOR WH71 //
-/********************** */
-$populationAccessPipedWaterSupplyBasin =  sumColumnCal($WH_SET, 'WH7', 'WH71');
-$totalPopulationBasin  = sumColumnCal($WA_SET, 'WA1', 'WA11');
-$proportionalArea_WH71 = multTwoArray(divideTwoArray($populationAccessPipedWaterSupplyBasin, $totalPopulationBasin), $arrayOf100);
-$WH71_SCORE = getScore($proportionalArea_WH71, "HIGH_VALUE_HIGH_SCORE", [60, 70, 80, 90]);
-$WH71_TB = array(
-  "score" => array('key' => "Score", 'table' => $WH71_SCORE)
 );
 
 /****************************** */
@@ -169,17 +158,16 @@ $WH_SET = combineWeightKey($WH_SET, $WeightKeysData);
 /************************************ */
 // CONSTRUCT FINAL SCORE (below page) //
 /************************************ */
-$tempWH11 = getWeightedValue(['WH11' => $WH11_TB['score']['table']], $WeightKeysData);
-$tempWH12 = getWeightedValue(['WH12' => $WH12_TB['score']['table']], $WeightKeysData);
+$tempWH31 = getWeightedValue(['WH31' => $WH31_TB['score']['table']], $WeightKeysData);
+$tempWH32 = getWeightedValue(['WH32' => $WH32_TB['score']['table']], $WeightKeysData);
 //
 $FINAL_SCORE_WH = array(
-  'WH1' => addTwoArray($tempWH11, $tempWH12),
+  'WH1' => calTwoSubGroup(['WH11' => $WH11_TB, 'WH12' => $WH12_TB], $WH_SET['WH1'], $WeightKeysData),
   'WH2' => getWeightedValue(['WH21' => $WH21_TB['score']['table']], $WeightKeysData),
-  'WH3' => calTwoSubGroup(['WH31' => $WH31_TB, 'WH32' => $WH32_TB], $WH_SET['WH3'], $WeightKeysData),
+  'WH3' => addTwoArray($tempWH31, $tempWH32),
   'WH4' => getWeightedValue(['WH41' => $WH41_TB['score']['table']], $WeightKeysData),
   'WH5' => getWeightedValue(['WH51' => $WH51_TB['score']['table']], $WeightKeysData),
   'WH6' => getWeightedValue(['WH61' => $WH61_TB['score']['table']], $WeightKeysData),
-  'WH7' => getWeightedValue(['WH71' => $WH71_TB['score']['table']], $WeightKeysData),
 );
 
 $FINAL_INDICATOR_WH = getWeightedValue($FINAL_SCORE_WH, $WeightKeysData);
