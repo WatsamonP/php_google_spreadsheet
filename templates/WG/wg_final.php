@@ -33,13 +33,6 @@
                     <a id="WG3-final" data-editable-weight-wg-final><?php echo $WeightKeysData['WG3']['weight'] ?></a>
                   </td>
                 </tr>
-                <tr class="text-center">
-                  <td><?php echo $WeightKeysData['WG4']['id']  ?></td>
-                  <!-- TODO -->
-                  <td style="cursor: pointer" class="table-warning">
-                    <a id="WG4-final" data-editable-weight-wg-final><?php echo $WeightKeysData['WG4']['weight'] ?></a>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>

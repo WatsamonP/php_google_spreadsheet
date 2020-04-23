@@ -65,11 +65,6 @@ $WG31_TB = array(
   "score" => array('key' => "Score", 'table' => $WG31_SCORE)
 );
 
-// TODO
-/********************** */
-// SCORE TABLE FOR WG41 //
-/********************** */
-
 /****************************** */
 // PULL DATA from WEIGHT SHEET //
 /****************************** */
@@ -88,7 +83,6 @@ $FINAL_SCORE_WG = array(
   'WG1' => $arrayOfWG11,
   'WG2' => $arrayOfWG21,
   'WG3' => getWeightedValue(['WG31' => $WG31_TB['score']['table']], $WeightKeysData),
-  // 'WG4' => []
 );
 
 $FINAL_INDICATOR_WG = getWeightedValue($FINAL_SCORE_WG, $WeightKeysData);

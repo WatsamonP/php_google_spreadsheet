@@ -33,9 +33,6 @@ require_once __DIR__ . "./../constants/gid.php";
         <a class='nav-link' href='#WG3' role="tab" aria-controls='WG3' aria-selected="false">WG3</a>
       </li>
       <li class="nav-item">
-        <a class='nav-link' href='#WG4' role="tab" aria-controls='WG4' aria-selected="false">WG4</a>
-      </li>
-      <li class="nav-item">
         <a class='nav-link' href='#wgfinal' role="tab" aria-controls='final' aria-selected="false">FINAL</a>
       </li>
     </ul>
@@ -48,9 +45,6 @@ require_once __DIR__ . "./../constants/gid.php";
       </div>
       <div class="tab-pane" id="WG2" role="tabpanel" aria-labelledby="history-tab">
         <?php include __DIR__ . "./../templates/WG/wg_21_table.php" ?>
-      </div>
-      <div class="tab-pane" id="WG4" role="tabpanel" aria-labelledby="history-tab">
-        <?php include __DIR__ . "./../templates/WG/wg_41_table.php" ?>
       </div>
       <div class="tab-pane" id="wgfinal" role="tabpanel" aria-labelledby="history-tab">
         <?php include __DIR__ . "./../templates/WG/wg_final.php" ?>
