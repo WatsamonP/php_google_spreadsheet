@@ -105,8 +105,8 @@ $WD41_TB = array(
 // SCORE TABLE FOR WD42 //
 /********************** */
 $totalFloodedAreaBasin = sumColumnCal($WD_SET, 'WD4', 'WD42');
-$maximumFloodedArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), max($totalFloodedAreaBasin));
-$proportionalArea = multTwoArray(divideTwoArray($totalFloodedAreaBasin, $maximumFloodedArea), $arrayOf100);
+$totalArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), 1000);
+$proportionalArea = multTwoArray(divideTwoArray($totalFloodedAreaBasin, $totalArea), $arrayOf100);
 $WD42_SCORE = getScore($proportionalArea, "LOW_VALUE_HIGH_SCORE", [5, 10, 20, 40]);
 $WD42_TB = array(
   "score" => array('key' => "Score", 'table' => $WD42_SCORE)
@@ -127,8 +127,8 @@ $WD51_TB = array(
 // SCORE TABLE FOR WD52 //
 /********************** */
 $totalAffectedAreaBasin = sumColumnCal($WD_SET, 'WD5', 'WD52');
-$maximumAffectedArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), max($totalAffectedAreaBasin));
-$proportionalArea_WD52 = multTwoArray(divideTwoArray($totalAffectedAreaBasin, $maximumAffectedArea), $arrayOf100);
+$totalArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), 1000);
+$proportionalArea_WD52 = multTwoArray(divideTwoArray($totalAffectedAreaBasin, $totalArea), $arrayOf100);
 $WD52_SCORE = getScore($proportionalArea_WD52, "LOW_VALUE_HIGH_SCORE", [5, 10, 20, 40]);
 $WD52_TB = array(
   "score" => array('key' => "Score", 'table' => $WD52_SCORE)
