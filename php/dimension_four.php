@@ -119,7 +119,7 @@ $WH32_TB = array(
 $totalTreatedWastewaterVolume = sumColumnCal($WH_SET, 'WH4', 'WH41_A');
 $totalGeneratedWastewaterVolume = sumColumnCal($WH_SET, 'WH4', 'WH41_B');
 $_WH41 = multTwoArray(divideTwoArray($totalTreatedWastewaterVolume, $totalGeneratedWastewaterVolume), $arrayOf100);
-$WH41_SCORE = getScore($_WH41, "HIGH_VALUE_HIGH_SCORE", [60, 70, 80, 90]);
+$WH41_SCORE = getScore($_WH41, "LOW_VALUE_HIGH_SCORE", [0, 5, 10, 15]);
 $WH41_TB = array(
   "score" => array('key' => "Score", 'table' => $WH41_SCORE)
 );
