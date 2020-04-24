@@ -99,8 +99,8 @@
     for (const property in chartData) {
       labels.push(property)
       dataset.push(chartData[property])
-      colorSet.push(colors[i%5])
-      colorSetAlpha.push(color(colors[i%5]).alpha(0.2).rgbString())
+      colorSet.push(colors[i % 5])
+      colorSetAlpha.push(color(colors[i % 5]).alpha(0.2).rgbString())
       i++
     }
 
@@ -109,10 +109,10 @@
       data: {
         labels: labels,
         datasets: [{
-            data: dataset,
-            backgroundColor: colorSetAlpha,
-            borderColor: colorSet,
-            borderWidth: 1
+          data: dataset,
+          backgroundColor: colorSetAlpha,
+          borderColor: colorSet,
+          borderWidth: 1
         }]
       },
       options: {
@@ -125,21 +125,24 @@
           fontSize: 20
         },
         scales: {
-        xAxes: [{
-          scaleLabel: {
-            fontSize: 14,
-            display: true,
-            labelString: 'YEAR'
-          }
-        }],
-        yAxes: [{
-          scaleLabel: {
-            fontSize: 14,
-            display: true,
-            labelString: 'INDEX'
-          }
-        }]
-      }
+          xAxes: [{
+            scaleLabel: {
+              fontSize: 14,
+              display: true,
+              labelString: 'YEAR'
+            }
+          }],
+          yAxes: [{
+            scaleLabel: {
+              fontSize: 14,
+              display: true,
+              labelString: 'INDEX'
+            },
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
     };
     return config;

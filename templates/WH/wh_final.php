@@ -160,6 +160,9 @@
               fontSize: 14,
               display: true,
               labelString: 'INDEX'
+            },
+            ticks: {
+              beginAtZero: true
             }
           }]
         }
