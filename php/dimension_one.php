@@ -98,10 +98,10 @@ $WA31_TB = array(
 /********************** */
 // SCORE TABLE FOR WA41 //
 /********************** */
-$totalHarvestedRainwaterInTheBasin = sumColumnCal($WA_SET, 'WA4', "WA41");
+$totalImportedWaterVolume = sumColumnCal($WA_SET, 'WA4', "WA41");
 $totalAvailableFreshwater = sumColumnCal($WA_SET, 'WA6', "WA61_B");
-$_WA41 = multTwoArray(divideTwoArray($totalHarvestedRainwaterInTheBasin, $totalAvailableFreshwater), $arrayOf10E2);
-$WA41_SCORE = getScore($_WA41,  "HIGH_VALUE_HIGH_SCORE", [12, 26, 40, 64]);
+$_WA41 = multTwoArray(divideTwoArray($totalImportedWaterVolume, $totalAvailableFreshwater), $arrayOf10E2);
+$WA41_SCORE = getScore($_WA41, "LOW_VALUE_HIGH_SCORE_EQ", [0, 10, 30, 50]);
 $WA41_TB = array(
   "score" => array('key' => "Score", 'table' => $WA41_SCORE)
 );
@@ -109,9 +109,9 @@ $WA41_TB = array(
 /********************** */
 // SCORE TABLE FOR WA51 //
 /********************** */
-$totalImportedWaterVolume = sumColumnCal($WA_SET, 'WA5', "WA51");
-$_WA51 = multTwoArray(divideTwoArray($totalImportedWaterVolume, $totalAvailableFreshwater), $arrayOf10E2);
-$WA51_SCORE = getScore($_WA51, "LOW_VALUE_HIGH_SCORE_EQ", [0, 10, 30, 50]);
+$totalHarvestedRainwaterInTheBasin = sumColumnCal($WA_SET, 'WA5', "WA51");
+$_WA51 = multTwoArray(divideTwoArray($totalHarvestedRainwaterInTheBasin, $totalAvailableFreshwater), $arrayOf10E2);
+$WA51_SCORE = getScore($_WA51,  "HIGH_VALUE_HIGH_SCORE", [12, 26, 40, 64]);
 $WA51_TB = array(
   "score" => array('key' => "Score", 'table' => $WA51_SCORE)
 );

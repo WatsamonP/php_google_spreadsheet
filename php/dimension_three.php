@@ -11,6 +11,12 @@ require_once __DIR__ . "./../php/fetch/fetchWeightKey.php";
 require_once __DIR__ . "./../php/fetch/fetchSpecificInputYears.php";
 require_once __DIR__ . "./../php/fetch/fetchSpecificInput.php";
 
+/************************************ */
+// CALCULATE RATIO AND SUM BASIN AREA //
+/************************************ */
+$ratio = getRatio($provincesData, $string_provinceArea, $string_basinArea);
+$sumBasinArea = getSumBasinArea($provincesData, $string_basinArea);
+
 /***************************** */
 // Pull Data for WD from sheet //
 /***************************** */
@@ -105,7 +111,7 @@ $WD41_TB = array(
 // SCORE TABLE FOR WD42 //
 /********************** */
 $totalFloodedAreaBasin = sumColumnCal($WD_SET, 'WD4', 'WD42');
-$totalArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), 1000);
+$totalArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $sumBasinArea);
 $proportionalArea = multTwoArray(divideTwoArray($totalFloodedAreaBasin, $totalArea), $arrayOf100);
 $WD42_SCORE = getScore($proportionalArea, "LOW_VALUE_HIGH_SCORE", [5, 10, 20, 40]);
 $WD42_TB = array(
@@ -127,7 +133,7 @@ $WD51_TB = array(
 // SCORE TABLE FOR WD52 //
 /********************** */
 $totalAffectedAreaBasin = sumColumnCal($WD_SET, 'WD5', 'WD52');
-$totalArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), 1000);
+$totalArea = array_fill($FIRST_YEAR, sizeof($YEAR_RANGE), $sumBasinArea);
 $proportionalArea_WD52 = multTwoArray(divideTwoArray($totalAffectedAreaBasin, $totalArea), $arrayOf100);
 $WD52_SCORE = getScore($proportionalArea_WD52, "LOW_VALUE_HIGH_SCORE", [5, 10, 20, 40]);
 $WD52_TB = array(
